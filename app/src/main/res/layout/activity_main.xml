@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDCC3A"
+    android:background="#ffd700"
     android:clickable="true"
     tools:context=".MainActivity"
     android:focusable="true">
@@ -19,7 +19,7 @@
         android:text="@string/tv_pass"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#2196F3"
+        android:textColor="#0057b8"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textIsSelectable="true"
