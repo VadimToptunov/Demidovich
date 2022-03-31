@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Demidovich</string>
+    <string name="tv_pass">Пароль</string>
+    <string name="btn_generate">Згенерувати</string>
+</resources>
