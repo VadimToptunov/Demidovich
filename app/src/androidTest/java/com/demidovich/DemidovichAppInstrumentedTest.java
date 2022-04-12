@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+import com.demidovich.pageObject.DemidovichPageObject;
+
 /**
  * Instrumented test, which will execute on Android device.
  *
@@ -62,5 +64,13 @@ public class DemidovichAppInstrumentedTest {
     public void passwordIsNotEmptyTest(){
         demidovich.clickGenerateButton();
         demidovich.texViewMatches(not(withText("")));
+    }
+
+    @Test
+    public void passwordMatchesToRegex(){
+        String regex = "[a-zA-Z0-9<>/\\!@$%^&*()_+=\\-{}\\\"|]{8,16}";
+        activityScenarioRule.getScenario()
+                .onActivity(activity -> demidovich.textViewMatchesRegex(activity, regex));
+
     }
 }
