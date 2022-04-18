@@ -1,4 +1,4 @@
-package com.demidovich;
+package com.demidovich.helpers;
 
 import java.util.Random;
 
