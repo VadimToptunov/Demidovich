@@ -4,37 +4,40 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demidovich.R;
-import com.demidovich.database.DatabaseHelper;
+import com.demidovich.helpers.ListItem;
 
 import java.util.ArrayList;
 
 public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapter.ViewHolder>{
-    private final DatabaseHelper databaseHelper;
     private final ArrayList<String> allDbData;
+    private Context context;
 
-    public ListPasswordAdapter(Context context){
-        databaseHelper = new DatabaseHelper(context);
-        allDbData = databaseHelper.getAllData();
+    public ListPasswordAdapter(Context context, ArrayList<String> dbData){
+        this.allDbData = dbData;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ListPasswordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
 
         return new ViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull ListPasswordAdapter.ViewHolder holder, int position) {
-        holder.getTextView().setText(allDbData.get(position));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String item = allDbData.get(position);
+        holder.textView.setText(item);
     }
 
     @Override
@@ -43,14 +46,12 @@ public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private final TextView textView;
+        private TextView textView;
+        private ImageButton button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.list_item_saved_pass_text);
-        }
-
-        public TextView getTextView() {
-            return textView;
+            button = (ImageButton) itemView.findViewById(R.id.list_item_btn_delete);
         }
     }
 }

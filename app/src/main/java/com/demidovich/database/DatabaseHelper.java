@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.demidovich.helpers.ListItem;
+
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -13,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "passwordID";
     public static final String COLUMN_NAME = "password";
 
-    public static final String DB_FILE_NAME = "generated_passwords.db";
+    public static final String DB_NAME = "generated_passwords";
     public static final int DB_VERSION = 1; // for database version
 
     public static final String SQL_CREATE = String.format(
@@ -22,44 +24,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     );
     public static final String SQL_DELETE = String.format("DROP TABLE %s;", TABLE_NAME);
 
-    SQLiteDatabase db;
-
     public DatabaseHelper(Context context) {
-        super(context, DB_FILE_NAME,null,DB_VERSION);
-        SQLiteDatabase db = this.getWritableDatabase();
+        super(context, DB_NAME,null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        onDelete();
+        onDelete(sqLiteDatabase);
         onCreate(sqLiteDatabase);
     }
 
-    public void onDelete(){
+    public void onDelete(SQLiteDatabase db){
         db.execSQL(SQL_DELETE);
     }
 
-    public ArrayList<String> getAllData(){
+    public ArrayList<ListItem> getAllData(){
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + ";";
         Cursor cursor = db.rawQuery(query, null);
-        ArrayList<String> passArrayList = new ArrayList<>();
+        ArrayList<ListItem> passArrayList = new ArrayList<>();
 
-        if (cursor.moveToFirst()) {
-            do {
-                passArrayList.add(cursor.getString(1));
-            } while (cursor.moveToNext());
+        if (cursor!=null && cursor.getCount() > 0) {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    passArrayList.add(new ListItem(cursor.getString(0)));
+                } while (cursor.moveToNext());
+            }
         }
+        assert cursor != null;
         cursor.close();
         return passArrayList;
     }
 
     public void saveToDb(String password) {
-        String query = String.format("INSERT INTO artists (%s) VALUES(%s);", TABLE_NAME, password);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = String.format("INSERT INTO %s VALUES(NULL, \"%s\");", TABLE_NAME, password);
         db.execSQL(query);
     }
 }
