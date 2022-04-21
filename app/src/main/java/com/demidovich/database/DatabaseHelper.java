@@ -67,4 +67,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = String.format("INSERT INTO %s VALUES(NULL, \"%s\");", TABLE_NAME, password);
         db.execSQL(query);
     }
+
+    public void deletePassword(String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = String.format("DELETE FROM %s WHERE password = \"%s\";", TABLE_NAME, password);
+        db.execSQL(query);
+    }
 }

@@ -11,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demidovich.R;
-import com.demidovich.helpers.ListItem;
+import com.demidovich.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
 public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapter.ViewHolder>{
     private final ArrayList<String> allDbData;
     private Context context;
+    private ViewHolder vHolder;
 
     public ListPasswordAdapter(Context context, ArrayList<String> dbData){
         this.allDbData = dbData;
@@ -37,12 +38,27 @@ public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String item = allDbData.get(position);
-        holder.textView.setText(item);
+        this.vHolder = holder;
+        vHolder.textView.setText(item);
+        vHolder.button.setOnClickListener(v -> {
+            String password = holder.textView.getText().toString();
+            DatabaseHelper databaseHelper = new DatabaseHelper(this.context);
+            databaseHelper.deletePassword(password);
+            removeAt(position);
+        });
     }
 
     @Override
     public int getItemCount() {
         return allDbData.size();
+    }
+
+    public void removeAt(int position) {
+        allDbData.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, allDbData.size());
+        vHolder.itemView.setVisibility(View.GONE);
+        vHolder.textView.setVisibility(View.VISIBLE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
