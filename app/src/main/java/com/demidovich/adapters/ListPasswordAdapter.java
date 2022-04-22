@@ -55,10 +55,9 @@ public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapte
 
     public void removeAt(int position) {
         allDbData.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, allDbData.size());
-        vHolder.itemView.setVisibility(View.GONE);
-        vHolder.textView.setVisibility(View.VISIBLE);
+        notifyItemRemoved(vHolder.getAdapterPosition());
+        notifyItemRangeChanged(vHolder.getAdapterPosition(), getItemCount());
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

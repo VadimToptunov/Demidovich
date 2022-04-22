@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "password";
 
     public static final String DB_NAME = "generated_passwords";
-    public static final int DB_VERSION = 1; // for database version
+    public static final int DB_VERSION = 1;
 
     public static final String SQL_CREATE = String.format(
             "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT);",

@@ -21,6 +21,5 @@ public class ListPasswordsActivity extends AppCompatActivity {
         ListPasswordAdapter adapter = new ListPasswordAdapter(this, new ListItem()
                 .getAllPasswords(this));
         recyclerView.setAdapter(adapter);
-        //TODO: Fix displaying removing the passwords
     }
 }

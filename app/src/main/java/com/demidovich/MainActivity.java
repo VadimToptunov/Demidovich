@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             databaseHelper = new DatabaseHelper(this);
             databaseHelper.saveToDb(tv_pass.getText().toString());
             Toast.makeText(this, "Пароль збережено", Toast.LENGTH_LONG).show();
+            btn_save.setEnabled(false);
         });
 
         if (tv_pass.getText().toString().equals("Пароль")){

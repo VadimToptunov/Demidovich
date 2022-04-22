@@ -17,10 +17,6 @@ public class ListItem {
         this.passwordItem = passwordItem;
     }
 
-    public String getPasswordItem() {
-        return passwordItem;
-    }
-
     public ArrayList<String> getAllPasswords(Context context){
         ArrayList<String> passwords = new ArrayList<>() ;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
