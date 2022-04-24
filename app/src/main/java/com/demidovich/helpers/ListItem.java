@@ -11,7 +11,7 @@ public class ListItem {
 
     public ListItem(){
 
-    };
+    }
 
     public ListItem(String passwordItem){
         this.passwordItem = passwordItem;

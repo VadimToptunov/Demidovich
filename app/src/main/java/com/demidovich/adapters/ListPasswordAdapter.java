@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapter.ViewHolder>{
     private final ArrayList<String> allDbData;
-    private Context context;
+    private final Context context;
     private ViewHolder vHolder;
 
     public ListPasswordAdapter(Context context, ArrayList<String> dbData){
@@ -61,12 +61,12 @@ public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView textView;
-        private ImageButton button;
+        private final TextView textView;
+        private final ImageButton button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.list_item_saved_pass_text);
-            button = (ImageButton) itemView.findViewById(R.id.list_item_btn_delete);
+            textView = itemView.findViewById(R.id.list_item_saved_pass_text);
+            button = itemView.findViewById(R.id.list_item_btn_delete);
         }
     }
 }

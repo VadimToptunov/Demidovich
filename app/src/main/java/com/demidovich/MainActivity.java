@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv_pass = (TextView)findViewById(R.id.tv_pass);
-        btn_generate = (Button)findViewById(R.id.btn_generate);
-        btn_save = (Button)findViewById(R.id.btn_save);
-        go_to_saved = (ImageButton)findViewById(R.id.btn_saved_passwords);
+        tv_pass = findViewById(R.id.tv_pass);
+        btn_generate = findViewById(R.id.btn_generate);
+        btn_save = findViewById(R.id.btn_save);
+        go_to_saved = findViewById(R.id.btn_saved_passwords);
 
         btn_generate.setOnClickListener(v -> {
             CreatePass createPassword = new CreatePass();
