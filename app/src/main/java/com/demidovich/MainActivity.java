@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             btn_save.setEnabled(false);
         });
 
-        if (tv_pass.getText().toString().equals("Пароль")){
+        if (tv_pass.getText().toString().equals(getResources().getString(R.string.pass_default))){
             btn_save.setEnabled(false);
         }
 

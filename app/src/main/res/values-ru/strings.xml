@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Генератор паролів Демидович</string>
+    <string name="app_name">Генератор паролей Демидович</string>
     <string name="tv_pass">Пароль</string>
-    <string name="btn_generate">Згенерувати</string>
-    <string name="btn_save">Зберегти</string>
+    <string name="btn_generate">Сгенерировать</string>
+    <string name="btn_save">Сохранить</string>
     <string name="to_passwords">К паролям</string>
-    <string name="toast_text">"Пароль збережено"</string>
+    <string name="toast_text">"Пароль сохранён"</string>
     <string name="title_activity_list_passwords">ListPasswordsActivity</string>
     <string name="list_of_passwords_saved">List of passwords saved</string>
     <string name="pass_default">Пароль</string>
