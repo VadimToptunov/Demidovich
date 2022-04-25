@@ -19,7 +19,7 @@
         app:cardBackgroundColor="@color/teal_700">
 
         <LinearLayout
-            android:id="@+id/list_item_linearLayout"
+            android:id="@+id/list_item_linearLayout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"

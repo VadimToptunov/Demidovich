@@ -15,7 +15,7 @@ public class ListPasswordsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_passwords);
-        RecyclerView recyclerView = findViewById(R.id.reciclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewListPasswords);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ListPasswordAdapter adapter = new ListPasswordAdapter(this, new ListItem()

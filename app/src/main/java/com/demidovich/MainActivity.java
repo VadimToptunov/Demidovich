@@ -1,16 +1,14 @@
 package com.demidovich;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.demidovich.helpers.CreatePass;
+import androidx.appcompat.app.AppCompatActivity;
 import com.demidovich.database.DatabaseHelper;
+import com.demidovich.helpers.CreatePass;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv_pass;
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btn_save.setOnClickListener(view ->{
             databaseHelper = new DatabaseHelper(this);
             databaseHelper.saveToDb(tv_pass.getText().toString());
-            Toast.makeText(this, "Пароль збережено", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toast_text, Toast.LENGTH_LONG).show();
             btn_save.setEnabled(false);
         });
 

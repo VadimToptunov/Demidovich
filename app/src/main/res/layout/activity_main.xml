@@ -33,20 +33,6 @@
         app:layout_constraintVertical_bias="0.311" />
 
     <Button
-        android:id="@+id/btn_generate"
-        android:layout_width="155dp"
-        android:layout_height="53dp"
-        android:text="@string/btn_generate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintRight_toLeftOf="@id/tv_pass"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pass"
-        app:layout_constraintVertical_bias="0.647"
-        app:rippleColor="@color/teal_200" />
-
-    <Button
         android:id="@+id/btn_save"
         android:layout_width="147dp"
         android:layout_height="55dp"
@@ -58,6 +44,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pass"
         app:layout_constraintVertical_bias="0.909"
+        app:rippleColor="@color/teal_200" />
+
+    <Button
+        android:id="@+id/btn_generate"
+        android:layout_width="155dp"
+        android:layout_height="53dp"
+        android:text="@string/btn_generate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintRight_toLeftOf="@id/tv_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pass"
+        app:layout_constraintVertical_bias="0.647"
         app:rippleColor="@color/teal_200" />
 
     <ImageButton
