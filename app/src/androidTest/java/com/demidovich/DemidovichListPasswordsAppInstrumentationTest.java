@@ -1,13 +1,14 @@
 package com.demidovich;
 
+import static com.demidovich.pageObject.ListPasswordsActivityPageObject.checkListPasswordsActivityElementsAreDisplayed;
+import static com.demidovich.pageObject.ListPasswordsActivityPageObject.checkRecyclerViewElementIsDeletedOnPressingDeleteButton;
+
 import android.content.Intent;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-
-import com.demidovich.pageObject.ListPasswordsActivityPageObject;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,8 +27,6 @@ public class DemidovichListPasswordsAppInstrumentationTest {
     public final ActivityTestRule<ListPasswordsActivity> rule =
             new ActivityTestRule<>(ListPasswordsActivity.class, true, false);
 
-    ListPasswordsActivityPageObject listPasswordsActivityPageObject = new ListPasswordsActivityPageObject();
-
     @Before
     public void setup(){
         Intents.init();
@@ -41,11 +40,11 @@ public class DemidovichListPasswordsAppInstrumentationTest {
 
     @Test
     public void passwordsElementsAreDisplayedTest(){
-        listPasswordsActivityPageObject.checkListPasswordsActivityElementsAreDisplayed();
+        checkListPasswordsActivityElementsAreDisplayed();
     }
 
     @Test
     public void savedPasswordIsDeletedTest(){
-        listPasswordsActivityPageObject.checkRecyclerViewElementIsDeletedOnPressingDeleteButton(0);
+        checkRecyclerViewElementIsDeletedOnPressingDeleteButton(0);
     }
 }

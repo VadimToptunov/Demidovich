@@ -15,24 +15,24 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import com.demidovich.R;
 
 public class CommonActions {
-    public void checkElementIsDisplayed(int elementId){
+    public static void checkElementIsDisplayed(int elementId){
         onView(withId(elementId)).check(matches(isCompletelyDisplayed()));
     }
 
-    public void checkElementsAreDisplayed(int elementId){
+    public static void checkElementsAreDisplayed(int elementId){
         onView(allOf(withId(elementId), isDisplayed()));
     }
 
-    public void clickButton(int buttonId){
+    public static void clickButton(int buttonId){
         onView(ViewMatchers.withId(buttonId)).perform(click());
     }
 
-    public void checkToast(String toastText){
+    public static void checkToast(String toastText){
         onView(withText(toastText)).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
 
-    public void checkElementDeletedOnPosition(int position){
+    public static void checkElementDeletedOnPosition(int position){
         onView(withId(R.id.recyclerViewListPasswords)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(position,
                         RecycleViewClickAction.clickChildViewWithId(R.id.list_item_btn_delete)));
