@@ -41,7 +41,7 @@ public class MainActivityRussianLocaleTest {
 
     @Before
     public void setUp(){
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
 

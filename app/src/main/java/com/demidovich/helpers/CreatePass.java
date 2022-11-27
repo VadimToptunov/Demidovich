@@ -6,7 +6,7 @@ public class CreatePass {
 
     public String createRandomPassword() {
         Random random = new Random();
-        int randomNumber = random.ints(8, 21)
+        int randomNumber = random.ints(8, 16)
                 .findFirst()
                 .getAsInt();
         return createRandomStrongForPassword(randomNumber);
