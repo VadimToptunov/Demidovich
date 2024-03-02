@@ -19,7 +19,7 @@ import java.util.Locale;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MainActivityRussianLocaleTest {
+public class MainActivityUkranianLocaleTest {
     public static final ForceLocaleRule localeTestRule = new ForceLocaleRule();
     private static Context context;
     private static Helper helper;
@@ -30,33 +30,33 @@ public class MainActivityRussianLocaleTest {
     @Before
     public void setUp() {
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        localeTestRule.setLocale(new Locale("ru"));
+        localeTestRule.setLocale(new Locale("ua"));
         helper = new Helper(context);
     }
 
 
     @Test
-    public void applicationRussianNameTest() {
-        helper.checkLocaleTextExists("Генератор паролей Демидович", R.string.app_name);
+    public void applicationUkranianNameTest() {
+        helper.checkLocaleTextExists("Генератор паролів Демидович", R.string.app_name);
     }
 
     @Test
-    public void textViewDefaultRussianTextTest() {
+    public void textViewDefaultUkranianTextTest() {
         helper.checkLocaleTextExists("Пароль", R.string.pass_default);
     }
 
     @Test
-    public void checkSaveButtonRussianTextTest() {
-        helper.checkLocaleTextExists("Сохранить", R.string.btn_save);
+    public void checkSaveButtonUkranianTextTest() {
+        helper.checkLocaleTextExists("Зберегти", R.string.btn_save);
     }
 
     @Test
-    public void checkGenerateButtonRussianTextTest() {
-        helper.checkLocaleTextExists("Сгенерировать", R.string.btn_generate);
+    public void checkGenerateButtonUkranianTextTest() {
+        helper.checkLocaleTextExists("Згенерувати", R.string.btn_generate);
     }
 
     @Test
-    public void checkPasswordIsSavedToastRussianTextTest() {
-        helper.checkLocaleTextExists("Пароль сохранён", R.string.toast_text);
+    public void checkPasswordIsSavedToastUkranianTextTest() {
+        helper.checkLocaleTextExists("Пароль збережено", R.string.toast_text);
     }
 }

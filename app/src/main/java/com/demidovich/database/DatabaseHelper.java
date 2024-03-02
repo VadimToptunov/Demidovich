@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SQL_DELETE = String.format("DROP TABLE %s;", TABLE_NAME);
 
     public DatabaseHelper(Context context) {
-        super(context, DB_NAME,null, DB_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -39,17 +39,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void onDelete(SQLiteDatabase db){
+    public void onDelete(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE);
     }
 
-    public ArrayList<ListItem> getAllData(){
+    public ArrayList<ListItem> getAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + ";";
         Cursor cursor = db.rawQuery(query, null);
         ArrayList<ListItem> passArrayList = new ArrayList<>();
 
-        if (cursor!=null && cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
 
             if (cursor.moveToFirst()) {
                 do {
@@ -68,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void deletePassword(String password){
+    public void deletePassword(String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = String.format("DELETE FROM %s WHERE password = \"%s\";", TABLE_NAME, password);
         db.execSQL(query);

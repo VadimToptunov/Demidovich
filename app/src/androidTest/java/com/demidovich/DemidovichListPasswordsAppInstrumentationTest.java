@@ -28,23 +28,23 @@ public class DemidovichListPasswordsAppInstrumentationTest {
             new ActivityTestRule<>(ListPasswordsActivity.class, true, false);
 
     @Before
-    public void setup(){
+    public void setup() {
         Intents.init();
         rule.launchActivity(new Intent());
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         Intents.release();
     }
 
     @Test
-    public void passwordsElementsAreDisplayedTest(){
+    public void passwordsElementsAreDisplayedTest() {
         checkListPasswordsActivityElementsAreDisplayed();
     }
 
     @Test
-    public void savedPasswordIsDeletedTest(){
+    public void savedPasswordIsDeletedTest() {
         checkRecyclerViewElementIsDeletedOnPressingDeleteButton(0);
     }
 }

@@ -5,10 +5,10 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
-import static com.demidovich.helpers.CommonActions.checkToast;
 import static com.demidovich.helpers.CommonActions.checkElementIsDisplayed;
+import static com.demidovich.helpers.CommonActions.checkToast;
 import static com.demidovich.helpers.CommonActions.clickButton;
+import static org.hamcrest.Matchers.not;
 
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.demidovich.MainActivity;
 import com.demidovich.R;
-import com.demidovich.helpers.CommonActions;
 import com.demidovich.helpers.TextViewGetter;
 
 import org.hamcrest.Matcher;
@@ -24,31 +23,31 @@ import org.hamcrest.Matcher;
 
 public class MainActivityPageObject {
 
-    public static void clickGenerateButton(){
+    public static void clickGenerateButton() {
         clickButton(R.id.btn_generate);
     }
 
-    public static void clickSaveButton(){
+    public static void clickSaveButton() {
         clickButton(R.id.btn_save);
     }
 
-    public static void clickGoToListPasswordsButton(){
+    public static void clickGoToListPasswordsButton() {
         clickButton(R.id.btn_saved_passwords);
     }
 
-    public static void texViewMatches(Matcher<View> input){
+    public static void texViewMatches(Matcher<View> input) {
         onView(withId(R.id.tv_pass)).check(matches(input));
     }
 
-    public static void textSaveButtonMatches(String text){
+    public static void textSaveButtonMatches(String text) {
         onView(withId(R.id.btn_save)).check(matches(withText(text)));
     }
 
-    public static void textGenerateButtonMatches(String text){
+    public static void textGenerateButtonMatches(String text) {
         onView(withId(R.id.btn_generate)).check(matches(withText(text)));
     }
 
-    public static void checkToastTextMatches(String toastText){
+    public static void checkToastTextMatches(String toastText) {
         checkToast(toastText);
     }
 
@@ -67,19 +66,19 @@ public class MainActivityPageObject {
         textViewGetter.matchesToRegex(textView, regex);
     }
 
-    public static void checkGenerateButtonIsDisplayed(){
+    public static void checkGenerateButtonIsDisplayed() {
         checkElementIsDisplayed(R.id.btn_generate);
     }
 
-    public static void checkSaveButtonIsDisplayed(){
+    public static void checkSaveButtonIsDisplayed() {
         checkElementIsDisplayed(R.id.btn_save);
     }
 
-    public static void checkGoToSavedPasswordsListButtonIsDisplayed(){
+    public static void checkGoToSavedPasswordsListButtonIsDisplayed() {
         checkElementIsDisplayed(R.id.btn_saved_passwords);
     }
 
-    public static void checkTextViewPasswordIsDisplayed(){
+    public static void checkTextViewPasswordIsDisplayed() {
         checkElementIsDisplayed(R.id.tv_pass);
     }
 

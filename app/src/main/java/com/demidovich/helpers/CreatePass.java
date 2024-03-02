@@ -1,5 +1,7 @@
 package com.demidovich.helpers;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 
 public class CreatePass {
@@ -12,7 +14,8 @@ public class CreatePass {
         return createRandomStrongForPassword(randomNumber);
     }
 
-    private String createRandomStrongForPassword(int randomNumber){
+    @NonNull
+    public String createRandomStrongForPassword(int randomNumber) {
         char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>/\\!@$%^&*()_+=-{}|"
                 .toCharArray();
         StringBuilder stringBuilder = new StringBuilder();

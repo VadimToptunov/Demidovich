@@ -10,7 +10,6 @@ import static com.demidovich.pageObject.MainActivityPageObject.checkGenerateButt
 import static com.demidovich.pageObject.MainActivityPageObject.checkGoToSavedPasswordsListButtonIsDisplayed;
 import static com.demidovich.pageObject.MainActivityPageObject.checkSaveButtonIsDisplayed;
 import static com.demidovich.pageObject.MainActivityPageObject.checkTextViewPasswordIsDisplayed;
-import static com.demidovich.pageObject.MainActivityPageObject.checkToastTextMatches;
 import static com.demidovich.pageObject.MainActivityPageObject.clickGenerateButton;
 import static com.demidovich.pageObject.MainActivityPageObject.clickGoToListPasswordsButton;
 import static com.demidovich.pageObject.MainActivityPageObject.clickSaveButton;
@@ -55,18 +54,18 @@ public class DemidovichAppInstrumentedTest {
     }
 
     @Test
-    public void textViewDefaultTextTest(){
+    public void textViewDefaultTextTest() {
         texViewMatches(withText(R.string.tv_pass));
     }
 
     @Test
-    public void passwordIsCompletelyDisplayedTest(){
+    public void passwordIsCompletelyDisplayedTest() {
         clickGenerateButton();
         texViewMatches(isCompletelyDisplayed());
     }
 
     @Test
-    public void checkAllElementsAreDisplayedTest(){
+    public void checkAllElementsAreDisplayedTest() {
         checkGoToSavedPasswordsListButtonIsDisplayed();
         checkTextViewPasswordIsDisplayed();
         checkSaveButtonIsDisplayed();
@@ -74,13 +73,13 @@ public class DemidovichAppInstrumentedTest {
     }
 
     @Test
-    public void passwordIsNotEmptyTest(){
+    public void passwordIsNotEmptyTest() {
         clickGenerateButton();
         texViewMatches(not(withText("")));
     }
 
     @Test
-    public void passwordMatchesToRegex(){
+    public void passwordMatchesToRegex() {
         String regex = "[a-zA-Z0-9<>/\\\\!@$%^&*()_+=\\-{}\\\"|]{8,21}";
         activityScenarioRule.getScenario()
                 .onActivity(activity -> textViewMatchesRegex(activity, regex));
@@ -88,25 +87,25 @@ public class DemidovichAppInstrumentedTest {
     }
 
     @Test
-    public void saveButtonIsInitiallyInactiveTest(){
+    public void saveButtonIsInitiallyInactiveTest() {
         checkButtonSaveIsInactive();
     }
 
     @Test
-    public void saveButtonIsActiveAfterGeneratingPasswordTest(){
+    public void saveButtonIsActiveAfterGeneratingPasswordTest() {
         clickGenerateButton();
         checkButtonSaveIsActive();
     }
 
     @Test
-    public void saveButtonIsInactiveAfterSavingPasswordTest(){
+    public void saveButtonIsInactiveAfterSavingPasswordTest() {
         clickGenerateButton();
         clickSaveButton();
         checkButtonSaveIsInactive();
     }
 
     @Test
-    public void goToListPasswordsActivityAfterClickingButtonTest(){
+    public void goToListPasswordsActivityAfterClickingButtonTest() {
         clickGoToListPasswordsButton();
         Intents.init();
         rule.launchActivity(new Intent());

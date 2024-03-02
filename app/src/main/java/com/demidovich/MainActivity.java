@@ -6,7 +6,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.demidovich.database.DatabaseHelper;
 import com.demidovich.helpers.CreatePass;
 
@@ -33,18 +35,18 @@ public class MainActivity extends AppCompatActivity {
             btn_save.setEnabled(true);
         });
 
-        btn_save.setOnClickListener(view ->{
+        btn_save.setOnClickListener(view -> {
             databaseHelper = new DatabaseHelper(this);
             databaseHelper.saveToDb(tv_pass.getText().toString());
             Toast.makeText(this, R.string.toast_text, Toast.LENGTH_LONG).show();
             btn_save.setEnabled(false);
         });
 
-        if (tv_pass.getText().toString().equals(getResources().getString(R.string.pass_default))){
+        if (tv_pass.getText().toString().equals(getResources().getString(R.string.pass_default))) {
             btn_save.setEnabled(false);
         }
 
-        go_to_saved.setOnClickListener(act ->{
+        go_to_saved.setOnClickListener(act -> {
             Intent intent = new Intent(this, ListPasswordsActivity.class);
             startActivity(intent);
         });

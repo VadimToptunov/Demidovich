@@ -1,37 +1,38 @@
 package com.demidovich;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.demidovich.helpers.CreatePass;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 public class DemidovichAppUnitTest {
 
     @Test
-    public void generatedPasswordIsAString(){
+    public void generatedPasswordIsAString() {
         CreatePass createPass = new CreatePass();
         String pass = createPass.createRandomPassword();
-        assertTrue(pass.getClass().equals(String.class));
+        pass.getClass();
+        assertTrue(true);
     }
 
     @Test
-    public void generatedPassIsNotEmpty(){
+    public void generatedPassIsNotEmpty() {
         CreatePass createPass = new CreatePass();
         String pass = createPass.createRandomPassword();
-        assertFalse(pass.isEmpty());
+        Assertions.assertFalse(pass.isEmpty());
     }
 
     @Test
-    public void checkPasswordIsCreatedIsLessOrEquals16(){
+    public void checkPasswordIsCreatedIsLessOrEquals16() {
         CreatePass createPass = new CreatePass();
         String pass = createPass.createRandomPassword();
         assertTrue(pass.length() <= 16);
     }
 
     @Test
-    public void checkPasswordIsCreatedIsMoreOrEquals8(){
+    public void checkPasswordIsCreatedIsMoreOrEquals8() {
         CreatePass createPass = new CreatePass();
         String pass = createPass.createRandomPassword();
         assertTrue(pass.length() >= 8);

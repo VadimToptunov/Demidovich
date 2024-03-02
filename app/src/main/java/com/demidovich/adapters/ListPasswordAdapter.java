@@ -15,12 +15,12 @@ import com.demidovich.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapter.ViewHolder>{
+public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapter.ViewHolder> {
     private final ArrayList<String> allDbData;
     private final Context context;
     private ViewHolder vHolder;
 
-    public ListPasswordAdapter(Context context, ArrayList<String> dbData){
+    public ListPasswordAdapter(Context context, ArrayList<String> dbData) {
         this.allDbData = dbData;
         this.context = context;
     }
@@ -60,9 +60,10 @@ public class ListPasswordAdapter extends RecyclerView.Adapter<ListPasswordAdapte
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
         private final ImageButton button;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.list_item_saved_pass_text);
