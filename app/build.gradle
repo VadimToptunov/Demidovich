@@ -23,11 +23,11 @@ android {
             keyPassword System.getenv("KEY_PASSWORD") ?: ""
         }
     }
-    namespace 'com.demidovich'
+    namespace 'com.vtoptunov.passwordgenerator'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.demidovich"
+        applicationId "com.vtoptunov.passwordgenerator"
         minSdk 26
         targetSdk 34
         versionCode 2
