@@ -2,9 +2,6 @@ package com.vtoptunov.passwordgenerator.domain.model
 
 import java.util.UUID
 
-/**
- * Domain model for Password
- */
 data class Password(
     val id: String = UUID.randomUUID().toString(),
     val password: String,
@@ -25,4 +22,3 @@ enum class PasswordCategory(val displayName: String) {
     SHOPPING("Shopping"),
     OTHER("Other")
 }
-

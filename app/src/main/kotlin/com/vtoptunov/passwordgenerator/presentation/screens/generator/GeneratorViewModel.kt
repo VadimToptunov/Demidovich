@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.pow
 import kotlin.math.roundToLong
-import kotlin.random.Random
 
 @HiltViewModel
 class GeneratorViewModel @Inject constructor(
@@ -32,43 +32,40 @@ class GeneratorViewModel @Inject constructor(
     private val _state = MutableStateFlow(GeneratorState())
     val state: StateFlow<GeneratorState> = _state.asStateFlow()
     
-    private var crackingSimulationJob: Job? = null
+    private var crackingJob: Job? = null
     
     init {
-        // Generate initial password
         generatePassword()
     }
     
     fun onEvent(event: GeneratorEvent) {
         when (event) {
-            is GeneratorEvent.StyleSelected -> selectStyle(event.style)
-            is GeneratorEvent.LengthChanged -> updateLength(event.length)
-            is GeneratorEvent.OptionToggled -> toggleOption(event.option)
+            is GeneratorEvent.StyleSelected -> {
+                _state.update { it.copy(selectedStyle = event.style) }
+                generatePassword()
+            }
+            is GeneratorEvent.LengthChanged -> {
+                _state.update { it.copy(passwordLength = event.length) }
+                // BUG FIX #3: Generate password immediately when length changes
+                // to provide instant feedback like StyleSelected does
+                generatePassword()
+            }
+            is GeneratorEvent.OptionToggled -> {
+                _state.update { current ->
+                    when (event.option) {
+                        PasswordOption.UPPERCASE -> current.copy(includeUppercase = !current.includeUppercase)
+                        PasswordOption.LOWERCASE -> current.copy(includeLowercase = !current.includeLowercase)
+                        PasswordOption.NUMBERS -> current.copy(includeNumbers = !current.includeNumbers)
+                        PasswordOption.SYMBOLS -> current.copy(includeSymbols = !current.includeSymbols)
+                    }
+                }
+                // BUG FIX #6: Generate password immediately when options toggle
+                // to provide instant feedback consistent with StyleSelected and LengthChanged
+                generatePassword()
+            }
             GeneratorEvent.GeneratePassword -> generatePassword()
             GeneratorEvent.SavePassword -> savePassword()
             GeneratorEvent.CopyToClipboard -> copyToClipboard()
-            GeneratorEvent.DismissSaveSuccess -> _state.update { it.copy(showSaveSuccess = false) }
-            GeneratorEvent.DismissCopiedMessage -> _state.update { it.copy(copiedToClipboard = false) }
-        }
-    }
-    
-    private fun selectStyle(style: PasswordStyle) {
-        _state.update { it.copy(selectedStyle = style) }
-        generatePassword()
-    }
-    
-    private fun updateLength(length: Int) {
-        _state.update { it.copy(passwordLength = length) }
-    }
-    
-    private fun toggleOption(option: PasswordOption) {
-        _state.update { currentState ->
-            when (option) {
-                PasswordOption.UPPERCASE -> currentState.copy(includeUppercase = !currentState.includeUppercase)
-                PasswordOption.LOWERCASE -> currentState.copy(includeLowercase = !currentState.includeLowercase)
-                PasswordOption.NUMBERS -> currentState.copy(includeNumbers = !currentState.includeNumbers)
-                PasswordOption.SYMBOLS -> currentState.copy(includeSymbols = !currentState.includeSymbols)
-            }
         }
     }
     
@@ -76,61 +73,58 @@ class GeneratorViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isGenerating = true) }
             
-            try {
-                val result = generatePasswordUseCase(
-                    style = _state.value.selectedStyle,
-                    length = _state.value.passwordLength,
-                    includeUppercase = _state.value.includeUppercase,
-                    includeLowercase = _state.value.includeLowercase,
-                    includeNumbers = _state.value.includeNumbers,
-                    includeSymbols = _state.value.includeSymbols
-                )
-                
-                _state.update { it.copy(generatedPassword = result) }
-                
-                // Start cracking simulation
-                startCrackingSimulation(result.password, result.entropy)
-                
-            } finally {
-                _state.update { it.copy(isGenerating = false) }
-            }
+            val result = generatePasswordUseCase(
+                style = _state.value.selectedStyle,
+                length = _state.value.passwordLength,
+                includeUppercase = _state.value.includeUppercase,
+                includeLowercase = _state.value.includeLowercase,
+                includeNumbers = _state.value.includeNumbers,
+                includeSymbols = _state.value.includeSymbols
+            )
+            
+            _state.update { it.copy(generatedPassword = result, isGenerating = false) }
+            
+            startCrackingSimulation(result.password, result.entropy)
         }
     }
     
     private fun startCrackingSimulation(password: String, entropy: Double) {
-        crackingSimulationJob?.cancel()
+        crackingJob?.cancel()
         
-        crackingSimulationJob = viewModelScope.launch {
-            // Calculate simulation speed based on entropy
-            // Lower entropy = faster cracking simulation
-            val totalDurationMs = when {
-                entropy < 28 -> 500L  // Very weak - crack fast
-                entropy < 36 -> 1500L // Weak
-                entropy < 60 -> 3000L // Fair
-                else -> 5000L          // Strong - crack slowly
+        // BUG FIX #4: Guard against empty passwords that would cause division by zero
+        if (password.isEmpty()) {
+            _state.update { it.copy(crackingSimulation = null) }
+            return
+        }
+        
+        crackingJob = viewModelScope.launch {
+            val durationMs = when {
+                entropy < 28 -> 500L
+                entropy < 36 -> 1500L
+                entropy < 60 -> 3000L
+                else -> 5000L
             }
             
-            val stepDelayMs = totalDurationMs / password.length
+            val stepMs = durationMs / password.length
             val attemptsPerChar = (2.0.pow(entropy / password.length) / 1000).roundToLong()
             
-            var crackedChars = ""
-            var totalAttempts = 0L
-            var timeElapsed = 0L
+            var cracked = ""
+            var attempts = 0L
+            var timeMs = 0L
             
             password.forEachIndexed { index, char ->
-                delay(stepDelayMs)
-                crackedChars += char
-                totalAttempts += attemptsPerChar
-                timeElapsed += stepDelayMs
+                delay(stepMs)
+                cracked += char
+                attempts += attemptsPerChar
+                timeMs += stepMs
                 
                 _state.update {
                     it.copy(
                         crackingSimulation = CrackingSimulationState(
-                            crackedChars = crackedChars,
-                            progress = (index + 1).toFloat() / password.length,
-                            attempts = totalAttempts,
-                            timeElapsedMs = timeElapsed,
-                            isComplete = index == password.length - 1
+                            crackedChars = cracked,
+                            progress = (index + 1f) / password.length,
+                            attempts = attempts,
+                            timeElapsedMs = timeMs
                         )
                     )
                 }
@@ -140,57 +134,25 @@ class GeneratorViewModel @Inject constructor(
     
     private fun savePassword() {
         val password = _state.value.generatedPassword?.password ?: return
-        
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            
-            try {
-                val passwordModel = Password(
-                    password = password,
-                    createdAt = System.currentTimeMillis()
-                )
-                
-                passwordRepository.insertPassword(passwordModel)
-                
-                _state.update { it.copy(showSaveSuccess = true) }
-                
-                // Auto dismiss after 2 seconds
-                delay(2000)
-                _state.update { it.copy(showSaveSuccess = false) }
-                
-            } finally {
-                _state.update { it.copy(isSaving = false) }
-            }
+            passwordRepository.insertPassword(Password(password = password))
+            _state.update { it.copy(isSaving = false, showSaveSuccess = true) }
+            delay(2000)
+            _state.update { it.copy(showSaveSuccess = false) }
         }
     }
     
     private fun copyToClipboard() {
         val password = _state.value.generatedPassword?.password ?: return
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("password", password))
         
-        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("password", password)
-        clipboardManager.setPrimaryClip(clip)
-        
-        _state.update { it.copy(copiedToClipboard = true) }
-        
-        // Auto-clear clipboard after 30 seconds for security
+        // Auto-clear after 30s
         viewModelScope.launch {
             delay(30000)
-            clipboardManager.setPrimaryClip(ClipData.newPlainText("", ""))
+            clipboard.setPrimaryClip(ClipData.newPlainText("", ""))
         }
-        
-        // Auto dismiss message after 2 seconds
-        viewModelScope.launch {
-            delay(2000)
-            _state.update { it.copy(copiedToClipboard = false) }
-        }
-    }
-    
-    override fun onCleared() {
-        super.onCleared()
-        crackingSimulationJob?.cancel()
     }
 }
-
-private fun Double.pow(exponent: Double): Double = kotlin.math.pow(this, exponent)
 

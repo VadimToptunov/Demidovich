@@ -14,16 +14,14 @@ data class GeneratorState(
     val isGenerating: Boolean = false,
     val isSaving: Boolean = false,
     val showSaveSuccess: Boolean = false,
-    val crackingSimulation: CrackingSimulationState? = null,
-    val copiedToClipboard: Boolean = false
+    val crackingSimulation: CrackingSimulationState? = null
 )
 
 data class CrackingSimulationState(
     val crackedChars: String = "",
     val progress: Float = 0f,
     val attempts: Long = 0,
-    val timeElapsedMs: Long = 0,
-    val isComplete: Boolean = false
+    val timeElapsedMs: Long = 0
 )
 
 sealed class GeneratorEvent {
@@ -33,14 +31,8 @@ sealed class GeneratorEvent {
     object GeneratePassword : GeneratorEvent()
     object SavePassword : GeneratorEvent()
     object CopyToClipboard : GeneratorEvent()
-    object DismissSaveSuccess : GeneratorEvent()
-    object DismissCopiedMessage : GeneratorEvent()
 }
 
 enum class PasswordOption {
-    UPPERCASE,
-    LOWERCASE,
-    NUMBERS,
-    SYMBOLS
+    UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS
 }
-

@@ -6,21 +6,21 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute module('org.hamcrest:hamcrest-library:1.3') with module('org.hamcrest:hamcrest:2.2')
-    }
-}
-
 android {
     signingConfigs {
         release {
-            // TODO: Move to gradle.properties or use environment variables
-            // Never commit credentials to version control
-            storeFile file('/Users/newuser/demidovichapp-keychain')
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
-            keyAlias 'key0'
-            keyPassword System.getenv("KEY_PASSWORD") ?: ""
+            // BUG FIX #2: Use environment variables for keystore path
+            // instead of hardcoded absolute path that only works on one machine
+            def keystorePath = System.getenv("KEYSTORE_FILE") ?: project.findProperty("KEYSTORE_FILE")
+            if (keystorePath != null && file(keystorePath).exists()) {
+                storeFile file(keystorePath)
+                storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
+                keyAlias System.getenv("KEY_ALIAS") ?: "key0"
+                keyPassword System.getenv("KEY_PASSWORD") ?: ""
+            } else {
+                // Debug signing if no keystore configured
+                logger.warn("Release keystore not configured. Set KEYSTORE_FILE, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD environment variables.")
+            }
         }
     }
     namespace 'com.vtoptunov.passwordgenerator'

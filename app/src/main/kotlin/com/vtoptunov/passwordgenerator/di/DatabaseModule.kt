@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.vtoptunov.passwordgenerator.data.local.dao.PasswordDao
 import com.vtoptunov.passwordgenerator.data.local.database.AppDatabase
+import com.vtoptunov.passwordgenerator.data.security.KeystoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 import javax.inject.Singleton
 
@@ -19,12 +19,19 @@ object DatabaseModule {
     
     @Provides
     @Singleton
+    fun provideKeystoreManager(@ApplicationContext context: Context): KeystoreManager {
+        return KeystoreManager(context)
+    }
+    
+    @Provides
+    @Singleton
     fun provideAppDatabase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        keystoreManager: KeystoreManager
     ): AppDatabase {
-        // Generate a secure passphrase for SQLCipher
-        // In production, use Android Keystore to securely store this
-        val passphrase = SQLiteDatabase.getBytes("your-secure-passphrase-here".toCharArray())
+        // BUG FIX #1: Use secure passphrase from Android Keystore
+        // instead of hardcoded string visible in source code
+        val passphrase = keystoreManager.getDatabasePassphrase()
         val factory = SupportFactory(passphrase)
         
         return Room.databaseBuilder(
@@ -39,8 +46,6 @@ object DatabaseModule {
     
     @Provides
     @Singleton
-    fun providePasswordDao(database: AppDatabase): PasswordDao {
-        return database.passwordDao()
-    }
+    fun providePasswordDao(database: AppDatabase): PasswordDao =
+        database.passwordDao()
 }
-

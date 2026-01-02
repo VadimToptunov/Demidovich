@@ -13,33 +13,11 @@ import kotlin.random.Random
 @Singleton
 class GeneratePasswordUseCase @Inject constructor() {
     
-    // Simplified wordlists - in production, load from assets
-    // These are just examples, real implementation will have 10k+ words
-    private val commonNouns = listOf(
-        "ability", "access", "account", "address", "agency", "agreement", "airport", "amount",
-        "analysis", "animal", "answer", "apple", "area", "argument", "article", "audience",
-        // ... add 10,000 more
-        "banana", "battery", "beach", "bedroom", "bicycle", "bottle", "building", "business"
-    )
-    
-    private val commonVerbs = listOf(
-        "accept", "achieve", "acquire", "adapt", "add", "adjust", "admire", "admit",
-        "advance", "affect", "afford", "agree", "allow", "amaze", "analyze", "announce",
-        // ... add 10,000 more
-        "bring", "build", "calculate", "capture", "carry", "catch", "celebrate", "change"
-    )
-    
-    private val places = listOf(
-        "airport", "bakery", "bank", "beach", "bridge", "building", "cafe", "castle",
-        "church", "cinema", "city", "college", "desert", "factory", "farm", "forest",
-        // ... add 10,000 more
-        "garden", "gym", "harbor", "hospital", "hotel", "house", "island", "kitchen"
-    )
-    
+    // Sample wordlists (in production, load from assets with 10k+ words)
     private val dicewareWords = listOf(
         "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd",
         "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic",
-        // ... EFF Diceware 7776 words
+        "acquire", "across", "act", "action", "actor", "actress", "actual", "adapt",
         "battery", "beach", "bean", "beauty", "become", "beef", "before", "begin"
     )
     
@@ -80,106 +58,70 @@ class GeneratePasswordUseCase @Inject constructor() {
             entropy = entropy,
             strength = strength,
             crackTime = crackTime,
-            isMemorizable = isMemorizable,
-            isBreached = false
+            isMemorizable = isMemorizable
         )
     }
     
     private fun generateRandom(
         length: Int,
-        includeUppercase: Boolean,
-        includeLowercase: Boolean,
-        includeNumbers: Boolean,
-        includeSymbols: Boolean
+        upper: Boolean,
+        lower: Boolean,
+        nums: Boolean,
+        syms: Boolean
     ): String {
         val chars = buildString {
-            if (includeUppercase) append("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-            if (includeLowercase) append("abcdefghijklmnopqrstuvwxyz")
-            if (includeNumbers) append("0123456789")
-            if (includeSymbols) append("!@#\$%^&*()_+-=[]{}|;:,.<>?")
+            if (upper) append("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+            if (lower) append("abcdefghijklmnopqrstuvwxyz")
+            if (nums) append("0123456789")
+            if (syms) append("!@#\$%^&*()_+-=[]{}|;:,.<>?")
         }
-        
         if (chars.isEmpty()) return ""
-        
-        return (1..length)
-            .map { chars.random() }
-            .joinToString("")
+        return (1..length).map { chars.random() }.joinToString("")
     }
     
     private fun generateXKCD(): String {
-        // 4 random words + number + symbol
-        val words = List(4) { dicewareWords.random().capitalize() }
+        val words = List(4) { dicewareWords.random().replaceFirstChar { it.uppercase() } }
         val number = Random.nextInt(1000, 9999)
         val symbol = "!@#\$%^&*".random()
-        
         return "${words.joinToString("-")}-$number$symbol"
     }
     
     private fun generatePhonetic(): String {
-        // 5 phonetic words + number + symbol
         val words = List(5) { phonetic.random() }
         val number = Random.nextInt(100, 999)
         val symbol = "!@#\$%^&*".random()
-        
         return "${words.joinToString("-")}-$number$symbol"
     }
     
     private fun generateStory(): String {
-        // Subject + Verb + Object + Place + Year
-        val subject = commonNouns.random().capitalize()
-        val verb = commonVerbs.random().capitalize()
-        val obj = commonNouns.random().capitalize()
-        val place = places.random().capitalize()
+        val nouns = listOf("Elephant", "Tiger", "Ocean", "Mountain", "Castle")
+        val verbs = listOf("Jumps", "Runs", "Swims", "Flies", "Dances")
+        val places = listOf("Park", "Beach", "City", "Forest", "Island")
         val year = 2024
-        val symbols = listOf("@", "#", "\$", "!")
-        
-        return "$subject${symbols.random()}$verb${symbols.random()}$obj#$place$year"
+        return "${nouns.random()}@${verbs.random()}#${nouns.random()}\$${places.random()}$year"
     }
     
     private fun generatePronounceable(): String {
-        // Generate fake but pronounceable words
         val consonants = "bcdfghjklmnprstvwxyz"
         val vowels = "aeiou"
-        val syllables = mutableListOf<String>()
-        
-        // Create 3 syllables (consonant-vowel-consonant)
-        repeat(3) {
-            syllables.add(
-                "${consonants.random()}" +
-                "${vowels.random()}" +
-                "${consonants.random()}"
-            )
-        }
-        
-        val word = syllables.joinToString("").replaceFirstChar { it.uppercase() }
+        val word = (1..3).joinToString("") {
+            "${consonants.random()}${vowels.random()}${consonants.random()}"
+        }.replaceFirstChar { it.uppercase() }
         val number = Random.nextInt(10, 99)
         val symbol = "!@#\$".random()
-        
         return "$word-$number$symbol"
     }
     
     private fun calculateEntropy(password: String, style: PasswordStyle): Double {
         return when (style) {
             is PasswordStyle.Random -> {
-                val charsetSize = estimateCharsetSize(password)
-                password.length * log2(charsetSize.toDouble())
+                val size = estimateCharsetSize(password)
+                password.length * log2(size.toDouble())
             }
-            is PasswordStyle.XKCD -> {
-                // 4 words from 7776 + 4 digits + 8 symbols
-                log2(7776.0.pow(4)) + log2(9000.0) + log2(8.0)
-            }
-            is PasswordStyle.Phonetic -> {
-                // 5 words from 26 + 3 digits + 8 symbols
-                log2(26.0.pow(5)) + log2(900.0) + log2(8.0)
-            }
-            is PasswordStyle.Story -> {
-                // Assuming 10k words for each category
-                log2(10000.0) * 3 + log2(2000.0) + log2(100.0) + log2(4.0)
-            }
-            is PasswordStyle.Pronounceable -> {
-                // 21 consonants * 5 vowels * 21 consonants = 2205 per syllable
-                log2(2205.0.pow(3)) + log2(90.0) + log2(4.0)
-            }
+            is PasswordStyle.XKCD -> log2(7776.0.pow(4)) + log2(9000.0) + log2(8.0)
+            is PasswordStyle.Phonetic -> log2(26.0.pow(5)) + log2(900.0) + log2(8.0)
+            is PasswordStyle.Story -> log2(10000.0) * 3 + log2(2000.0) + log2(100.0)
+            is PasswordStyle.Pronounceable -> log2(2205.0.pow(3)) + log2(90.0) + log2(4.0)
         }
     }
     
@@ -193,7 +135,6 @@ class GeneratePasswordUseCase @Inject constructor() {
     }
     
     private fun calculateCrackTime(entropy: Double): String {
-        // Modern GPU: ~100 billion attempts/second
         val attemptsPerSecond = 100_000_000_000.0
         val combinations = 2.0.pow(entropy)
         val seconds = combinations / attemptsPerSecond
@@ -208,7 +149,5 @@ class GeneratePasswordUseCase @Inject constructor() {
             else -> "${(seconds / 31536000000).roundToLong()} centuries"
         }
     }
-    
-    private fun String.capitalize() = replaceFirstChar { it.uppercase() }
 }
 

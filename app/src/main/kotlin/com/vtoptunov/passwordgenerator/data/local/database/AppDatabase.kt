@@ -17,4 +17,3 @@ abstract class AppDatabase : RoomDatabase() {
         const val DATABASE_NAME = "password_generator_db"
     }
 }
-

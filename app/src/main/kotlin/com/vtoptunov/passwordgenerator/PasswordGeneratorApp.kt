@@ -10,15 +10,12 @@ class PasswordGeneratorApp : Application(), Configuration.Provider {
     
     override fun onCreate() {
         super.onCreate()
-        
-        // Initialize WorkManager for background updates
-        WorkManager.initialize(this, workManagerConfiguration)
+        // App initialization
     }
     
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setMinimumLoggingLevel(android.util.Log.INFO)
             .build()
-    }
 }
 

@@ -13,210 +13,194 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStrength
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStyle
 import com.vtoptunov.passwordgenerator.presentation.theme.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneratorScreen(
     viewModel: GeneratorViewModel = hiltViewModel(),
-    onNavigateToSaved: () -> Unit,
-    onNavigateToDashboard: () -> Unit
+    onNavigateToSaved: () -> Unit = {},
+    onNavigateToDashboard: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {}
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(GradientStart, GradientMiddle, GradientEnd)
+                )
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
                     Text(
-                        "CyberSafe Generator",
-                        style = MaterialTheme.typography.titleLarge,
+                        "PASSWORD",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = CyberBlue,
                         fontWeight = FontWeight.Bold
                     )
-                },
-                actions = {
+                    Text(
+                        "GENERATOR",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = TextSecondary
+                    )
+                }
+                
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     IconButton(onClick = onNavigateToDashboard) {
                         Icon(
                             Icons.Default.Dashboard,
                             contentDescription = "Dashboard",
-                            tint = CyberBlue
+                            tint = ElectricPurple
                         )
                     }
                     IconButton(onClick = onNavigateToSaved) {
                         Icon(
-                            Icons.Default.Lock,
+                            Icons.Default.Storage,
                             contentDescription = "Saved Passwords",
                             tint = CyberBlue
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DeepSpace,
-                    titleContentColor = TextPrimary
-                )
-            )
-        },
-        containerColor = DeepSpace
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            GradientStart,
-                            GradientMiddle,
-                            GradientEnd
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = "Settings",
+                            tint = NeonGreen
                         )
-                    )
-                )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // Generated Password Card
-                PasswordDisplayCard(
-                    password = state.generatedPassword?.password ?: "",
-                    strength = state.generatedPassword?.strength,
-                    onCopy = { viewModel.onEvent(GeneratorEvent.CopyToClipboard) }
-                )
-                
-                // Cracking Simulator
-                state.crackingSimulation?.let { simulation ->
-                    CrackingSimulatorCard(simulation)
-                }
-                
-                // Password Stats
-                state.generatedPassword?.let { result ->
-                    PasswordStatsCard(
-                        entropy = result.entropy,
-                        crackTime = result.crackTime,
-                        strength = result.strength
-                    )
-                }
-                
-                // Style Selector
-                StyleSelectorCard(
-                    selectedStyle = state.selectedStyle,
-                    onStyleSelected = { style ->
-                        viewModel.onEvent(GeneratorEvent.StyleSelected(style))
                     }
-                )
-                
-                // Options Card (for Random style)
-                if (state.selectedStyle == PasswordStyle.Random) {
-                    PasswordOptionsCard(
-                        length = state.passwordLength,
-                        includeUppercase = state.includeUppercase,
-                        includeLowercase = state.includeLowercase,
-                        includeNumbers = state.includeNumbers,
-                        includeSymbols = state.includeSymbols,
-                        onLengthChanged = { length ->
-                            viewModel.onEvent(GeneratorEvent.LengthChanged(length))
-                        },
-                        onOptionToggled = { option ->
-                            viewModel.onEvent(GeneratorEvent.OptionToggled(option))
-                        }
-                    )
                 }
-                
-                // Action Buttons
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+            }
+            
+            // Password Display Card with Hacker Effect
+            PasswordDisplayCard(
+                password = state.generatedPassword?.password ?: "",
+                cracking = state.crackingSimulation,
+                onCopy = { viewModel.onEvent(GeneratorEvent.CopyToClipboard) }
+            )
+            
+            // Strength Indicator
+            state.generatedPassword?.let { result ->
+                StrengthIndicatorCard(
+                    entropy = result.entropy,
+                    strength = result.strength,
+                    crackTime = result.crackTime
+                )
+            }
+            
+            // Style Selector
+            StyleSelectorCard(
+                selectedStyle = state.selectedStyle,
+                onStyleSelected = { viewModel.onEvent(GeneratorEvent.StyleSelected(it)) }
+            )
+            
+            // Options (only for Random style)
+            if (state.selectedStyle == PasswordStyle.Random) {
+                OptionsCard(
+                    length = state.passwordLength,
+                    onLengthChanged = { viewModel.onEvent(GeneratorEvent.LengthChanged(it)) },
+                    includeUppercase = state.includeUppercase,
+                    includeLowercase = state.includeLowercase,
+                    includeNumbers = state.includeNumbers,
+                    includeSymbols = state.includeSymbols,
+                    onOptionToggled = { viewModel.onEvent(GeneratorEvent.OptionToggled(it)) }
+                )
+            }
+            
+            // Action Buttons
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = { viewModel.onEvent(GeneratorEvent.GeneratePassword) },
+                    modifier = Modifier.weight(1f),
+                    enabled = !state.isGenerating,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = CyberBlue,
+                        contentColor = DeepSpace
+                    )
                 ) {
-                    // Generate Button
-                    Button(
-                        onClick = { viewModel.onEvent(GeneratorEvent.GeneratePassword) },
-                        modifier = Modifier.weight(1f).height(56.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = CyberBlue,
-                            contentColor = DeepSpace
-                        ),
-                        shape = RoundedCornerShape(12.dp),
-                        enabled = !state.isGenerating
-                    ) {
-                        if (state.isGenerating) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = DeepSpace,
-                                strokeWidth = 3.dp
-                            )
-                        } else {
-                            Icon(Icons.Default.Refresh, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Generate", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                        }
-                    }
-                    
-                    // Save Button
-                    Button(
-                        onClick = { viewModel.onEvent(GeneratorEvent.SavePassword) },
-                        modifier = Modifier.weight(1f).height(56.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = ElectricPurple,
-                            contentColor = TextPrimary
-                        ),
-                        shape = RoundedCornerShape(12.dp),
-                        enabled = !state.isSaving && state.generatedPassword != null
-                    ) {
-                        if (state.isSaving) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = TextPrimary,
-                                strokeWidth = 3.dp
-                            )
-                        } else {
-                            Icon(Icons.Default.Save, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Save", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                        }
+                    if (state.isGenerating) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp,
+                            color = DeepSpace
+                        )
+                    } else {
+                        Icon(Icons.Default.Refresh, null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Generate")
                     }
                 }
                 
-                // Add some bottom spacing
-                Spacer(Modifier.height(16.dp))
+                Button(
+                    onClick = { viewModel.onEvent(GeneratorEvent.SavePassword) },
+                    modifier = Modifier.weight(1f),
+                    enabled = !state.isSaving && state.generatedPassword != null,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ElectricPurple,
+                        contentColor = TextPrimary
+                    )
+                ) {
+                    if (state.isSaving) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(Icons.Default.Save, null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Save")
+                    }
+                }
             }
-            
-            // Success Snackbar
-            AnimatedVisibility(
-                visible = state.showSaveSuccess,
-                enter = slideInVertically() + fadeIn(),
-                exit = slideOutVertically() + fadeOut(),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(16.dp)
+        }
+        
+        // Success Snackbar
+        AnimatedVisibility(
+            visible = state.showSaveSuccess,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp),
+            enter = slideInVertically { it } + fadeIn(),
+            exit = slideOutVertically { it } + fadeOut()
+        ) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = NeonGreen),
+                shape = RoundedCornerShape(12.dp)
             ) {
-                SuccessSnackbar("Password saved successfully! ✓")
-            }
-            
-            // Copied Snackbar
-            AnimatedVisibility(
-                visible = state.copiedToClipboard,
-                enter = slideInVertically() + fadeIn(),
-                exit = slideOutVertically() + fadeOut(),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(16.dp)
-            ) {
-                SuccessSnackbar("Copied to clipboard! (Auto-clear in 30s)")
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.CheckCircle, null, tint = DeepSpace)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Password saved!", color = DeepSpace, fontWeight = FontWeight.Bold)
+                }
             }
         }
     }
@@ -225,16 +209,12 @@ fun GeneratorScreen(
 @Composable
 fun PasswordDisplayCard(
     password: String,
-    strength: PasswordStrength?,
+    cracking: CrackingSimulationState?,
     onCopy: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(
-            containerColor = CardBackground
-        ),
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = CardBackground),
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(
@@ -247,133 +227,293 @@ fun PasswordDisplayCard(
             ) {
                 Text(
                     "Generated Password",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = TextSecondary
                 )
                 
-                IconButton(
-                    onClick = onCopy,
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(
-                        Icons.Default.ContentCopy,
-                        contentDescription = "Copy",
-                        tint = CyberBlue
-                    )
+                IconButton(onClick = onCopy) {
+                    Icon(Icons.Default.ContentCopy, "Copy", tint = CyberBlue)
                 }
             }
             
             Spacer(Modifier.height(12.dp))
             
-            // Password Text with cyber glow effect
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(SurfaceDark)
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = password.ifEmpty { "Generate a password..." },
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = if (password.isEmpty()) TextTertiary else CyberBlue,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    lineHeight = 28.sp
-                )
-            }
+            // Password with typewriter effect
+            Text(
+                text = password,
+                style = PasswordTextStyle,
+                color = CyberBlue,
+                modifier = Modifier.fillMaxWidth()
+            )
             
-            // Strength Indicator
-            strength?.let {
-                Spacer(Modifier.height(12.dp))
-                StrengthIndicator(strength)
+            // Cracking Simulation
+            cracking?.let {
+                Spacer(Modifier.height(16.dp))
+                CrackingSimulationView(it)
             }
         }
     }
 }
 
 @Composable
-fun StrengthIndicator(strength: PasswordStrength) {
-    val color = when (strength) {
-        PasswordStrength.VERY_WEAK -> DangerRed
-        PasswordStrength.WEAK -> Color(0xFFFF6B6B)
-        PasswordStrength.FAIR -> WarningOrange
-        PasswordStrength.STRONG -> NeonGreen
-        PasswordStrength.VERY_STRONG -> Color(0xFF00CC6A)
-    }
-    
-    val progress by animateFloatAsState(
-        targetValue = when (strength) {
-            PasswordStrength.VERY_WEAK -> 0.2f
-            PasswordStrength.WEAK -> 0.4f
-            PasswordStrength.FAIR -> 0.6f
-            PasswordStrength.STRONG -> 0.8f
-            PasswordStrength.VERY_STRONG -> 1f
-        },
-        animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
-    )
-    
+fun CrackingSimulationView(state: CrackingSimulationState) {
     Column {
+        Text(
+            "🔓 Hacker's View:",
+            style = MaterialTheme.typography.labelSmall,
+            color = DangerRed,
+            fontWeight = FontWeight.Bold
+        )
+        
+        Spacer(Modifier.height(4.dp))
+        
+        Text(
+            state.crackedChars,
+            style = CodeTextStyle,
+            color = DangerRed
+        )
+        
+        Spacer(Modifier.height(8.dp))
+        
+        LinearProgressIndicator(
+            progress = state.progress,
+            modifier = Modifier.fillMaxWidth(),
+            color = DangerRed,
+            trackColor = SurfaceMedium
+        )
+        
+        Spacer(Modifier.height(4.dp))
+        
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                "Strength:",
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                "Attempts: ${formatNumber(state.attempts)}",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextTertiary
             )
             Text(
-                strength.displayName,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold,
-                color = color
+                "${state.timeElapsedMs}ms",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextTertiary
             )
         }
-        
-        Spacer(Modifier.height(8.dp))
-        
-        LinearProgressIndicator(
-            progress = progress,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .clip(RoundedCornerShape(4.dp)),
-            color = color,
-            trackColor = SurfaceDark
-        )
     }
 }
 
 @Composable
-fun SuccessSnackbar(message: String) {
+fun StrengthIndicatorCard(
+    entropy: Double,
+    strength: PasswordStrength,
+    crackTime: String
+) {
+    val strengthColor = when (strength) {
+        PasswordStrength.VERY_WEAK, PasswordStrength.WEAK -> DangerRed
+        PasswordStrength.FAIR -> WarningOrange
+        PasswordStrength.STRONG, PasswordStrength.VERY_STRONG -> NeonGreen
+    }
+    
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(12.dp, RoundedCornerShape(12.dp)),
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = NeonGreen.copy(alpha = 0.9f)
-        ),
-        shape = RoundedCornerShape(12.dp)
+            containerColor = strengthColor.copy(alpha = 0.1f)
+        )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                Icons.Default.CheckCircle,
-                contentDescription = null,
-                tint = DeepSpace
-            )
-            Spacer(Modifier.width(12.dp))
-            Text(
-                message,
-                color = DeepSpace,
-                fontWeight = FontWeight.Bold
-            )
+            Column {
+                Text(
+                    strength.displayName.uppercase(),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = strengthColor,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    "Entropy: ${entropy.toInt()} bits",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextSecondary
+                )
+            }
+            
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    "Crack Time",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextSecondary
+                )
+                Text(
+                    crackTime,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = TextPrimary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun StyleSelectorCard(
+    selectedStyle: PasswordStyle,
+    onStyleSelected: (PasswordStyle) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "Generation Style",
+                style = MaterialTheme.typography.titleSmall,
+                color = TextSecondary
+            )
+            
+            Spacer(Modifier.height(12.dp))
+            
+            listOf(
+                PasswordStyle.Random,
+                PasswordStyle.XKCD,
+                PasswordStyle.Phonetic,
+                PasswordStyle.Story,
+                PasswordStyle.Pronounceable
+            ).forEach { style ->
+                StyleChip(
+                    style = style,
+                    isSelected = selectedStyle == style,
+                    onClick = { onStyleSelected(style) }
+                )
+                Spacer(Modifier.height(8.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun StyleChip(
+    style: PasswordStyle,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        onClick = onClick,
+        color = if (isSelected) CyberBlue.copy(alpha = 0.2f) else SurfaceMedium,
+        shape = RoundedCornerShape(8.dp),
+        border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, CyberBlue) else null,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = isSelected,
+                onClick = onClick,
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = CyberBlue,
+                    unselectedColor = TextTertiary
+                )
+            )
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text(
+                    style.displayName,
+                    color = if (isSelected) CyberBlue else TextPrimary,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                )
+                Text(
+                    style.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextSecondary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun OptionsCard(
+    length: Int,
+    onLengthChanged: (Int) -> Unit,
+    includeUppercase: Boolean,
+    includeLowercase: Boolean,
+    includeNumbers: Boolean,
+    includeSymbols: Boolean,
+    onOptionToggled: (PasswordOption) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "Length: $length",
+                style = MaterialTheme.typography.titleSmall,
+                color = TextPrimary
+            )
+            
+            Slider(
+                value = length.toFloat(),
+                onValueChange = { onLengthChanged(it.toInt()) },
+                valueRange = 8f..32f,
+                // BUG FIX #5: Correct steps calculation for slider
+                // Range 8-32 has 25 values (32-8+1), so we need 24 steps (25-1)
+                steps = 24,
+                colors = SliderDefaults.colors(
+                    thumbColor = CyberBlue,
+                    activeTrackColor = CyberBlue,
+                    inactiveTrackColor = SurfaceMedium
+                )
+            )
+            
+            Spacer(Modifier.height(8.dp))
+            
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = includeUppercase,
+                    onClick = { onOptionToggled(PasswordOption.UPPERCASE) },
+                    label = { Text("A-Z") },
+                    modifier = Modifier.weight(1f)
+                )
+                FilterChip(
+                    selected = includeLowercase,
+                    onClick = { onOptionToggled(PasswordOption.LOWERCASE) },
+                    label = { Text("a-z") },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            
+            Spacer(Modifier.height(8.dp))
+            
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = includeNumbers,
+                    onClick = { onOptionToggled(PasswordOption.NUMBERS) },
+                    label = { Text("0-9") },
+                    modifier = Modifier.weight(1f)
+                )
+                FilterChip(
+                    selected = includeSymbols,
+                    onClick = { onOptionToggled(PasswordOption.SYMBOLS) },
+                    label = { Text("!@#") },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+fun formatNumber(number: Long): String {
+    return when {
+        number < 1000 -> number.toString()
+        number < 1000000 -> "${number / 1000}K"
+        number < 1000000000 -> "${number / 1000000}M"
+        else -> "${number / 1000000000}B"
     }
 }
 

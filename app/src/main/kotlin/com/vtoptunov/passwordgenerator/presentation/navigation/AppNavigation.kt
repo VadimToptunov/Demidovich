@@ -1,25 +1,24 @@
 package com.vtoptunov.passwordgenerator.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vtoptunov.passwordgenerator.presentation.screens.dashboard.DashboardScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 
 sealed class Screen(val route: String) {
     object Generator : Screen("generator")
-    object SavedPasswords : Screen("saved_passwords")
+    object SavedPasswords : Screen("saved")
     object Dashboard : Screen("dashboard")
     object Settings : Screen("settings")
-    object Transfer : Screen("transfer")
-    object Premium : Screen("premium")
 }
 
 @Composable
-fun AppNavigation(
-    navController: NavHostController = rememberNavController()
-) {
+fun AppNavigation() {
+    val navController = rememberNavController()
+    
     NavHost(
         navController = navController,
         startDestination = Screen.Generator.route
@@ -31,29 +30,31 @@ fun AppNavigation(
                 },
                 onNavigateToDashboard = {
                     navController.navigate(Screen.Dashboard.route)
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
                 }
             )
         }
         
-        // TODO: Add other screens
-        composable(Screen.SavedPasswords.route) {
-            // SavedPasswordsScreen()
-        }
-        
         composable(Screen.Dashboard.route) {
-            // DashboardScreen()
+            DashboardScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
         
         composable(Screen.Settings.route) {
-            // SettingsScreen()
+            SettingsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
         
-        composable(Screen.Transfer.route) {
-            // TransferScreen()
-        }
-        
-        composable(Screen.Premium.route) {
-            // PremiumScreen()
+        composable(Screen.SavedPasswords.route) {
+            // TODO: Implement Saved Passwords Screen
         }
     }
 }

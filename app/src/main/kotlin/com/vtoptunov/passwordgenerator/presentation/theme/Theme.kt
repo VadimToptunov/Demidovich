@@ -1,7 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.theme
 
 import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
@@ -12,61 +11,52 @@ import androidx.core.view.WindowCompat
 
 /**
  * CyberSafe Dark Theme
- * A cyberpunk-inspired dark theme with neon accents
- * Safe for Google Play - professional but edgy
+ * Professional cyberpunk-inspired dark theme
+ * Safe for Google Play - no illegal/hacking connotations
  */
 private val DarkColorScheme = darkColorScheme(
-    // Primary colors - Cyber Blue
     primary = CyberBlue,
     onPrimary = DeepSpace,
     primaryContainer = CyberBlueDark,
     onPrimaryContainer = CyberBlueLight,
     
-    // Secondary colors - Electric Purple
     secondary = ElectricPurple,
     onSecondary = DeepSpace,
     secondaryContainer = ElectricPurpleDark,
     onSecondaryContainer = ElectricPurpleLight,
     
-    // Tertiary colors - Neon Green
     tertiary = NeonGreen,
     onTertiary = DeepSpace,
     tertiaryContainer = NeonGreenDark,
     onTertiaryContainer = NeonGreen,
     
-    // Background
     background = DeepSpace,
     onBackground = TextPrimary,
     
-    // Surface
     surface = SurfaceDark,
     onSurface = TextPrimary,
     surfaceVariant = SurfaceMedium,
     onSurfaceVariant = TextSecondary,
     
-    // Surface tints
     surfaceTint = CyberBlue,
     inverseSurface = TextPrimary,
     inverseOnSurface = DeepSpace,
     
-    // Error colors
     error = DangerRed,
     onError = TextPrimary,
     errorContainer = DangerRedDark,
     onErrorContainer = DangerRed,
     
-    // Outline
     outline = TextTertiary,
     outlineVariant = TextDisabled,
     
-    // Scrim
     scrim = DeepSpace.copy(alpha = 0.8f)
 )
 
 @Composable
-fun CyberSafeTheme(
+fun PasswordGeneratorTheme(
     darkTheme: Boolean = true, // Always dark for cyber aesthetic
-    dynamicColor: Boolean = false, // Disable dynamic color for consistent branding
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = DarkColorScheme

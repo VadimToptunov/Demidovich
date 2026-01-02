@@ -17,28 +17,22 @@ data class PasswordEntity(
     val note: String?
 )
 
-// Mapper extensions
-fun PasswordEntity.toDomain(): Password {
-    return Password(
-        id = id,
-        password = password,
-        category = PasswordCategory.valueOf(category),
-        createdAt = createdAt,
-        lastModified = lastModified,
-        isFavorite = isFavorite,
-        note = note
-    )
-}
+fun PasswordEntity.toDomain(): Password = Password(
+    id = id,
+    password = password,
+    category = PasswordCategory.valueOf(category),
+    createdAt = createdAt,
+    lastModified = lastModified,
+    isFavorite = isFavorite,
+    note = note
+)
 
-fun Password.toEntity(): PasswordEntity {
-    return PasswordEntity(
-        id = id,
-        password = password,
-        category = category.name,
-        createdAt = createdAt,
-        lastModified = lastModified,
-        isFavorite = isFavorite,
-        note = note
-    )
-}
-
+fun Password.toEntity(): PasswordEntity = PasswordEntity(
+    id = id,
+    password = password,
+    category = category.name,
+    createdAt = createdAt,
+    lastModified = lastModified,
+    isFavorite = isFavorite,
+    note = note
+)

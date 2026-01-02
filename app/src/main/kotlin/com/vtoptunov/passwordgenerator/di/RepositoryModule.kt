@@ -14,8 +14,5 @@ abstract class RepositoryModule {
     
     @Binds
     @Singleton
-    abstract fun bindPasswordRepository(
-        impl: PasswordRepositoryImpl
-    ): PasswordRepository
+    abstract fun bindPasswordRepository(impl: PasswordRepositoryImpl): PasswordRepository
 }
-

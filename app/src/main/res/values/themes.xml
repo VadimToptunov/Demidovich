@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme -->
-    <style name="Theme.Demidovich" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/cyber_blue</item>
-        <item name="colorPrimaryDark">@color/deep_space</item>
-        <item name="colorAccent">@color/electric_purple</item>
-        <item name="android:statusBarColor">@color/deep_space</item>
-        <item name="android:navigationBarColor">@color/deep_space</item>
-    </style>
-    
-    <!-- Splash Screen Theme -->
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/deep_space</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenAnimationDuration">300</item>
-        <item name="postSplashScreenTheme">@style/Theme.Demidovich</item>
-    </style>
+    <style name="Theme.App.Starting" parent="android:Theme.Black.NoTitleBar.Fullscreen" />
 </resources>
