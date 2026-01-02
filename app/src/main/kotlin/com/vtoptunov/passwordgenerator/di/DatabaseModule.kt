@@ -29,8 +29,6 @@ object DatabaseModule {
         @ApplicationContext context: Context,
         keystoreManager: KeystoreManager
     ): AppDatabase {
-        // BUG FIX #1: Use secure passphrase from Android Keystore
-        // instead of hardcoded string visible in source code
         val passphrase = keystoreManager.getDatabasePassphrase()
         val factory = SupportFactory(passphrase)
         

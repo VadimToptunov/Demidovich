@@ -1,11 +1,16 @@
 package com.vtoptunov.passwordgenerator.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.vtoptunov.passwordgenerator.presentation.screens.academy.AcademyHomeScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.dashboard.DashboardScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.game.GameScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 
 sealed class Screen(val route: String) {
@@ -13,6 +18,16 @@ sealed class Screen(val route: String) {
     object SavedPasswords : Screen("saved")
     object Dashboard : Screen("dashboard")
     object Settings : Screen("settings")
+    object AcademyHome : Screen("academy")
+    object Game : Screen("game?password={password}") {
+        fun createRoute(password: String? = null): String {
+            return if (password != null) {
+                "game?password=$password"
+            } else {
+                "game"
+            }
+        }
+    }
 }
 
 @Composable
@@ -33,6 +48,9 @@ fun AppNavigation() {
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToGame = { password ->
+                    navController.navigate(Screen.Game.createRoute(password))
                 }
             )
         }
@@ -54,7 +72,40 @@ fun AppNavigation() {
         }
         
         composable(Screen.SavedPasswords.route) {
-            // TODO: Implement Saved Passwords Screen
+            SavedPasswordsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        
+        composable(Screen.AcademyHome.route) {
+            AcademyHomeScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onGameSelected = { game ->
+                    // Navigate to specific game
+                    navController.navigate(Screen.Game.createRoute())
+                }
+            )
+        }
+        
+        composable(
+            route = "game?password={password}",
+            arguments = listOf(
+                navArgument("password") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            val password = backStackEntry.arguments?.getString("password")
+            GameScreen(
+                navController = navController,
+                customPassword = password
+            )
         }
     }
 }

@@ -30,7 +30,8 @@ fun GeneratorScreen(
     viewModel: GeneratorViewModel = hiltViewModel(),
     onNavigateToSaved: () -> Unit = {},
     onNavigateToDashboard: () -> Unit = {},
-    onNavigateToSettings: () -> Unit = {}
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToGame: (String) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     
@@ -98,6 +99,11 @@ fun GeneratorScreen(
             // Password Display Card with Hacker Effect
             PasswordDisplayCard(
                 password = state.generatedPassword?.password ?: "",
+                onTrainMemory = {
+                    state.generatedPassword?.password?.let { password ->
+                        onNavigateToGame(password)
+                    }
+                },
                 cracking = state.crackingSimulation,
                 onCopy = { viewModel.onEvent(GeneratorEvent.CopyToClipboard) }
             )
@@ -210,7 +216,8 @@ fun GeneratorScreen(
 fun PasswordDisplayCard(
     password: String,
     cracking: CrackingSimulationState?,
-    onCopy: () -> Unit
+    onCopy: () -> Unit,
+    onTrainMemory: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -231,8 +238,13 @@ fun PasswordDisplayCard(
                     color = TextSecondary
                 )
                 
-                IconButton(onClick = onCopy) {
-                    Icon(Icons.Default.ContentCopy, "Copy", tint = CyberBlue)
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    IconButton(onClick = onTrainMemory) {
+                        Icon(Icons.Default.Psychology, "Train Memory", tint = ElectricPurple)
+                    }
+                    IconButton(onClick = onCopy) {
+                        Icon(Icons.Default.ContentCopy, "Copy", tint = CyberBlue)
+                    }
                 }
             }
             

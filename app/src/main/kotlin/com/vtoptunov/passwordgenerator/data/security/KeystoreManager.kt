@@ -11,9 +11,6 @@ import javax.crypto.SecretKey
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Manages secure encryption keys using Android Keystore
- */
 @Singleton
 class KeystoreManager @Inject constructor(
     private val context: Context
@@ -42,32 +39,30 @@ class KeystoreManager @Inject constructor(
         )
     }
     
-    /**
-     * Gets or generates database encryption passphrase
-     * Stored securely in EncryptedSharedPreferences
-     */
     fun getDatabasePassphrase(): ByteArray {
         val stored = securePrefs.getString(KEY_DB_PASSPHRASE, null)
         
         return if (stored != null) {
-            // Use existing passphrase
-            stored.toByteArray()
+            try {
+                android.util.Base64.decode(stored, android.util.Base64.DEFAULT)
+            } catch (e: Exception) {
+                val newPassphrase = generateSecurePassphrase()
+                securePrefs.edit()
+                    .putString(KEY_DB_PASSPHRASE, android.util.Base64.encodeToString(newPassphrase, android.util.Base64.DEFAULT))
+                    .apply()
+                newPassphrase
+            }
         } else {
-            // Generate new secure passphrase
             val newPassphrase = generateSecurePassphrase()
             securePrefs.edit()
-                .putString(KEY_DB_PASSPHRASE, String(newPassphrase))
+                .putString(KEY_DB_PASSPHRASE, android.util.Base64.encodeToString(newPassphrase, android.util.Base64.DEFAULT))
                 .apply()
             newPassphrase
         }
     }
     
-    /**
-     * Generates a cryptographically secure random passphrase
-     */
     private fun generateSecurePassphrase(): ByteArray {
         return try {
-            // Try to use AndroidKeyStore for maximum security
             val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
             keyStore.load(null)
             
@@ -94,7 +89,6 @@ class KeystoreManager @Inject constructor(
             secretKey.encoded
             
         } catch (e: Exception) {
-            // Fallback: generate random bytes using SecureRandom
             val random = java.security.SecureRandom()
             ByteArray(32).apply { random.nextBytes(this) }
         }
