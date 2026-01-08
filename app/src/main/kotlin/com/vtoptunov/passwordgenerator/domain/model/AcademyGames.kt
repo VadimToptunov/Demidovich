@@ -15,7 +15,8 @@ data class MemoryGame(
     val decoyPasswords: List<String>,
     val difficulty: GameDifficulty,
     val memorizeTimeSeconds: Int,
-    val xpReward: Int
+    val xpReward: Int,
+    val maxAttempts: Int = 3
 )
 
 enum class GamePhase {
@@ -53,8 +54,10 @@ enum class GameDifficulty(
 
 data class GameResult(
     val isCorrect: Boolean,
+    val isSuccess: Boolean,
     val xpEarned: Int,
-    val newStreak: Int
+    val newStreak: Int,
+    val attemptsUsed: Int = 0
 )
 
 data class PlayerStats(
@@ -69,7 +72,8 @@ data class PlayerStats(
 data class GameSession(
     val game: MemoryGame,
     val phase: GamePhase,
-    val remainingMemorizeTime: Int? = null
+    val remainingMemorizeTime: Int? = null,
+    val result: GameResult? = null
 )
 
 // Password Cracker Game Models
