@@ -1,5 +1,78 @@
 package com.vtoptunov.passwordgenerator.domain.model
 
+// Memory Match Game Models
+data class MemoryGameLevel(
+    val levelNumber: Int,
+    val password: String,
+    val shuffledOptions: List<String>,
+    val memorizeTime: Int,
+    val xpReward: Int
+)
+
+data class MemoryGame(
+    val id: String,
+    val correctPassword: String,
+    val decoyPasswords: List<String>,
+    val difficulty: GameDifficulty,
+    val memorizeTimeSeconds: Int,
+    val xpReward: Int
+)
+
+enum class GamePhase {
+    DIFFICULTY_SELECTION,
+    MEMORIZING,
+    SELECTING,
+    SELECTION,
+    RESULT
+}
+
+enum class GameDifficulty(
+    val displayName: String,
+    val decoyCount: Int,
+    val memorizeTime: Int,
+    val minPasswordLength: Int,
+    val xpMultiplier: Double,
+    val xpReward: Int
+) {
+    BEGINNER("Beginner", 3, 10, 8, 1.0, 50),
+    EASY("Easy", 5, 8, 10, 1.5, 75),
+    MEDIUM("Medium", 7, 7, 12, 2.0, 100),
+    HARD("Hard", 9, 6, 14, 2.5, 150),
+    EXPERT("Expert", 11, 5, 16, 3.0, 200);
+    
+    companion object {
+        fun fromLevel(level: Int): GameDifficulty = when {
+            level <= 5 -> BEGINNER
+            level <= 10 -> EASY
+            level <= 20 -> MEDIUM
+            level <= 35 -> HARD
+            else -> EXPERT
+        }
+    }
+}
+
+data class GameResult(
+    val isCorrect: Boolean,
+    val xpEarned: Int,
+    val newStreak: Int
+)
+
+data class PlayerStats(
+    val totalXp: Int = 0,
+    val level: Int = 1,
+    val currentStreak: Int = 0,
+    val bestStreak: Int = 0,
+    val gamesPlayed: Int = 0,
+    val gamesWon: Int = 0
+)
+
+data class GameSession(
+    val game: MemoryGame,
+    val phase: GamePhase,
+    val remainingMemorizeTime: Int? = null
+)
+
+// Password Cracker Game Models
 data class PasswordCrackerLevel(
     val levelNumber: Int,
     val weakPassword: String,

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PasswordExport(
-    val passwords: List<Password Export Entry>,
+    val passwords: List<PasswordExportEntry>,
     val exportDate: Long = System.currentTimeMillis(),
     val version: String = "1.0",
     val checksum: String = ""

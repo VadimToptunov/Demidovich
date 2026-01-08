@@ -10,6 +10,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.academy.AcademyHomeS
 import com.vtoptunov.passwordgenerator.presentation.screens.dashboard.DashboardScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.game.GameScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker.PasswordCrackerScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 
@@ -28,6 +29,9 @@ sealed class Screen(val route: String) {
             }
         }
     }
+    object PasswordCrackerGame : Screen("password_cracker_game")
+    object PhishingHunterGame : Screen("phishing_hunter_game")
+    object SocialEngineeringGame : Screen("social_engineering_game")
 }
 
 @Composable
@@ -106,6 +110,18 @@ fun AppNavigation() {
                 navController = navController,
                 customPassword = password
             )
+        }
+
+        // Password Cracker Game
+        composable(Screen.PasswordCrackerGame.route) {
+            PasswordCrackerScreen(navController = navController)
+        }
+        
+        composable(Screen.PhishingHunterGame.route) {
+            // TODO: Implement Phishing Hunter Game Screen
+        }
+        composable(Screen.SocialEngineeringGame.route) {
+            // TODO: Implement Social Engineering Game Screen
         }
     }
 }

@@ -185,9 +185,9 @@ We may update this Privacy Policy occasionally. When we do:
 
 Questions about privacy?
 
-📧 **Email**: [Your Email]  
-🌐 **Website**: [Your Website] (optional)  
-📍 **Business Address**: [Your Address] (if required by jurisdiction)
+📧 **Email**: [vtoptunov88@gmail.com]  
+ 
+
 
 **Response Time**: Direct developer communication
 
@@ -238,5 +238,5 @@ None of these libraries collect data:
 
 ---
 
-**Questions?** Email [Your Email]
+**Questions?** Email [vtoptunov88@gmail.com] 
 
