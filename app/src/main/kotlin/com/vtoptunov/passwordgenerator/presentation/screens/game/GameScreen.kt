@@ -107,6 +107,7 @@ fun GameScreen(
                             )
                         }
                     }
+                    else -> {} // DIFFICULTY_SELECTION, SELECTION
                 }
             }
         }
@@ -249,6 +250,7 @@ fun DifficultyCard(
     onClick: () -> Unit
 ) {
     val color = when (difficulty) {
+        GameDifficulty.BEGINNER -> Color(0xFF4CAF50)
         GameDifficulty.EASY -> NeonGreen
         GameDifficulty.MEDIUM -> CyberBlue
         GameDifficulty.HARD -> WarningOrange

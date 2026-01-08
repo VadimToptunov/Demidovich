@@ -67,7 +67,10 @@ data class PlayerStats(
     val bestStreak: Int = 0,
     val gamesPlayed: Int = 0,
     val gamesWon: Int = 0
-)
+) {
+    val xpProgress: Float
+        get() = (totalXp % 100) / 100f
+}
 
 data class GameSession(
     val game: MemoryGame,
