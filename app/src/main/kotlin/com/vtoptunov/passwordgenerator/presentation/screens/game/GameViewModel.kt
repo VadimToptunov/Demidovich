@@ -115,12 +115,15 @@ class GameViewModel @Inject constructor(
             
             if (isCorrect) {
                 // Success!
-                val timeSpent = ((System.currentTimeMillis() - game.startTime) / 1000).toInt()
+                val timeSpent = ((System.currentTimeMillis() - session.startTime) / 1000).toInt()
+                val newStreak = currentState.playerStats.currentStreak + 1
                 val result = GameResult(
+                    isCorrect = true,
                     isSuccess = true,
                     attemptsUsed = game.maxAttempts - newAttempts,
                     timeSpentSeconds = timeSpent,
                     xpEarned = game.xpReward,
+                    newStreak = newStreak,
                     difficulty = game.difficulty,
                     password = game.correctPassword
                 )
@@ -140,12 +143,14 @@ class GameViewModel @Inject constructor(
                 }
             } else if (newAttempts <= 0) {
                 // Failed - no more attempts
-                val timeSpent = ((System.currentTimeMillis() - game.startTime) / 1000).toInt()
+                val timeSpent = ((System.currentTimeMillis() - session.startTime) / 1000).toInt()
                 val result = GameResult(
+                    isCorrect = false,
                     isSuccess = false,
                     attemptsUsed = game.maxAttempts,
                     timeSpentSeconds = timeSpent,
                     xpEarned = 0,
+                    newStreak = 0,
                     difficulty = game.difficulty,
                     password = game.correctPassword
                 )

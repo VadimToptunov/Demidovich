@@ -57,7 +57,10 @@ data class GameResult(
     val isSuccess: Boolean,
     val xpEarned: Int,
     val newStreak: Int,
-    val attemptsUsed: Int = 0
+    val attemptsUsed: Int = 0,
+    val timeSpentSeconds: Int = 0,
+    val difficulty: GameDifficulty = GameDifficulty.BEGINNER,
+    val password: String = ""
 )
 
 data class PlayerStats(
@@ -66,7 +69,11 @@ data class PlayerStats(
     val currentStreak: Int = 0,
     val bestStreak: Int = 0,
     val gamesPlayed: Int = 0,
-    val gamesWon: Int = 0
+    val gamesWon: Int = 0,
+    val totalGamesPlayed: Int = 0,
+    val totalGamesWon: Int = 0,
+    val totalXP: Int = 0,
+    val gamesWonByDifficulty: Map<GameDifficulty, Int> = emptyMap()
 ) {
     val xpProgress: Float
         get() = (totalXp % 100) / 100f
@@ -76,7 +83,8 @@ data class GameSession(
     val game: MemoryGame,
     val phase: GamePhase,
     val remainingMemorizeTime: Int? = null,
-    val result: GameResult? = null
+    val result: GameResult? = null,
+    val startTime: Long = System.currentTimeMillis()
 )
 
 // Password Cracker Game Models
