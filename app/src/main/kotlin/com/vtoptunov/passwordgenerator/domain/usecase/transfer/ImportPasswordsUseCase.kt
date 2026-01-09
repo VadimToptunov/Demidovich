@@ -4,6 +4,7 @@ import com.vtoptunov.passwordgenerator.domain.model.Password
 import com.vtoptunov.passwordgenerator.domain.model.PasswordCategory
 import com.vtoptunov.passwordgenerator.domain.model.PasswordExport
 import com.vtoptunov.passwordgenerator.domain.model.PasswordExportEntry
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.security.MessageDigest
 import java.util.Base64
@@ -25,9 +26,11 @@ class ImportPasswordsUseCase @Inject constructor() {
         return try {
             val export = json.decodeFromString<PasswordExport>(jsonString)
             
-            // Verify checksum
+            // BUG FIX #17: Use the same serialization method as ExportPasswordsUseCase
+            // to ensure checksum verification works correctly
             val exportWithoutChecksum = export.copy(checksum = "")
-            val calculatedChecksum = calculateChecksum(json.encodeToString(PasswordExport.serializer(), exportWithoutChecksum))
+            // Must use inline reified version (without explicit serializer) to match Export
+            val calculatedChecksum = calculateChecksum(json.encodeToString(exportWithoutChecksum))
             
             if (export.checksum != calculatedChecksum) {
                 return Result.failure(SecurityException("Checksum verification failed. Data may be corrupted or tampered."))
