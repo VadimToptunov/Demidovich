@@ -32,8 +32,11 @@ class AcademyProgressDataStore @Inject constructor(
         val currentLevel = prefs[Keys.CURRENT_LEVEL] ?: 1
         val currentXP = prefs[Keys.CURRENT_XP] ?: 0
         val totalXP = prefs[Keys.TOTAL_XP] ?: 0
-        val xpToNextLevel = calculateXPForLevel(currentLevel + 1)
-        val xpProgress = if (xpToNextLevel > 0) currentXP.toFloat() / xpToNextLevel else 0f
+        // BUG FIX #18: Calculate XP progress using per-level cost, not cumulative
+        val xpForCurrentLevel = calculateXPForLevel(currentLevel)
+        val xpForNextLevel = calculateXPForLevel(currentLevel + 1)
+        val xpNeededForLevelUp = xpForNextLevel - xpForCurrentLevel
+        val xpProgress = if (xpNeededForLevelUp > 0) currentXP.toFloat() / xpNeededForLevelUp else 0f
         val totalGamesPlayed = prefs[Keys.TOTAL_GAMES_PLAYED] ?: 0
         val totalGamesWon = prefs[Keys.TOTAL_GAMES_WON] ?: 0
         
@@ -84,12 +87,18 @@ class AcademyProgressDataStore @Inject constructor(
             val winStreak = if (isWin) (prefs[Keys.WIN_STREAK] ?: 0) + 1 else 0
             val bestStreak = maxOf(prefs[Keys.BEST_STREAK] ?: 0, winStreak)
 
-            // Calculate new level
+            // BUG FIX #18: Calculate new level with correct per-level XP cost
+            // calculateXPForLevel returns cumulative XP, so we need the difference
             var newLevel = currentLevel
             var remainingXP = currentXP
-            while (remainingXP >= calculateXPForLevel(newLevel + 1)) {
-                remainingXP -= calculateXPForLevel(newLevel + 1)
-                newLevel++
+            while (true) {
+                val xpForNextLevel = calculateXPForLevel(newLevel + 1) - calculateXPForLevel(newLevel)
+                if (remainingXP >= xpForNextLevel) {
+                    remainingXP -= xpForNextLevel
+                    newLevel++
+                } else {
+                    break
+                }
             }
 
             // Update wins by difficulty
@@ -138,8 +147,14 @@ class AcademyProgressDataStore @Inject constructor(
     }
 
     private fun calculateXPForLevel(level: Int): Int {
-        // Progressive XP requirement: level * 100 + (level - 1) * 50
-        return level * 100 + (level - 1) * 50
+        // Returns CUMULATIVE XP needed to reach this level
+        // Level 1: 0 XP (starting level)
+        // Level 2: 100 XP
+        // Level 3: 250 XP (100 + 150)
+        // Level 4: 450 XP (100 + 150 + 200)
+        // Formula: sum from 1 to (level-1) of [n * 100 + (n - 1) * 50]
+        if (level <= 1) return 0
+        return (1 until level).sumOf { n -> n * 100 + (n - 1) * 50 }
     }
 }
 
