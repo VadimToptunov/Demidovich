@@ -11,6 +11,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.dashboard.DashboardS
 import com.vtoptunov.passwordgenerator.presentation.screens.game.GameScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker.PasswordCrackerScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.phishinghunter.PhishingHunterScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 
@@ -117,9 +118,11 @@ fun AppNavigation() {
             PasswordCrackerScreen(navController = navController)
         }
         
+        // Phishing Hunter Game
         composable(Screen.PhishingHunterGame.route) {
-            // TODO: Implement Phishing Hunter Game Screen
+            PhishingHunterScreen(navController = navController)
         }
+        
         composable(Screen.SocialEngineeringGame.route) {
             // TODO: Implement Social Engineering Game Screen
         }
