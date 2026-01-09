@@ -31,7 +31,8 @@ fun GeneratorScreen(
     onNavigateToSaved: () -> Unit = {},
     onNavigateToDashboard: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
-    onNavigateToGame: (String) -> Unit = {}
+    onNavigateToGame: (String) -> Unit = {},
+    onNavigateToAcademy: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     
@@ -72,6 +73,13 @@ fun GeneratorScreen(
                 }
                 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    IconButton(onClick = onNavigateToAcademy) {
+                        Icon(
+                            Icons.Default.School,
+                            contentDescription = "CyberSafe Academy",
+                            tint = WarningOrange
+                        )
+                    }
                     IconButton(onClick = onNavigateToDashboard) {
                         Icon(
                             Icons.Default.Dashboard,

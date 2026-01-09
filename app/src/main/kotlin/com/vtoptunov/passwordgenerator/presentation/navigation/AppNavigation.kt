@@ -57,6 +57,9 @@ fun AppNavigation() {
                 },
                 onNavigateToGame = { password ->
                     navController.navigate(Screen.Game.createRoute(password))
+                },
+                onNavigateToAcademy = {
+                    navController.navigate(Screen.AcademyHome.route)
                 }
             )
         }
