@@ -91,8 +91,21 @@ fun AppNavigation() {
                     navController.popBackStack()
                 },
                 onGameSelected = { game ->
-                    // Navigate to specific game
-                    navController.navigate(Screen.Game.createRoute())
+                    // BUG FIX #16: Navigate to the correct game screen based on selected game type
+                    when (game) {
+                        com.vtoptunov.passwordgenerator.domain.model.AcademyGame.MEMORY_MATCH -> {
+                            navController.navigate(Screen.Game.createRoute())
+                        }
+                        com.vtoptunov.passwordgenerator.domain.model.AcademyGame.PASSWORD_CRACKER -> {
+                            navController.navigate(Screen.PasswordCrackerGame.route)
+                        }
+                        com.vtoptunov.passwordgenerator.domain.model.AcademyGame.PHISHING_HUNTER -> {
+                            navController.navigate(Screen.PhishingHunterGame.route)
+                        }
+                        com.vtoptunov.passwordgenerator.domain.model.AcademyGame.SOCIAL_ENGINEERING -> {
+                            navController.navigate(Screen.SocialEngineeringGame.route)
+                        }
+                    }
                 }
             )
         }

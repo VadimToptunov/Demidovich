@@ -19,9 +19,12 @@ import javax.inject.Singleton
 @Singleton
 class ExportPasswordsUseCase @Inject constructor() {
     
+    // CRITICAL: Must match ImportPasswordsUseCase serialization settings
+    // to ensure checksum verification works correctly
     private val json = Json { 
         prettyPrint = true
         encodeDefaults = true
+        ignoreUnknownKeys = true  // Must match import for checksum consistency
     }
     
     operator fun invoke(passwords: List<Password>): PasswordExport {
