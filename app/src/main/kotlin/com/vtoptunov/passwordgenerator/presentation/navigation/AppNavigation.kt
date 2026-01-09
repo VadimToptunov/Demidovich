@@ -14,6 +14,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker.Pass
 import com.vtoptunov.passwordgenerator.presentation.screens.phishinghunter.PhishingHunterScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.socialengineering.SocialEngineeringScreen
 
 sealed class Screen(val route: String) {
     object Generator : Screen("generator")
@@ -123,8 +124,9 @@ fun AppNavigation() {
             PhishingHunterScreen(navController = navController)
         }
         
+        // Social Engineering Game
         composable(Screen.SocialEngineeringGame.route) {
-            // TODO: Implement Social Engineering Game Screen
+            SocialEngineeringScreen(navController = navController)
         }
     }
 }
