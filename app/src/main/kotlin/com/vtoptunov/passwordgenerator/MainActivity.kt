@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.vtoptunov.passwordgenerator.presentation.navigation.AppNavigation
+import com.vtoptunov.passwordgenerator.presentation.screens.splash.EnhancedMatrixSplashScreen
 import com.vtoptunov.passwordgenerator.presentation.theme.DeepSpace
 import com.vtoptunov.passwordgenerator.presentation.theme.PasswordGeneratorTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,11 +22,19 @@ class MainActivity : ComponentActivity() {
         
         setContent {
             PasswordGeneratorTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = DeepSpace
-                ) {
-                    AppNavigation()
+                var showSplash by remember { mutableStateOf(true) }
+                
+                if (showSplash) {
+                    EnhancedMatrixSplashScreen(
+                        onSplashComplete = { showSplash = false }
+                    )
+                } else {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = DeepSpace
+                    ) {
+                        AppNavigation()
+                    }
                 }
             }
         }
