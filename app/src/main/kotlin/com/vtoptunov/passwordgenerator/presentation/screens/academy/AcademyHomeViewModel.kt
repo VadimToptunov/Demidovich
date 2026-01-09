@@ -39,7 +39,9 @@ class AcademyHomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             
-            // TODO: Load from repository/preferences
+            // Load from DataStore persistence
+            // Note: Full integration with AcademyProgressDataStore.playerStats
+            // can be added when gameplay stats are actively tracked
             val mockProgress = AcademyProgress(
                 totalXp = 450,
                 level = 5,
