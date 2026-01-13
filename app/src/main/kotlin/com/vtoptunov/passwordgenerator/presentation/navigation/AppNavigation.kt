@@ -12,6 +12,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.game.GameScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker.PasswordCrackerScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.phishinghunter.PhishingHunterScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.premium.PremiumScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.socialengineering.SocialEngineeringScreen
@@ -22,6 +23,7 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object Settings : Screen("settings")
     object AcademyHome : Screen("academy")
+    object Premium : Screen("premium")
     object Game : Screen("game?password={password}") {
         fun createRoute(password: String? = null): String {
             return if (password != null) {
@@ -60,6 +62,9 @@ fun AppNavigation() {
                 },
                 onNavigateToAcademy = {
                     navController.navigate(Screen.AcademyHome.route)
+                },
+                onNavigateToPremium = {
+                    navController.navigate(Screen.Premium.route)
                 }
             )
         }
@@ -143,6 +148,15 @@ fun AppNavigation() {
         // Social Engineering Game
         composable(Screen.SocialEngineeringGame.route) {
             SocialEngineeringScreen(navController = navController)
+        }
+        
+        // Premium Screen
+        composable(Screen.Premium.route) {
+            PremiumScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

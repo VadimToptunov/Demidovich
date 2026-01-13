@@ -32,7 +32,8 @@ fun GeneratorScreen(
     onNavigateToDashboard: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
     onNavigateToGame: (String) -> Unit = {},
-    onNavigateToAcademy: () -> Unit = {}
+    onNavigateToAcademy: () -> Unit = {},
+    onNavigateToPremium: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     
@@ -73,32 +74,39 @@ fun GeneratorScreen(
                 }
                 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    IconButton(onClick = onNavigateToPremium) {
+                        Icon(
+                            Icons.Default.Star,
+                            contentDescription = "Premium",
+                            tint = WarningOrange
+                        )
+                    }
                     IconButton(onClick = onNavigateToAcademy) {
                         Icon(
                             Icons.Default.School,
                             contentDescription = "CyberSafe Academy",
-                            tint = WarningOrange
+                            tint = ElectricPurple
                         )
                     }
                     IconButton(onClick = onNavigateToDashboard) {
                         Icon(
                             Icons.Default.Dashboard,
                             contentDescription = "Dashboard",
-                            tint = ElectricPurple
+                            tint = CyberBlue
                         )
                     }
                     IconButton(onClick = onNavigateToSaved) {
                         Icon(
                             Icons.Default.Storage,
                             contentDescription = "Saved Passwords",
-                            tint = CyberBlue
+                            tint = NeonGreen
                         )
                     }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(
                             Icons.Default.Settings,
                             contentDescription = "Settings",
-                            tint = NeonGreen
+                            tint = TextSecondary
                         )
                     }
                 }

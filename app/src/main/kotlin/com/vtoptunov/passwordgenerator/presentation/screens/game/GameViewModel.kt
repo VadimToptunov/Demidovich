@@ -2,6 +2,7 @@ package com.vtoptunov.passwordgenerator.presentation.screens.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vtoptunov.passwordgenerator.data.repository.PremiumRepository
 import com.vtoptunov.passwordgenerator.domain.model.GameDifficulty
 import com.vtoptunov.passwordgenerator.domain.model.GamePhase
 import com.vtoptunov.passwordgenerator.domain.model.GameResult
@@ -20,13 +21,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val generateMemoryGameUseCase: GenerateMemoryGameUseCase
+    private val generateMemoryGameUseCase: GenerateMemoryGameUseCase,
+    private val premiumRepository: PremiumRepository
 ) : ViewModel() {
     
     private val _state = MutableStateFlow(GameState())
     val state: StateFlow<GameState> = _state.asStateFlow()
     
     private var memorizeTimerJob: Job? = null
+    private var isPremium = false
+    
+    init {
+        // Observe premium status
+        viewModelScope.launch {
+            premiumRepository.premiumStatus.collect { premiumStatus ->
+                isPremium = premiumStatus.isPremium
+            }
+        }
+    }
     
     fun onEvent(event: GameEvent) {
         when (event) {
@@ -141,8 +153,8 @@ class GameViewModel @Inject constructor(
                         isCheckingAnswer = false
                     )
                 }
-            } else if (newAttempts <= 0) {
-                // Failed - no more attempts
+            } else if (newAttempts <= 0 && !isPremium) {
+                // Failed - no more attempts (unless premium)
                 val timeSpent = ((System.currentTimeMillis() - session.startTime) / 1000).toInt()
                 val result = GameResult(
                     isCorrect = false,
@@ -172,9 +184,12 @@ class GameViewModel @Inject constructor(
                 }
             } else {
                 // Wrong answer, but has attempts remaining
+                // Premium users get unlimited attempts
+                val newAttemptsValue = if (isPremium) game.maxAttempts else newAttempts
+                
                 _state.update {
                     it.copy(
-                        attemptsRemaining = newAttempts,
+                        attemptsRemaining = newAttemptsValue,
                         selectedPassword = null,
                         isCheckingAnswer = false
                     )
