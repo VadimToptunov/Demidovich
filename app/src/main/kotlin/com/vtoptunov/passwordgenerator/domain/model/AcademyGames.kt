@@ -73,11 +73,9 @@ data class PlayerStats(
     val totalGamesPlayed: Int = 0,
     val totalGamesWon: Int = 0,
     val totalXP: Int = 0,
-    val gamesWonByDifficulty: Map<GameDifficulty, Int> = emptyMap()
-) {
-    val xpProgress: Float
-        get() = (totalXp % 100) / 100f
-}
+    val gamesWonByDifficulty: Map<GameDifficulty, Int> = emptyMap(),
+    val xpProgress: Float = 0f // BUG FIX #20: Pass correct value from DataStore instead of computing
+)
 
 data class GameSession(
     val game: MemoryGame,

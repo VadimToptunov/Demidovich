@@ -32,11 +32,17 @@ class AcademyProgressDataStore @Inject constructor(
         val currentLevel = prefs[Keys.CURRENT_LEVEL] ?: 1
         val currentXP = prefs[Keys.CURRENT_XP] ?: 0
         val totalXP = prefs[Keys.TOTAL_XP] ?: 0
-        // BUG FIX #18: Calculate XP progress using per-level cost, not cumulative
+        
+        // BUG FIX #20: Calculate XP progress correctly using per-level cost
         val xpForCurrentLevel = calculateXPForLevel(currentLevel)
         val xpForNextLevel = calculateXPForLevel(currentLevel + 1)
         val xpNeededForLevelUp = xpForNextLevel - xpForCurrentLevel
-        val xpProgress = if (xpNeededForLevelUp > 0) currentXP.toFloat() / xpNeededForLevelUp else 0f
+        val xpProgress = if (xpNeededForLevelUp > 0) {
+            currentXP.toFloat() / xpNeededForLevelUp
+        } else {
+            0f
+        }
+        
         val totalGamesPlayed = prefs[Keys.TOTAL_GAMES_PLAYED] ?: 0
         val totalGamesWon = prefs[Keys.TOTAL_GAMES_WON] ?: 0
         
@@ -58,7 +64,8 @@ class AcademyProgressDataStore @Inject constructor(
             bestStreak = prefs[Keys.BEST_STREAK] ?: 0,
             gamesPlayed = totalGamesPlayed,
             gamesWon = totalGamesWon,
-            gamesWonByDifficulty = gamesWonByDifficulty
+            gamesWonByDifficulty = gamesWonByDifficulty,
+            xpProgress = xpProgress // BUG FIX #20: Pass the correctly calculated xpProgress
         )
     }
 
