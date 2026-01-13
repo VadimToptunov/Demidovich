@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 
                 if (showSplash) {
                     EnhancedMatrixSplashScreen(
-                        onSplashComplete = { showSplash = false }
+                        onTimeout = { showSplash = false }
                     )
                 } else {
                     Surface(
