@@ -9,8 +9,8 @@ plugins {
 android {
     signingConfigs {
         release {
-            // BUG FIX #2: Use environment variables for keystore path
-            // instead of hardcoded absolute path that only works on one machine
+            // BUG FIX #21: Properly handle missing signing config
+            // Use debug signing as fallback to allow builds without keystore
             def keystorePath = System.getenv("KEYSTORE_FILE") ?: project.findProperty("KEYSTORE_FILE")
             if (keystorePath != null && file(keystorePath).exists()) {
                 storeFile file(keystorePath)
@@ -18,8 +18,13 @@ android {
                 keyAlias System.getenv("KEY_ALIAS") ?: "key0"
                 keyPassword System.getenv("KEY_PASSWORD") ?: ""
             } else {
-                // Debug signing if no keystore configured
-                logger.warn("Release keystore not configured. Set KEYSTORE_FILE, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD environment variables.")
+                // Fallback to debug signing config to allow builds
+                logger.warn("Release keystore not configured. Using debug signing. Set KEYSTORE_FILE, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD environment variables for production builds.")
+                // Use Android's built-in debug keystore as fallback
+                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
             }
         }
     }
