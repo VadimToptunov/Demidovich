@@ -165,7 +165,7 @@ Everyone (ESRB: Everyone, PEGI: 3+)
 
 ## Privacy Policy URL
 ```
-https://cybersafe-app.com/privacy
+[Uploaded directly to Google Play Console or hosted on GitHub]
 ```
 
 ## Contact Email
@@ -175,7 +175,7 @@ vtoptunov88@gmail.com
 
 ## Website
 ```
-https://cybersafe-app.com
+[Optional - Not required for Google Play]
 ```
 
 ---
@@ -375,8 +375,6 @@ NONE - We don't collect any data
 ## Support Resources
 
 - **Email**: vtoptunov88@gmail.com
-- **Website**: https://cybersafe-app.com
-- **FAQ**: https://cybersafe-app.com/faq
-- **Privacy Policy**: https://cybersafe-app.com/privacy
-- **Terms**: https://cybersafe-app.com/terms
+- **In-App Support**: Available in Settings → Help & Support
+- **Privacy Policy**: Available in app and Google Play listing
 

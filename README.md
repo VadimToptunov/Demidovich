@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=[YOUR_PACKAGE_ID]">
-    <img src="https://img.shields.io/badge/Google%20Play-Download-green" alt="Get it on Google Play"/>
+  <a href="https://play.google.com/store/apps/details?id=com.vtoptunov.passwordgenerator">
+    <img src="https://img.shields.io/badge/Google%20Play-Coming%20Soon-green" alt="Coming to Google Play"/>
   </a>
   <img src="https://img.shields.io/badge/Android-8.0%2B-blue" alt="Android 8.0+"/>
   <img src="https://img.shields.io/badge/License-Proprietary-red" alt="License"/>

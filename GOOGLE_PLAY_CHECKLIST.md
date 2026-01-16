@@ -124,9 +124,9 @@ versionName "1.0.0"
 
 #### Contact Details
 - [ ] Email: vtoptunov88@gmail.com
-- [ ] Website: https://cybersafe-app.com
+- [ ] Website: (Optional - leave blank)
 - [ ] Phone: (optional)
-- [ ] Privacy Policy URL: https://cybersafe-app.com/privacy
+- [ ] Privacy Policy: Upload directly to Google Play Console or use GitHub raw link
 
 #### Pricing & Distribution
 - [ ] Free app with in-app purchases
