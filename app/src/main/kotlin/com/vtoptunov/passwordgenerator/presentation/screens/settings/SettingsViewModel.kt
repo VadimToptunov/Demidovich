@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vtoptunov.passwordgenerator.data.repository.SettingsRepository
 import com.vtoptunov.passwordgenerator.data.security.BiometricAuthManager
+import com.vtoptunov.passwordgenerator.domain.model.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -83,6 +84,12 @@ class SettingsViewModel @Inject constructor(
     fun setShowPasswordStrength(show: Boolean) {
         viewModelScope.launch {
             settingsRepository.setShowPasswordStrength(show)
+        }
+    }
+    
+    fun setThemeMode(themeMode: ThemeMode) {
+        viewModelScope.launch {
+            settingsRepository.setThemeMode(themeMode)
         }
     }
 }

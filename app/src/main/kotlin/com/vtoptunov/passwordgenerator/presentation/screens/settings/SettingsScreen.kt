@@ -105,6 +105,13 @@ fun SettingsScreen(
             SectionHeader("🎨 Display")
             
             SettingsCard {
+                ThemeModePicker(
+                    currentTheme = state.settings.themeMode,
+                    onThemeChanged = { viewModel.setThemeMode(it) }
+                )
+                
+                Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
+                
                 SettingsSwitch(
                     icon = Icons.Default.Visibility,
                     title = "Password Strength Indicator",

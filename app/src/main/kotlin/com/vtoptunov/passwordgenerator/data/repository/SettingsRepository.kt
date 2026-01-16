@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.vtoptunov.passwordgenerator.domain.model.AppSettings
+import com.vtoptunov.passwordgenerator.domain.model.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -28,6 +29,7 @@ class SettingsRepository @Inject constructor(
         val SHOW_PASSWORD_STRENGTH = booleanPreferencesKey("show_password_strength")
         val ENABLE_ANALYTICS = booleanPreferencesKey("enable_analytics")
         val DEFAULT_PASSWORD_LENGTH = intPreferencesKey("default_password_length")
+        val THEME_MODE = stringPreferencesKey("theme_mode")
     }
     
     val settings: Flow<AppSettings> = context.dataStore.data
@@ -39,6 +41,13 @@ class SettingsRepository @Inject constructor(
             }
         }
         .map { preferences ->
+            val themeModeString = preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.DARK.name
+            val themeMode = try {
+                ThemeMode.valueOf(themeModeString)
+            } catch (e: IllegalArgumentException) {
+                ThemeMode.DARK
+            }
+            
             AppSettings(
                 biometricEnabled = preferences[PreferencesKeys.BIOMETRIC_ENABLED] ?: false,
                 autoLockEnabled = preferences[PreferencesKeys.AUTO_LOCK_ENABLED] ?: false,
@@ -46,7 +55,8 @@ class SettingsRepository @Inject constructor(
                 clipboardClearSeconds = preferences[PreferencesKeys.CLIPBOARD_CLEAR_SECONDS] ?: 30,
                 showPasswordStrength = preferences[PreferencesKeys.SHOW_PASSWORD_STRENGTH] ?: true,
                 enableAnalytics = preferences[PreferencesKeys.ENABLE_ANALYTICS] ?: false,
-                defaultPasswordLength = preferences[PreferencesKeys.DEFAULT_PASSWORD_LENGTH] ?: 16
+                defaultPasswordLength = preferences[PreferencesKeys.DEFAULT_PASSWORD_LENGTH] ?: 16,
+                themeMode = themeMode
             )
         }
     
@@ -89,6 +99,12 @@ class SettingsRepository @Inject constructor(
     suspend fun setDefaultPasswordLength(length: Int) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEFAULT_PASSWORD_LENGTH] = length
+        }
+    }
+    
+    suspend fun setThemeMode(themeMode: ThemeMode) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.THEME_MODE] = themeMode.name
         }
     }
 }

@@ -25,6 +25,7 @@ val SurfaceLight = Color(0xFF3D3D4D)
 // Accent Colors - Status indicators
 val NeonGreen = Color(0xFF00FF88)
 val NeonGreenDark = Color(0xFF00CC6A)
+val NeonGreenLight = Color(0xFF5CFFAA)
 val DangerRed = Color(0xFFFF4757)
 val DangerRedDark = Color(0xFFE63946)
 val WarningOrange = Color(0xFFFFAA00)
@@ -57,3 +58,5 @@ val StatusWarning = WarningOrange
 val StatusError = DangerRed
 val StatusInfo = CyberBlue
 
+// Compatibility alias
+val ErrorRed = DangerRed
