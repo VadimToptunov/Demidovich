@@ -415,7 +415,7 @@ Proprietary software - see LICENSE file for details.
 ---
 
 <p align="center">
-  <strong>Made with ❤️ and ☕ in Ukraine</strong><br>
+  <strong>Made with ❤️ and ☕</strong><br>
   <sub>Stay secure, stay safe! 🔐</sub>
 </p>
 
