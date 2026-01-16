@@ -402,7 +402,7 @@ versionName: "1.0.0"
 ## 📞 Support
 
 **Developer**: Vadim Toptunov  
-**Email**: vadim@vtoptunov.com 
+**Email**: vtoptunov88@gmail.com 
 
 ---
 

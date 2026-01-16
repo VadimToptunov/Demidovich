@@ -134,7 +134,7 @@ ONE-TIME PAYMENT - No subscriptions!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Questions? Support is available!
-📧 [Your support email]
+📧 vtoptunov88@gmail.com
 ⚡ Direct developer support
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -170,7 +170,7 @@ https://cybersafe-app.com/privacy
 
 ## Contact Email
 ```
-support@cybersafe-app.com
+vtoptunov88@gmail.com
 ```
 
 ## Website
@@ -280,7 +280,7 @@ Version 1.0.0 - Initial Release
 • Smooth animations
 • Material Design 3
 
-Got feedback? Email support@cybersafe-app.com
+Got feedback? Email vtoptunov88@gmail.com
 
 Thank you for choosing CyberSafe! 🚀
 ```
@@ -374,7 +374,7 @@ NONE - We don't collect any data
 
 ## Support Resources
 
-- **Email**: support@cybersafe-app.com
+- **Email**: vtoptunov88@gmail.com
 - **Website**: https://cybersafe-app.com
 - **FAQ**: https://cybersafe-app.com/faq
 - **Privacy Policy**: https://cybersafe-app.com/privacy

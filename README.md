@@ -278,7 +278,7 @@ No subscriptions, no monthly fees. Pay once, use forever. That's how it should b
 
 Need help? Support is available:
 
-- 📧 **Email**: [Your support email]
+- 📧 **Email**: vtoptunov88@gmail.com
 - 🐛 **Bug Reports**: Please include Android version and steps to reproduce
 - 💡 **Feature Requests**: Always welcome!
 

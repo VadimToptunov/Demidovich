@@ -123,7 +123,7 @@ versionName "1.0.0"
 - [ ] Content rating: Everyone (complete questionnaire)
 
 #### Contact Details
-- [ ] Email: support@cybersafe-app.com
+- [ ] Email: vtoptunov88@gmail.com
 - [ ] Website: https://cybersafe-app.com
 - [ ] Phone: (optional)
 - [ ] Privacy Policy URL: https://cybersafe-app.com/privacy
