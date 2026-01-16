@@ -64,6 +64,7 @@ class AcademyProgressDataStore @Inject constructor(
             bestStreak = prefs[Keys.BEST_STREAK] ?: 0,
             gamesPlayed = totalGamesPlayed,
             gamesWon = totalGamesWon,
+            totalXP = totalXP, // BUG FIX #22: Set totalXP field for GameViewModel
             gamesWonByDifficulty = gamesWonByDifficulty,
             xpProgress = xpProgress // BUG FIX #20: Pass the correctly calculated xpProgress
         )
