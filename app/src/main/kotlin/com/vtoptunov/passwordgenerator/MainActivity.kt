@@ -75,13 +75,11 @@ class MainActivity : FragmentActivity() {
                     inactiveTimeMs >= timeoutMs
                 }
                 
-                var isLocked by remember { mutableStateOf(shouldLock) }
+                var isLocked by remember { mutableStateOf(false) }
                 
-                // Update lock state when shouldLock changes
+                // Sync isLocked with shouldLock
                 LaunchedEffect(shouldLock) {
-                    if (shouldLock) {
-                        isLocked = true
-                    }
+                    isLocked = shouldLock
                 }
                 
                 when {
