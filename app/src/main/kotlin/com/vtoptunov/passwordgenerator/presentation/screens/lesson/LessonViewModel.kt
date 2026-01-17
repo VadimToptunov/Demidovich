@@ -3,6 +3,7 @@ package com.vtoptunov.passwordgenerator.presentation.screens.lesson
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vtoptunov.passwordgenerator.data.datastore.AcademyProgressDataStore
 import com.vtoptunov.passwordgenerator.domain.model.LessonLibrary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LessonViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val academyProgressDataStore: AcademyProgressDataStore
 ) : ViewModel() {
     
     private val _state = MutableStateFlow(LessonState())
@@ -114,8 +116,15 @@ class LessonViewModel @Inject constructor(
     
     private fun completeLesson() {
         viewModelScope.launch {
-            // TODO: Save lesson completion to datastore
-            // TODO: Award XP
+            val currentState = _state.value
+            val lesson = currentState.lesson ?: return@launch
+            val xpEarned = currentState.xpEarned
+            
+            // Save lesson completion to datastore and award XP
+            academyProgressDataStore.completeLessonAndAwardXP(
+                lessonId = lesson.id,
+                xpEarned = xpEarned
+            )
         }
     }
 }

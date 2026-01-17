@@ -26,6 +26,7 @@ class AcademyProgressDataStore @Inject constructor(
         val BEST_STREAK = intPreferencesKey("academy_best_streak")
         val GAMES_WON_BY_DIFFICULTY = stringPreferencesKey("academy_wins_by_difficulty")
         val UNLOCKED_GAMES = stringPreferencesKey("academy_unlocked_games")
+        val COMPLETED_LESSONS = stringPreferencesKey("academy_completed_lessons")
     }
 
     val playerStats: Flow<PlayerStats> = dataStore.data.map { prefs ->
@@ -74,6 +75,15 @@ class AcademyProgressDataStore @Inject constructor(
             }.toSet()
         } catch (e: Exception) {
             setOf(AcademyGame.MEMORY_MATCH) // Always unlocked
+        }
+    }
+
+    val completedLessons: Flow<Set<String>> = dataStore.data.map { prefs ->
+        try {
+            val json = prefs[Keys.COMPLETED_LESSONS] ?: "[]"
+            Json.decodeFromString<List<String>>(json).toSet()
+        } catch (e: Exception) {
+            emptySet()
         }
     }
 
@@ -137,6 +147,47 @@ class AcademyProgressDataStore @Inject constructor(
             
             currentUnlocked.add(game.name)
             prefs[Keys.UNLOCKED_GAMES] = Json.encodeToString(currentUnlocked.toList())
+        }
+    }
+
+    /**
+     * Mark a lesson as completed and award XP
+     * @param lessonId The unique ID of the completed lesson
+     * @param xpEarned The amount of XP earned from the lesson
+     */
+    suspend fun completeLessonAndAwardXP(lessonId: String, xpEarned: Int) {
+        dataStore.edit { prefs ->
+            // Add to completed lessons
+            val currentCompleted = try {
+                val json = prefs[Keys.COMPLETED_LESSONS] ?: "[]"
+                Json.decodeFromString<List<String>>(json).toMutableSet()
+            } catch (e: Exception) {
+                mutableSetOf()
+            }
+            
+            currentCompleted.add(lessonId)
+            prefs[Keys.COMPLETED_LESSONS] = Json.encodeToString(currentCompleted.toList())
+            
+            // Award XP and level up if needed
+            val currentXP = (prefs[Keys.CURRENT_XP] ?: 0) + xpEarned
+            val currentLevel = prefs[Keys.CURRENT_LEVEL] ?: 1
+            val totalXP = (prefs[Keys.TOTAL_XP] ?: 0) + xpEarned
+            
+            var newLevel = currentLevel
+            var remainingXP = currentXP
+            while (true) {
+                val xpForNextLevel = calculateXPForLevel(newLevel + 1) - calculateXPForLevel(newLevel)
+                if (remainingXP >= xpForNextLevel) {
+                    remainingXP -= xpForNextLevel
+                    newLevel++
+                } else {
+                    break
+                }
+            }
+            
+            prefs[Keys.CURRENT_LEVEL] = newLevel
+            prefs[Keys.CURRENT_XP] = remainingXP
+            prefs[Keys.TOTAL_XP] = totalXP
         }
     }
 
