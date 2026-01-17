@@ -165,7 +165,7 @@ fun StatsBar(
         // Timer
         StatCard(
             icon = Icons.Default.Timer,
-            label = "Time",
+            label = stringResource(R.string.time),
             value = "${timeRemaining}s",
             color = if (timeRemaining <= 5) DangerRed else NeonGreen
         )
@@ -173,7 +173,7 @@ fun StatsBar(
         // Streak
         StatCard(
             icon = Icons.Default.Whatshot,
-            label = "Streak",
+            label = stringResource(R.string.streak),
             value = "$streak",
             color = ElectricPurple
         )
@@ -181,7 +181,7 @@ fun StatsBar(
         // Hints
         StatCard(
             icon = Icons.Default.Lightbulb,
-            label = "Hints",
+            label = stringResource(R.string.hints),
             value = "${hintsAvailable - hintsUsed}",
             color = CyberBlue
         )

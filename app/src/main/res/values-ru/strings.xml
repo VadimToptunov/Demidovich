@@ -306,4 +306,83 @@
     <string name="lowercase_letters">a-z</string>
     <string name="numbers_label">0-9</string>
     <string name="symbols_label">!@#</string>
+    
+    <!-- Remaining strings from all screens -->
+    <string name="saved_passwords_title">Сохранённые пароли</string>
+    <string name="no_results">Ничего не найдено</string>
+    <string name="delete_password_title">Удалить пароль?</string>
+    <string name="placeholder_search">Поиск паролей...</string>
+    
+    <!-- Lesson Screen -->
+    <string name="correct_exclamation">Правильно!</string>
+    <string name="incorrect_exclamation">Неправильно!</string>
+    <string name="lesson_complete">Урок завершён!</string>
+    <string name="quiz_title">Тест</string>
+    <string name="question_of">Вопрос %1$d из %2$d</string>
+    <string name="your_score">Ваш результат: %1$d%%</string>
+    
+    <!-- Premium -->
+    <string name="premium_title">ПРЕМИУМ</string>
+    <string name="monthly">Ежемесячно</string>
+    <string name="yearly">Ежегодно</string>
+    <string name="lifetime">Навсегда</string>
+    <string name="purchase">Купить</string>
+    <string name="free_trial">Бесплатный период</string>
+    <string name="per_month">/мес</string>
+    <string name="per_year">/год</string>
+    <string name="one_time">Разовый платёж</string>
+    
+    <!-- Phishing specific -->
+    <string name="is_this_phishing">Это фишинг?</string>
+    <string name="report_phishing">Сообщить о фишинге</string>
+    <string name="report_legitimate">Отметить как безопасное</string>
+    <string name="scenario">Сценарий</string>
+    <string name="your_answer">Ваш ответ</string>
+    
+    <!-- Dashboard specifics -->
+    <string name="last_updated">Обновлено</string>
+    <string name="passwords_analyzed">Проанализировано паролей</string>
+    <string name="security_issues">Проблемы безопасности</string>
+    <string name="recommendations">Рекомендации</string>
+    <string name="improve_security">Улучшить безопасность</string>
+    <string name="weak_password_warning">Обнаружены слабые пароли</string>
+    <string name="reused_password_warning">Найдены повторяющиеся пароли</string>
+    
+    <!-- Game specific -->
+    <string name="level_complete">Уровень пройден!</string>
+    <string name="next_level">Следующий уровень</string>
+    <string name="replay_level">Переиграть уровень</string>
+    <string name="difficulty_easy">Легко</string>
+    <string name="difficulty_medium">Средне</string>
+    <string name="difficulty_hard">Сложно</string>
+    <string name="difficulty_expert">Эксперт</string>
+    <string name="time_left">Осталось времени</string>
+    <string name="best_time">Лучшее время</string>
+    
+    <!-- Password Cracker specifics -->
+    <string name="guess_password">Угадайте пароль</string>
+    <string name="enter_answer">Введите ответ</string>
+    <string name="submit_answer">Отправить ответ</string>
+    <string name="hint_available">Подсказка доступна</string>
+    <string name="use_hint">Использовать подсказку</string>
+    <string name="hints_remaining">Подсказок: %1$d</string>
+    
+    <!-- Onboarding specifics -->
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_finish">Начать</string>
+    
+    <!-- Transfer specifics -->
+    <string name="export_passwords">Экспорт паролей</string>
+    <string name="import_passwords_title">Импорт паролей</string>
+    <string name="scan_qr_code">Сканировать QR-код</string>
+    <string name="show_qr_code">Показать QR-код</string>
+    <string name="qr_code_generated">QR-код создан</string>
+    <string name="scanning">Сканирование...</string>
+    
+    <!-- Error messages -->
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="try_again_later">Попробуйте позже</string>
+    <string name="loading">Загрузка...</string>
+    <string name="please_wait">Подождите...</string>
 </resources>

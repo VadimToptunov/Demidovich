@@ -306,4 +306,83 @@
     <string name="lowercase_letters">a-z</string>
     <string name="numbers_label">0-9</string>
     <string name="symbols_label">!@#</string>
+    
+    <!-- Remaining strings from all screens -->
+    <string name="saved_passwords_title">Saved Passwords</string>
+    <string name="no_results">No Results Found</string>
+    <string name="delete_password_title">Delete Password?</string>
+    <string name="placeholder_search">Search passwords...</string>
+    
+    <!-- Lesson Screen -->
+    <string name="correct_exclamation">Correct!</string>
+    <string name="incorrect_exclamation">Incorrect!</string>
+    <string name="lesson_complete">Lesson Complete!</string>
+    <string name="quiz_title">Quiz</string>
+    <string name="question_of">Question %1$d of %2$d</string>
+    <string name="your_score">Your Score: %1$d%%</string>
+    
+    <!-- Premium -->
+    <string name="premium_title">PREMIUM</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="lifetime">Lifetime</string>
+    <string name="purchase">Purchase</string>
+    <string name="free_trial">Free Trial</string>
+    <string name="per_month">/month</string>
+    <string name="per_year">/year</string>
+    <string name="one_time">One-time payment</string>
+    
+    <!-- Phishing specific -->
+    <string name="is_this_phishing">Is this phishing?</string>
+    <string name="report_phishing">Report as Phishing</string>
+    <string name="report_legitimate">Mark as Legitimate</string>
+    <string name="scenario">Scenario</string>
+    <string name="your_answer">Your Answer</string>
+    
+    <!-- Dashboard specifics -->
+    <string name="last_updated">Last Updated</string>
+    <string name="passwords_analyzed">Passwords Analyzed</string>
+    <string name="security_issues">Security Issues</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="improve_security">Improve Security</string>
+    <string name="weak_password_warning">Weak passwords detected</string>
+    <string name="reused_password_warning">Reused passwords found</string>
+    
+    <!-- Game specific -->
+    <string name="level_complete">Level Complete!</string>
+    <string name="next_level">Next Level</string>
+    <string name="replay_level">Replay Level</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="difficulty_expert">Expert</string>
+    <string name="time_left">Time Left</string>
+    <string name="best_time">Best Time</string>
+    
+    <!-- Password Cracker specifics -->
+    <string name="guess_password">Guess the Password</string>
+    <string name="enter_answer">Enter Answer</string>
+    <string name="submit_answer">Submit Answer</string>
+    <string name="hint_available">Hint Available</string>
+    <string name="use_hint">Use Hint</string>
+    <string name="hints_remaining">Hints: %1$d</string>
+    
+    <!-- Onboarding specifics -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_finish">Get Started</string>
+    
+    <!-- Transfer specifics -->
+    <string name="export_passwords">Export Passwords</string>
+    <string name="import_passwords_title">Import Passwords</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="show_qr_code">Show QR Code</string>
+    <string name="qr_code_generated">QR Code Generated</string>
+    <string name="scanning">Scanning...</string>
+    
+    <!-- Error messages -->
+    <string name="error_occurred">An error occurred</string>
+    <string name="try_again_later">Please try again later</string>
+    <string name="loading">Loading...</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

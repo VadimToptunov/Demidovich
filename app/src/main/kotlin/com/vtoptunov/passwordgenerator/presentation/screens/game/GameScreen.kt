@@ -220,7 +220,7 @@ fun DifficultySelector(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Info,
-                        contentDescription = "Info",
+                        contentDescription = stringResource(R.string.info),
                         tint = CyberBlue,
                         modifier = Modifier.size(LocalDimensions.current.iconLarge)
                     )
@@ -679,7 +679,7 @@ fun ResultPhase(
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Watch",
+                            contentDescription = stringResource(R.string.watch_lowercase),
                             modifier = Modifier.size(LocalDimensions.current.iconSmall)
                         )
                         Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))

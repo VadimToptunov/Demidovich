@@ -126,7 +126,7 @@ fun StatsBar(
     ) {
         StatCard(
             icon = Icons.Default.Timer,
-            label = "Time",
+            label = stringResource(R.string.time),
             value = "${timeRemaining}s",
             color = if (timeRemaining <= 10) DangerRed else NeonGreen,
             modifier = Modifier.weight(1f)
@@ -136,7 +136,7 @@ fun StatsBar(
         
         StatCard(
             icon = Icons.Default.Whatshot,
-            label = "Streak",
+            label = stringResource(R.string.streak),
             value = "$streak",
             color = ElectricPurple,
             modifier = Modifier.weight(1f)

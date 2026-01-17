@@ -128,21 +128,21 @@ fun StatsBar(
     ) {
         StatCard(
             icon = Icons.Default.Timer,
-            label = "Time",
+            label = stringResource(R.string.time),
             value = "${timeRemaining}s",
             color = if (timeRemaining <= 10) DangerRed else NeonGreen
         )
         
         StatCard(
             icon = Icons.Default.Whatshot,
-            label = "Streak",
+            label = stringResource(R.string.streak),
             value = "$streak",
             color = ElectricPurple
         )
         
         StatCard(
             icon = Icons.Default.Lightbulb,
-            label = "Hints",
+            label = stringResource(R.string.hints),
             value = "$hintsUsed",
             color = CyberBlue
         )
@@ -226,7 +226,7 @@ fun GameContent(
                     ) {
                         Icon(
                             Icons.Default.Link,
-                            contentDescription = "URL",
+                            contentDescription = stringResource(R.string.url_lowercase),
                             tint = CyberBlue,
                             modifier = Modifier.size(20.dp)
                         )
@@ -261,7 +261,7 @@ fun GameContent(
                     ) {
                         Icon(
                             Icons.Default.Email,
-                            contentDescription = "Email",
+                            contentDescription = stringResource(R.string.email_lowercase),
                             tint = ElectricPurple,
                             modifier = Modifier.size(20.dp)
                         )
@@ -374,7 +374,7 @@ fun GameContent(
                     enabled = !state.isAnswered,
                     colors = ButtonDefaults.buttonColors(containerColor = NeonGreen)
                 ) {
-                    Icon(Icons.Default.CheckCircle, contentDescription = "Legitimate", modifier = Modifier.size(20.dp))
+                    Icon(Icons.Default.CheckCircle, contentDescription = stringResource(R.string.legitimate), modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("✅ Legitimate", color = DeepSpace, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
@@ -385,7 +385,7 @@ fun GameContent(
                     enabled = !state.isAnswered,
                     colors = ButtonDefaults.buttonColors(containerColor = DangerRed)
                 ) {
-                    Icon(Icons.Default.Warning, contentDescription = "Phishing", modifier = Modifier.size(20.dp))
+                    Icon(Icons.Default.Warning, contentDescription = stringResource(R.string.phishing), modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("🎣 Phishing!", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }

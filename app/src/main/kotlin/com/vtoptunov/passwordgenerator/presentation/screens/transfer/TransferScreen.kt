@@ -493,7 +493,7 @@ fun ImportScanScreen(
                     ) {
                         Icon(
                             Icons.Default.CameraAlt,
-                            contentDescription = "Camera",
+                            contentDescription = stringResource(R.string.camera),
                             modifier = Modifier.size(64.dp),
                             tint = TextSecondary
                         )

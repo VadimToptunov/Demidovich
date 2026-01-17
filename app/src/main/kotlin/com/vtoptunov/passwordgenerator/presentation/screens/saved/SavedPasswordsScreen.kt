@@ -165,7 +165,7 @@ private fun SearchBar(
         value = query,
         onValueChange = onQueryChange,
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text("Search passwords...") },
+        placeholder = { Text(stringResource(R.string.placeholder_search)) },
         leadingIcon = {
             Icon(Icons.Default.Search, contentDescription = null)
         },
