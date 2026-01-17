@@ -205,9 +205,13 @@ class AcademyProgressDataStore @Inject constructor(
         // Level 2: 100 XP
         // Level 3: 250 XP (100 + 150)
         // Level 4: 450 XP (100 + 150 + 200)
-        // Formula: sum from 1 to (level-1) of [n * 100 + (n - 1) * 50]
+        // Pattern: To reach level n from n-1 requires 50 * (n + 1) XP
+        // Level 2: 50 * 2 = 100
+        // Level 3: 50 * 3 = 150
+        // Level 4: 50 * 4 = 200
+        // Formula: 25 * (level - 1) * (level + 2)
         if (level <= 1) return 0
-        return (1 until level).sumOf { n -> n * 100 + (n - 1) * 50 }
+        return 25 * (level - 1) * (level + 2)
     }
 }
 
