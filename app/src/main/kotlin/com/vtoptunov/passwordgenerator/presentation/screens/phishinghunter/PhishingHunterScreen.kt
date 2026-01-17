@@ -61,7 +61,7 @@ fun PhishingHunterScreen(
                 ),
                 actions = {
                     Surface(
-                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
+                        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -86,7 +86,7 @@ fun PhishingHunterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -95,7 +95,7 @@ fun PhishingHunterScreen(
                 hintsUsed = state.hintsUsed
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -157,12 +157,12 @@ fun StatCard(
     Card(
         modifier = Modifier.width(100.dp),
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingSmall),
+                .padding(LocalDimensions.current.spacingSmall),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(20.dp))
@@ -182,22 +182,22 @@ fun GameContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
     ) {
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "🎯 Investigate This:",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         "Is this legitimate or a phishing attempt?",
                         fontSize = 14.sp,
@@ -218,7 +218,7 @@ fun GameContent(
                         NeonGreen.copy(alpha = 0.1f)
                 )
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -236,7 +236,7 @@ fun GameContent(
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         scenario.url,
                         fontSize = 16.sp,
@@ -253,7 +253,7 @@ fun GameContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -281,7 +281,7 @@ fun GameContent(
                         fontWeight = FontWeight.Medium
                     )
                     
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     
                     Text("Subject:", fontSize = 12.sp, color = TextSecondary)
                     Text(
@@ -291,7 +291,7 @@ fun GameContent(
                         fontWeight = FontWeight.Medium
                     )
                     
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     
                     Text("Message:", fontSize = 12.sp, color = TextSecondary)
                     Text(
@@ -313,14 +313,14 @@ fun GameContent(
                         containerColor = WarningOrange.copy(alpha = 0.1f)
                     )
                 ) {
-                    Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                    Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                         Text(
                             "🚩 Red Flags:",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = WarningOrange
                         )
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         state.revealedRedFlags.forEach { flag ->
                             Row(
                                 modifier = Modifier
@@ -344,7 +344,7 @@ fun GameContent(
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
             ) {
                 OutlinedButton(
                     onClick = { onEvent(PhishingHunterEvent.UseHint) },
@@ -364,7 +364,7 @@ fun GameContent(
         item {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
             ) {
                 Button(
                     onClick = { onEvent(PhishingHunterEvent.AnswerSubmitted(false)) },
@@ -401,7 +401,7 @@ fun ExplanationContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
     ) {
         item {
             Card(
@@ -412,12 +412,12 @@ fun ExplanationContent(
                     else 
                         DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensions.spacingLarge),
+                        .padding(LocalDimensions.current.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -426,7 +426,7 @@ fun ExplanationContent(
                         fontWeight = FontWeight.Bold,
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         if (scenario.isPhishing) "This was a PHISHING attempt" else "This was LEGITIMATE",
                         fontSize = 16.sp,
@@ -434,7 +434,7 @@ fun ExplanationContent(
                         textAlign = TextAlign.Center
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         Text(
                             "+${scenario.xpReward} XP",
                             fontSize = 20.sp,
@@ -451,7 +451,7 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "🔍 Explanation:",
                         fontSize = 18.sp,
@@ -466,7 +466,7 @@ fun ExplanationContent(
                             fontSize = 14.sp,
                             color = TextSecondary
                         )
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         scenario.redFlags.forEach { flag ->
                             Row(
                                 modifier = Modifier

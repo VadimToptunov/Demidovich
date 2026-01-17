@@ -91,7 +91,7 @@ fun SavedPasswordsScreen(
             SearchBar(
                 query = state.searchQuery,
                 onQueryChange = { viewModel.onEvent(SavedPasswordsEvent.SearchQueryChanged(it)) },
-                modifier = Modifier.padding(dimensions.spacingMedium)
+                modifier = Modifier.padding(LocalDimensions.current.spacingMedium)
             )
             
             CategoryFilter(
@@ -125,7 +125,7 @@ fun SavedPasswordsScreen(
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(dimensions.spacingMedium),
+                        contentPadding = PaddingValues(LocalDimensions.current.spacingMedium),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(
@@ -174,7 +174,7 @@ private fun SearchBar(
                 }
             }
         },
-        shape = RoundedCornerShape(dimensions.cardCornerRadius),
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = SurfaceDark,
             unfocusedContainerColor = SurfaceDark,
@@ -195,7 +195,7 @@ private fun CategoryFilter(
 ) {
     androidx.compose.foundation.lazy.LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
     ) {
         item {
             FilterChip(
@@ -252,14 +252,14 @@ private fun PasswordItem(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .border(1.dp, SurfaceMedium, RoundedCornerShape(dimensions.cardCornerRadius))
-            .clip(RoundedCornerShape(dimensions.cardCornerRadius))
+            .border(1.dp, SurfaceMedium, RoundedCornerShape(LocalDimensions.current.cardCornerRadius))
+            .clip(RoundedCornerShape(LocalDimensions.current.cardCornerRadius))
             .clickable { isExpanded = !isExpanded },
         color = SurfaceDark,
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(dimensions.spacingMedium)
+            modifier = Modifier.padding(LocalDimensions.current.spacingMedium)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -280,7 +280,7 @@ private fun PasswordItem(
                     
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
                     ) {
                         CategoryBadge(password.category)
                         
@@ -334,7 +334,7 @@ private fun PasswordItem(
                     
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
                     ) {
                         Button(
                             onClick = { onCopy(password.password) },
@@ -397,7 +397,7 @@ private fun EmptyState(modifier: Modifier = Modifier) {
             tint = TextTertiary
         )
         
-        Spacer(Modifier.height(dimensions.spacingMedium))
+        Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
         
         Text(
             text = "No Saved Passwords",
@@ -406,7 +406,7 @@ private fun EmptyState(modifier: Modifier = Modifier) {
             color = TextPrimary
         )
         
-        Spacer(Modifier.height(dimensions.spacingSmall))
+        Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
         
         Text(
             text = "Generate and save passwords to see them here",
@@ -430,7 +430,7 @@ private fun NoResultsState(modifier: Modifier = Modifier) {
             tint = TextTertiary
         )
         
-        Spacer(Modifier.height(dimensions.spacingMedium))
+        Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
         
         Text(
             text = "No Results Found",
@@ -439,7 +439,7 @@ private fun NoResultsState(modifier: Modifier = Modifier) {
             color = TextPrimary
         )
         
-        Spacer(Modifier.height(dimensions.spacingSmall))
+        Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
         
         Text(
             text = "Try adjusting your search or filter",

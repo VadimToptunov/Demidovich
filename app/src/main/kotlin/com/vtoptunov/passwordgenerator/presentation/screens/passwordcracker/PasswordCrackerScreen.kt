@@ -65,7 +65,7 @@ fun PasswordCrackerScreen(
                 actions = {
                     // XP Display
                     Surface(
-                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
+                        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -90,7 +90,7 @@ fun PasswordCrackerScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -100,7 +100,7 @@ fun PasswordCrackerScreen(
                 hintsAvailable = state.currentLevel?.hintsAvailable ?: 0
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -196,16 +196,16 @@ fun StatCard(
     Card(
         modifier = Modifier.width(100.dp),
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingSmall),
+                .padding(LocalDimensions.current.spacingSmall),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(dimensions.iconSmall))
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(LocalDimensions.current.iconSmall))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingExtraSmall))
             Text(label, fontSize = 10.sp, color = TextSecondary)
             Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = color)
         }
@@ -222,16 +222,16 @@ fun GameContent(
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-            shape = RoundedCornerShape(dimensions.cardCornerRadius)
+            shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
         ) {
-            Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+            Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                 Text(
                     "🎯 Your Mission",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = CyberBlue
                 )
-                Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                 Text(
                     "Identify the weak password. Use hints to reveal its weaknesses. Type the exact password to crack it!",
                     fontSize = 14.sp,
@@ -240,23 +240,23 @@ fun GameContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
         // Revealed Weaknesses
         if (state.revealedWeaknesses.isNotEmpty()) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DangerRed.copy(alpha = 0.1f)),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "🚨 Known Weaknesses:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = DangerRed
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     state.revealedWeaknesses.forEach { weakness ->
                         Row(
                             modifier = Modifier
@@ -281,7 +281,7 @@ fun GameContent(
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         }
 
         // Password Input
@@ -302,12 +302,12 @@ fun GameContent(
             enabled = !state.isComplete
         )
 
-        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
         // Action Buttons
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             // Hint Button
             OutlinedButton(
@@ -345,7 +345,7 @@ fun ExplanationContent(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
     ) {
         item {
             // Result Card
@@ -354,12 +354,12 @@ fun ExplanationContent(
                 colors = CardDefaults.cardColors(
                     containerColor = if (state.isCorrect) NeonGreen.copy(alpha = 0.1f) else DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensions.spacingLarge),
+                        .padding(LocalDimensions.current.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -369,7 +369,7 @@ fun ExplanationContent(
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         Text(
                             "+${state.currentLevel?.xpReward ?: 0} XP",
                             fontSize = 20.sp,
@@ -386,9 +386,9 @@ fun ExplanationContent(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         state.explanation,
                         fontSize = 14.sp,

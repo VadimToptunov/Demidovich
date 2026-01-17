@@ -42,7 +42,7 @@ fun TransferScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingMedium),
+                .padding(LocalDimensions.current.spacingMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -60,7 +60,7 @@ fun TransferScreen(
                         tint = TextSecondary
                     )
                 }
-                Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                 Text(
                     text = "Transfer Passwords",
                     style = MaterialTheme.typography.headlineSmall,
@@ -117,7 +117,7 @@ fun TransferScreen(
         // Error Snackbar
         state.error?.let { error ->
             Snackbar(
-                modifier = Modifier.padding(dimensions.spacingMedium),
+                modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(TransferEvent.DismissError) }) {
                         Text("Dismiss", color = TextPrimary)
@@ -149,7 +149,7 @@ fun SelectModeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensions.spacingMedium),
+            .padding(LocalDimensions.current.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -168,7 +168,7 @@ fun SelectModeScreen(
             onClick = onExport
         )
         
-        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         
         TransferModeCard(
             title = "Import Passwords",
@@ -192,21 +192,21 @@ fun TransferModeCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .border(2.dp, iconTint.copy(alpha = 0.5f), RoundedCornerShape(dimensions.cardCornerRadius)),
+            .border(2.dp, iconTint.copy(alpha = 0.5f), RoundedCornerShape(LocalDimensions.current.cardCornerRadius)),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Row(
-            modifier = Modifier.padding(dimensions.spacingLarge),
+            modifier = Modifier.padding(LocalDimensions.current.spacingLarge),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
                 tint = iconTint,
-                modifier = Modifier.size(dimensions.iconExtraLarge)
+                modifier = Modifier.size(LocalDimensions.current.iconExtraLarge)
             )
-            Spacer(modifier = Modifier.width(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.width(LocalDimensions.current.spacingMedium))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
@@ -214,7 +214,7 @@ fun TransferModeCard(
                     color = TextPrimary,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+                Spacer(modifier = Modifier.height(LocalDimensions.current.spacingExtraSmall))
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,
@@ -252,7 +252,7 @@ fun ExportSelectScreen(
                 color = ElectricPurple,
                 fontWeight = FontWeight.Bold
             )
-            Row(horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)) {
                 TextButton(onClick = onSelectAll) {
                     Text("Select All", color = CyberBlue)
                 }
@@ -267,7 +267,7 @@ fun ExportSelectScreen(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             items(passwords) { password ->
                 PasswordSelectItem(
@@ -284,16 +284,16 @@ fun ExportSelectScreen(
             enabled = selectedPasswords.isNotEmpty() && !isProcessing,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium)
                 .height(56.dp),
             colors = ButtonDefaults.buttonColors(containerColor = NeonGreen),
-            shape = RoundedCornerShape(dimensions.cardCornerRadius)
+            shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
         ) {
             if (isProcessing) {
-                CircularProgressIndicator(color = DeepSpace, modifier = Modifier.size(dimensions.iconMedium))
+                CircularProgressIndicator(color = DeepSpace, modifier = Modifier.size(LocalDimensions.current.iconMedium))
             } else {
                 Icon(Icons.Default.QrCode2, null, tint = DeepSpace)
-                Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                 Text("Generate QR Code", color = DeepSpace, fontWeight = FontWeight.Bold)
             }
         }
@@ -313,15 +313,15 @@ fun PasswordSelectItem(
             .border(
                 width = if (isSelected) 2.dp else 1.dp,
                 color = if (isSelected) NeonGreen else TextSecondary.copy(alpha = 0.3f),
-                shape = RoundedCornerShape(dimensions.spacingSmall)
+                shape = RoundedCornerShape(LocalDimensions.current.spacingSmall)
             ),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) CardBackground.copy(alpha = 0.8f) else CardBackground
         ),
-        shape = RoundedCornerShape(dimensions.spacingSmall)
+        shape = RoundedCornerShape(LocalDimensions.current.spacingSmall)
     ) {
         Row(
-            modifier = Modifier.padding(dimensions.spacingSmall),
+            modifier = Modifier.padding(LocalDimensions.current.spacingSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
@@ -340,7 +340,7 @@ fun PasswordSelectItem(
                     color = if (isSelected) NeonGreen else TextPrimary,
                     maxLines = 1
                 )
-                Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+                Spacer(modifier = Modifier.height(LocalDimensions.current.spacingExtraSmall))
                 Text(
                     text = password.category.displayName,
                     style = MaterialTheme.typography.labelSmall,
@@ -359,7 +359,7 @@ fun ExportQRScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensions.spacingMedium),
+            .padding(LocalDimensions.current.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -374,19 +374,19 @@ fun ExportQRScreen(
             Card(
                 modifier = Modifier
                     .size(300.dp)
-                    .padding(dimensions.spacingMedium),
+                    .padding(LocalDimensions.current.spacingMedium),
                 colors = CardDefaults.cardColors(containerColor = androidx.compose.ui.graphics.Color.White),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Image(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = "QR Code",
-                    modifier = Modifier.fillMaxSize().padding(dimensions.spacingSmall)
+                    modifier = Modifier.fillMaxSize().padding(LocalDimensions.current.spacingSmall)
                 )
             }
         }
         
-        Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingLarge))
         
         Text(
             text = "Use another device to scan this code and import the passwords",
@@ -404,7 +404,7 @@ fun ExportQRScreen(
                 .fillMaxWidth()
                 .height(56.dp),
             colors = ButtonDefaults.buttonColors(containerColor = CyberBlue),
-            shape = RoundedCornerShape(dimensions.cardCornerRadius)
+            shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
         ) {
             Text("Done", color = TextPrimary, fontWeight = FontWeight.Bold)
         }
@@ -421,7 +421,7 @@ fun ImportScanScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensions.spacingMedium),
+            .padding(LocalDimensions.current.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -433,7 +433,7 @@ fun ImportScanScreen(
                 modifier = Modifier.size(120.dp)
             )
             
-            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingLarge))
             
             Text(
                 text = "Scan QR Code",
@@ -441,7 +441,7 @@ fun ImportScanScreen(
                 color = TextPrimary
             )
             
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
             
             Text(
                 text = "Position the QR code within the camera frame to import passwords",
@@ -460,13 +460,13 @@ fun ImportScanScreen(
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = CyberBlue),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 if (isProcessing) {
-                    CircularProgressIndicator(color = TextPrimary, modifier = Modifier.size(dimensions.iconMedium))
+                    CircularProgressIndicator(color = TextPrimary, modifier = Modifier.size(LocalDimensions.current.iconMedium))
                 } else {
                     Icon(Icons.Default.CameraAlt, null)
-                    Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                     Text("Start Scanning", fontWeight = FontWeight.Bold)
                 }
             }
@@ -479,7 +479,7 @@ fun ImportScanScreen(
                     .fillMaxWidth()
                     .aspectRatio(1f),
                 colors = CardDefaults.cardColors(containerColor = CardBackground),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -487,7 +487,7 @@ fun ImportScanScreen(
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
                     ) {
                         Icon(
                             Icons.Default.CameraAlt,
@@ -527,7 +527,7 @@ fun ImportReviewScreen(
             text = "Review Imported Passwords",
             style = MaterialTheme.typography.titleLarge,
             color = TextPrimary,
-            modifier = Modifier.padding(dimensions.spacingMedium)
+            modifier = Modifier.padding(LocalDimensions.current.spacingMedium)
         )
         
         Text(
@@ -538,13 +538,13 @@ fun ImportReviewScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         
-        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             items(passwords) { password ->
                 PasswordReviewItem(password = password)
@@ -554,8 +554,8 @@ fun ImportReviewScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingMedium),
-            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+                .padding(LocalDimensions.current.spacingMedium),
+            horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             OutlinedButton(
                 onClick = onCancel,
@@ -564,7 +564,7 @@ fun ImportReviewScreen(
                     .weight(1f)
                     .height(56.dp),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = TextPrimary),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Text("Cancel")
             }
@@ -576,13 +576,13 @@ fun ImportReviewScreen(
                     .weight(1f)
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = NeonGreen),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 if (isProcessing) {
-                    CircularProgressIndicator(color = DeepSpace, modifier = Modifier.size(dimensions.iconMedium))
+                    CircularProgressIndicator(color = DeepSpace, modifier = Modifier.size(LocalDimensions.current.iconMedium))
                 } else {
                     Icon(Icons.Default.Check, null, tint = DeepSpace)
-                    Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                     Text("Import", color = DeepSpace, fontWeight = FontWeight.Bold)
                 }
             }
@@ -595,16 +595,16 @@ fun PasswordReviewItem(password: Password) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(dimensions.spacingSmall)
+        shape = RoundedCornerShape(LocalDimensions.current.spacingSmall)
     ) {
-        Column(modifier = Modifier.padding(dimensions.spacingSmall)) {
+        Column(modifier = Modifier.padding(LocalDimensions.current.spacingSmall)) {
             Text(
                 text = password.password,
                 style = PasswordTextStyle.copy(fontSize = 14.sp),
                 color = CyberBlue,
                 maxLines = 1
             )
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingExtraSmall))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween

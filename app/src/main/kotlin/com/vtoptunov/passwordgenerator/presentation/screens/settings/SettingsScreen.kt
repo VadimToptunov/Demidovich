@@ -45,7 +45,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium)
         ) {
             // Header
             SettingsHeader(onNavigateBack = onNavigateBack)
@@ -89,7 +89,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(dimensions.spacingMedium))
+            Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // Privacy Section
             SectionHeader("🛡️ Privacy")
@@ -102,7 +102,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(dimensions.spacingMedium))
+            Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // Display Section
             SectionHeader("🎨 Display")
@@ -124,7 +124,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(dimensions.spacingMedium))
+            Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // Data Section
             SectionHeader("💾 Data")
@@ -138,7 +138,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(dimensions.spacingMedium))
+            Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // About Section
             SectionHeader("ℹ️ About")
@@ -201,12 +201,12 @@ fun SectionHeader(title: String) {
 fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingMedium),
+                .padding(LocalDimensions.current.spacingMedium),
             content = content
         )
     }
@@ -229,7 +229,7 @@ fun SettingsSwitch(
             icon,
             contentDescription = null,
             tint = if (enabled) CyberBlue else TextDisabled,
-            modifier = Modifier.size(dimensions.iconMedium)
+            modifier = Modifier.size(LocalDimensions.current.iconMedium)
         )
         
         Spacer(Modifier.width(16.dp))
@@ -286,7 +286,7 @@ fun SettingsItem(
             icon,
             contentDescription = null,
             tint = CyberBlue,
-            modifier = Modifier.size(dimensions.iconMedium)
+            modifier = Modifier.size(LocalDimensions.current.iconMedium)
         )
         
         Spacer(Modifier.width(16.dp))

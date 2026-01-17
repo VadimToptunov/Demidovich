@@ -61,7 +61,7 @@ fun SocialEngineeringScreen(
                 ),
                 actions = {
                     Surface(
-                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
+                        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -86,7 +86,7 @@ fun SocialEngineeringScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -94,7 +94,7 @@ fun SocialEngineeringScreen(
                 streak = state.streak
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -130,7 +130,7 @@ fun StatsBar(
             modifier = Modifier.weight(1f)
         )
         
-        Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+        Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
         
         StatCard(
             icon = Icons.Default.Whatshot,
@@ -153,17 +153,17 @@ fun StatCard(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.spacingSmall),
+                .padding(LocalDimensions.current.spacingSmall),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(dimensions.iconSmall))
-            Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(LocalDimensions.current.iconSmall))
+            Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
             Column(horizontalAlignment = Alignment.Start) {
                 Text(label, fontSize = 10.sp, color = TextSecondary)
                 Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = color)
@@ -181,22 +181,22 @@ fun GameContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
     ) {
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "🎭 Scenario:",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         "How would you respond to this situation?",
                         fontSize = 14.sp,
@@ -237,7 +237,7 @@ fun GameContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "💬 Conversation:",
                         fontSize = 16.sp,
@@ -248,7 +248,7 @@ fun GameContent(
                     
                     scenario.conversationMessages.forEach { message ->
                         ConversationBubble(message, state)
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     }
                 }
             }
@@ -263,14 +263,14 @@ fun GameContent(
                         containerColor = WarningOrange.copy(alpha = 0.1f)
                     )
                 ) {
-                    Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                    Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                         Text(
                             "⚠️ Tactics Being Used:",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = WarningOrange
                         )
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         scenario.tactics.forEach { tactic ->
                             Row(
                                 modifier = Modifier
@@ -339,15 +339,15 @@ fun ConversationBubble(
             color = TextSecondary,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingExtraSmall))
         Surface(
-            shape = RoundedCornerShape(dimensions.cardCornerRadius),
+            shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
             color = bubbleColor,
             modifier = Modifier.widthIn(max = 280.dp)
         ) {
             Text(
                 message.text,
-                modifier = Modifier.padding(dimensions.spacingSmall),
+                modifier = Modifier.padding(LocalDimensions.current.spacingSmall),
                 fontSize = 14.sp,
                 color = TextPrimary,
                 lineHeight = 18.sp
@@ -394,19 +394,19 @@ fun ResponseCard(
         onClick = onClick,
         enabled = !showResult,
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(2.dp, borderColor, RoundedCornerShape(dimensions.cardCornerRadius))
-                .padding(dimensions.spacingMedium),
+                .border(2.dp, borderColor, RoundedCornerShape(LocalDimensions.current.cardCornerRadius))
+                .padding(LocalDimensions.current.spacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(dimensions.iconLarge)
-                    .clip(RoundedCornerShape(dimensions.spacingSmall))
+                    .size(LocalDimensions.current.iconLarge)
+                    .clip(RoundedCornerShape(LocalDimensions.current.spacingSmall))
                     .background(borderColor),
                 contentAlignment = Alignment.Center
             ) {
@@ -415,14 +415,14 @@ fun ResponseCard(
                         Icons.Default.Check,
                         contentDescription = "Correct",
                         tint = DeepSpace,
-                        modifier = Modifier.size(dimensions.iconSmall)
+                        modifier = Modifier.size(LocalDimensions.current.iconSmall)
                     )
                 } else if (showResult && isSelected) {
                     Icon(
                         Icons.Default.Close,
                         contentDescription = "Wrong",
                         tint = Color.White,
-                        modifier = Modifier.size(dimensions.iconSmall)
+                        modifier = Modifier.size(LocalDimensions.current.iconSmall)
                     )
                 } else {
                     Text(
@@ -456,7 +456,7 @@ fun ExplanationContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+        verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
     ) {
         item {
             Card(
@@ -467,12 +467,12 @@ fun ExplanationContent(
                     else 
                         DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(dimensions.cardCornerRadius)
+                shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensions.spacingLarge),
+                        .padding(LocalDimensions.current.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -482,7 +482,7 @@ fun ExplanationContent(
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                         Text(
                             "+${scenario.xpReward} XP",
                             fontSize = 20.sp,
@@ -499,7 +499,7 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "🔍 Explanation:",
                         fontSize = 18.sp,
@@ -524,14 +524,14 @@ fun ExplanationContent(
                     containerColor = NeonGreen.copy(alpha = 0.1f)
                 )
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "✅ Best Response:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = NeonGreen
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         scenario.correctAnswer,
                         fontSize = 14.sp,
@@ -547,14 +547,14 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
+                Column(modifier = Modifier.padding(LocalDimensions.current.spacingMedium)) {
                     Text(
                         "💡 Key Takeaway:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
                         getKeyTakeaway(scenario.scenarioType),
                         fontSize = 14.sp,

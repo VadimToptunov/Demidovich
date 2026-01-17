@@ -45,8 +45,8 @@ fun PremiumScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(dimensions.spacingMedium),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
+                .padding(LocalDimensions.current.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingMedium)
         ) {
             // Header
             Row(
@@ -147,11 +147,11 @@ fun PremiumScreen(
                 enabled = !state.isLoading
             ) {
                 Icon(Icons.Default.Refresh, contentDescription = null)
-                Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                 Text("Restore Purchases")
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         }
 
         // Loading Indicator
@@ -172,7 +172,7 @@ fun PremiumScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Snackbar(
-                modifier = Modifier.padding(dimensions.spacingMedium),
+                modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissError) }) {
                         Text("Dismiss", color = TextPrimary)
@@ -191,7 +191,7 @@ fun PremiumScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Snackbar(
-                modifier = Modifier.padding(dimensions.spacingMedium),
+                modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissSuccess) }) {
                         Text("OK", color = DeepSpace)
@@ -211,11 +211,11 @@ fun PremiumStatusCard(premiumStatus: com.vtoptunov.passwordgenerator.domain.mode
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(dimensions.spacingMedium),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -232,7 +232,7 @@ fun PremiumStatusCard(premiumStatus: com.vtoptunov.passwordgenerator.domain.mode
                     Icons.Default.CheckCircle,
                     contentDescription = null,
                     tint = NeonGreen,
-                    modifier = Modifier.size(dimensions.iconLarge)
+                    modifier = Modifier.size(LocalDimensions.current.iconLarge)
                 )
             }
 
@@ -268,11 +268,11 @@ fun BenefitsSection() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(dimensions.spacingMedium),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             Text(
                 "Premium Benefits",
@@ -313,13 +313,13 @@ fun BenefitItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+        horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
     ) {
         Icon(
             icon,
             contentDescription = null,
             tint = color,
-            modifier = Modifier.size(dimensions.iconMedium)
+            modifier = Modifier.size(LocalDimensions.current.iconMedium)
         )
         Text(
             text,
@@ -344,11 +344,11 @@ fun ProductCard(
                 CardBackground
             }
         ),
-        shape = RoundedCornerShape(dimensions.cardCornerRadius)
+        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(dimensions.spacingMedium),
-            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
+            modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -419,7 +419,7 @@ fun ProductCard(
                     ) {
                         if (isPurchasing) {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(dimensions.iconSmall),
+                                modifier = Modifier.size(LocalDimensions.current.iconSmall),
                                 color = TextPrimary
                             )
                         } else {

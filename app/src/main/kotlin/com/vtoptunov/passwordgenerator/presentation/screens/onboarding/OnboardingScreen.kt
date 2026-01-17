@@ -55,7 +55,7 @@ fun OnboardingScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(dimensions.spacingLarge),
+                    .padding(LocalDimensions.current.spacingLarge),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Skip button - only show on non-last pages
@@ -107,7 +107,7 @@ fun OnboardingScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = NeonGreen
                         ),
-                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
+                        shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
@@ -118,11 +118,11 @@ fun OnboardingScreen(
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleMedium
                         )
-                        Spacer(modifier = Modifier.width(dimensions.spacingSmall))
+                        Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
                         Icon(
                             Icons.Default.Check,
                             contentDescription = null,
-                            modifier = Modifier.size(dimensions.iconMedium),
+                            modifier = Modifier.size(LocalDimensions.current.iconMedium),
                             tint = DeepSpace
                         )
                     }
@@ -208,7 +208,7 @@ fun OnboardingPageContent(page: com.vtoptunov.passwordgenerator.domain.model.Onb
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
 
         // Description
         Text(
@@ -255,7 +255,7 @@ fun BiometricSetupDialog(
                 Icons.Default.Fingerprint,
                 contentDescription = null,
                 tint = ElectricPurple,
-                modifier = Modifier.size(dimensions.iconExtraLarge)
+                modifier = Modifier.size(LocalDimensions.current.iconExtraLarge)
             )
         },
         title = {
