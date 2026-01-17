@@ -23,6 +23,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.lock.BiometricLockSc
 import com.vtoptunov.passwordgenerator.presentation.screens.onboarding.OnboardingScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.splash.EnhancedMatrixSplashScreen
 import com.vtoptunov.passwordgenerator.presentation.theme.PasswordGeneratorTheme
+import com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -98,7 +99,7 @@ class MainActivity : FragmentActivity() {
                     // If auto-lock is enabled, check timeout
                     val inactiveTimeMs = System.currentTimeMillis() - lastPauseTimeState
                     val timeoutMinutes = if (settings.useSystemLockTimeout) {
-                        com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(this@MainActivity)
+                        SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(this@MainActivity)
                     } else {
                         settings.autoLockTimeoutMinutes
                     }
