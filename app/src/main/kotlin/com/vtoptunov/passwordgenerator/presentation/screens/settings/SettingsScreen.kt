@@ -1,6 +1,7 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -29,8 +30,10 @@ fun SettingsScreen(
     onNavigateToTransfer: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val context = LocalContext.current as? FragmentActivity
+    val context = LocalContext.current
+    val activity = context as? FragmentActivity
     val dimensions = LocalDimensions.current
+    val snackbarHostState = remember { SnackbarHostState() }
     
     Box(
         modifier = Modifier
@@ -61,10 +64,10 @@ fun SettingsScreen(
                     title = "Biometric Authentication",
                     description = "Use fingerprint or face to unlock",
                     checked = state.settings.biometricEnabled,
-                    enabled = state.biometricAvailability.isAvailable,
+                    enabled = state.biometricAvailability.isAvailable && activity != null,
                     onCheckedChange = { enabled ->
-                        context?.let {
-                            viewModel.toggleBiometric(it, enabled)
+                        if (activity != null) {
+                            viewModel.toggleBiometric(activity, enabled)
                         }
                     }
                 )
@@ -87,6 +90,74 @@ fun SettingsScreen(
                     checked = state.settings.autoLockEnabled,
                     onCheckedChange = { viewModel.setAutoLock(it) }
                 )
+                
+                if (state.settings.autoLockEnabled) {
+                    Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
+                    
+                    Column(modifier = Modifier.padding(horizontal = LocalDimensions.current.spacingMedium)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Timer,
+                                contentDescription = null,
+                                tint = CyberBlue,
+                                modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                            )
+                            Spacer(Modifier.width(LocalDimensions.current.spacingMedium))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Lock Timeout",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = TextPrimary
+                                )
+                                Text(
+                                    text = "Lock after ${state.settings.autoLockTimeoutMinutes} minute(s)",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = TextSecondary
+                                )
+                            }
+                        }
+                        
+                        Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
+                        
+                        // Timeout selector buttons
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 40.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            listOf(1, 3, 5, 10, 15).forEach { minutes ->
+                                OutlinedButton(
+                                    onClick = { viewModel.setAutoLockTimeout(minutes) },
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
+                                            CyberBlue.copy(alpha = 0.2f) 
+                                        else 
+                                            SurfaceDark,
+                                        contentColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
+                                            CyberBlue 
+                                        else 
+                                            TextSecondary
+                                    ),
+                                    border = if (state.settings.autoLockTimeoutMinutes == minutes)
+                                        androidx.compose.foundation.BorderStroke(1.dp, CyberBlue)
+                                    else
+                                        null,
+                                    modifier = Modifier.weight(1f),
+                                    contentPadding = PaddingValues(vertical = 8.dp)
+                                ) {
+                                    Text(
+                                        text = "${minutes}m",
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
             
             Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
@@ -146,6 +217,11 @@ fun SettingsScreen(
                 )
             }
         }
+        
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 

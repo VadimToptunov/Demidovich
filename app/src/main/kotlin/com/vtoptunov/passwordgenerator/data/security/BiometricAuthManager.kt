@@ -1,7 +1,6 @@
 package com.vtoptunov.passwordgenerator.data.security
 
 import android.content.Context
-import android.util.Log
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -55,7 +54,6 @@ class BiometricAuthManager @Inject constructor(
         onError: (String) -> Unit,
         onFailed: () -> Unit
     ) {
-        Log.d("BiometricAuth", "authenticate() called")
         val executor = ContextCompat.getMainExecutor(context)
         
         val biometricPrompt = BiometricPrompt(
@@ -64,19 +62,16 @@ class BiometricAuthManager @Inject constructor(
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    Log.d("BiometricAuth", "Authentication succeeded")
                     onSuccess()
                 }
                 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-                    Log.e("BiometricAuth", "Authentication error: $errorCode - $errString")
                     onError(errString.toString())
                 }
                 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Log.w("BiometricAuth", "Authentication failed")
                     onFailed()
                 }
             }
@@ -93,7 +88,6 @@ class BiometricAuthManager @Inject constructor(
             )
             .build()
         
-        Log.d("BiometricAuth", "Showing biometric prompt")
         biometricPrompt.authenticate(promptInfo)
     }
 }

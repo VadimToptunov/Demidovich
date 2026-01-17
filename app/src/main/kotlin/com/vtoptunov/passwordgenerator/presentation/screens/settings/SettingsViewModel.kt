@@ -77,6 +77,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
     
+    fun setAutoLockTimeout(minutes: Int) {
+        viewModelScope.launch {
+            settingsRepository.setAutoLockTimeout(minutes)
+        }
+    }
+    
     fun setClipboardClear(seconds: Int) {
         viewModelScope.launch {
             settingsRepository.setClipboardClearSeconds(seconds)
