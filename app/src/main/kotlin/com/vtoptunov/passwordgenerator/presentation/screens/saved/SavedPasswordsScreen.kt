@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.saved
+import com.vtoptunov.passwordgenerator.R
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.domain.model.Password
@@ -70,7 +72,7 @@ fun SavedPasswordsScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 },
@@ -170,7 +172,7 @@ private fun SearchBar(
         trailingIcon = {
             if (query.isNotEmpty()) {
                 IconButton(onClick = { onQueryChange("") }) {
-                    Icon(Icons.Default.Close, contentDescription = "Clear")
+                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.clear))
                 }
             }
         },
@@ -199,7 +201,7 @@ private fun CategoryFilter(
     ) {
         item {
             FilterChip(
-                label = "All",
+                label = stringResource(R.string.all),
                 isSelected = selectedCategory == null,
                 onClick = { onCategorySelected(null) }
             )
@@ -300,7 +302,7 @@ private fun PasswordItem(
                     ) {
                         Icon(
                             if (showPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                            contentDescription = if (showPassword) "Hide" else "Show",
+                            contentDescription = stringResource(if (showPassword) R.string.hide else R.string.show),
                             tint = TextSecondary
                         )
                     }
@@ -308,7 +310,7 @@ private fun PasswordItem(
                     IconButton(onClick = { isExpanded = !isExpanded }) {
                         Icon(
                             if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                            contentDescription = if (isExpanded) "Collapse" else "Expand",
+                            contentDescription = stringResource(if (isExpanded) R.string.collapse else R.string.expand),
                             tint = TextSecondary
                         )
                     }
@@ -346,7 +348,7 @@ private fun PasswordItem(
                         ) {
                             Icon(Icons.Default.ContentCopy, contentDescription = null)
                             Spacer(Modifier.width(8.dp))
-                            Text("Copy")
+                            Text(stringResource(R.string.copy))
                         }
                         
                         OutlinedButton(
@@ -358,7 +360,7 @@ private fun PasswordItem(
                         ) {
                             Icon(Icons.Default.Delete, contentDescription = null)
                             Spacer(Modifier.width(8.dp))
-                            Text("Delete")
+                            Text(stringResource(R.string.delete))
                         }
                     }
                 }
@@ -475,12 +477,12 @@ private fun DeleteConfirmationDialog(
                     containerColor = DangerRed
                 )
             ) {
-                Text("Delete")
+                Text(stringResource(R.string.delete))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         },
         containerColor = SurfaceDark,

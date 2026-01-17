@@ -285,7 +285,7 @@ fun PasswordDisplayCard(
                         Icon(Icons.Default.Psychology, "Train Memory", tint = ElectricPurple)
                     }
                     IconButton(onClick = onCopy) {
-                        Icon(Icons.Default.ContentCopy, "Copy", tint = CyberBlue)
+                        Icon(Icons.Default.ContentCopy, stringResource(R.string.copy), tint = CyberBlue)
                     }
                 }
             }
@@ -450,7 +450,7 @@ fun StyleSelectorCard(
                 IconButton(onClick = onToggle) {
                     Icon(
                         if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        contentDescription = stringResource(if (expanded) R.string.collapse else R.string.expand),
                         tint = ElectricPurple
                     )
                 }
@@ -641,7 +641,7 @@ fun SettingsDropdownCard(
                 IconButton(onClick = onToggle) {
                     Icon(
                         if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        contentDescription = stringResource(if (expanded) R.string.collapse else R.string.expand),
                         tint = CyberBlue
                     )
                 }
@@ -698,7 +698,7 @@ fun CategorySelectorCard(
                 IconButton(onClick = onToggle) {
                     Icon(
                         if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        contentDescription = stringResource(if (expanded) R.string.collapse else R.string.expand),
                         tint = NeonGreen
                     )
                 }

@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.game
+import com.vtoptunov.passwordgenerator.R
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -133,7 +135,7 @@ fun GameHeader(
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = stringResource(R.string.back),
                     tint = TextSecondary
                 )
             }
@@ -488,7 +490,7 @@ fun SelectionPhase(
                 )
             } else {
                 Text(
-                    text = "Confirm Selection",
+                    text = stringResource(R.string.confirm_selection),
                     style = MaterialTheme.typography.titleMedium,
                     color = DeepSpace
                 )
@@ -597,7 +599,7 @@ fun ResultPhase(
         Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         
         Text(
-            text = if (result.isSuccess) "Excellent!" else "Try Again",
+            text = if (result.isSuccess) "Excellent!" else stringResource(R.string.try_again),
             style = MaterialTheme.typography.headlineLarge,
             color = if (result.isSuccess) NeonGreen else DangerRed,
             fontWeight = FontWeight.Bold

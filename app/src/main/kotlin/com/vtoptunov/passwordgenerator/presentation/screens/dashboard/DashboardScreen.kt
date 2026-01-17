@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.dashboard
+import com.vtoptunov.passwordgenerator.R
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.domain.model.*
@@ -102,7 +104,7 @@ fun DashboardHeader(onNavigateBack: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onNavigateBack) {
-            Icon(Icons.Default.ArrowBack, "Back", tint = CyberBlue)
+            Icon(Icons.Default.ArrowBack, stringResource(R.string.back), tint = CyberBlue)
         }
         
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

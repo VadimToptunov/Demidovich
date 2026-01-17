@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.lessons
+import com.vtoptunov.passwordgenerator.R
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import com.vtoptunov.passwordgenerator.domain.model.Lesson
 import com.vtoptunov.passwordgenerator.domain.model.LessonDifficulty
 import com.vtoptunov.passwordgenerator.domain.model.LessonLibrary
@@ -54,7 +56,7 @@ fun LessonsListScreen(
                 IconButton(onClick = onNavigateBack) {
                     Icon(
                         Icons.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = CyberBlue
                     )
                 }

@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.premium
+import com.vtoptunov.passwordgenerator.R
 
 import android.app.Activity
 import androidx.compose.animation.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.domain.model.PurchaseProduct
@@ -57,7 +59,7 @@ fun PremiumScreen(
                 IconButton(onClick = onNavigateBack) {
                     Icon(
                         Icons.Default.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = CyberBlue
                     )
                 }
@@ -194,7 +196,7 @@ fun PremiumScreen(
                 modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissSuccess) }) {
-                        Text("OK", color = DeepSpace)
+                        Text(stringResource(R.string.ok), color = DeepSpace)
                     }
                 },
                 containerColor = NeonGreen,

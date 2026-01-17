@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.transfer
+import com.vtoptunov.passwordgenerator.R
 
 import android.graphics.Bitmap
 import androidx.compose.animation.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -56,7 +58,7 @@ fun TransferScreen(
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = TextSecondary
                     )
                 }
@@ -566,7 +568,7 @@ fun ImportReviewScreen(
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = TextPrimary),
                 shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
             
             Button(

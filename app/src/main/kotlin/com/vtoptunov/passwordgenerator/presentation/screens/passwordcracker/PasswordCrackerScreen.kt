@@ -1,4 +1,5 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker
+import com.vtoptunov.passwordgenerator.R
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -54,7 +56,7 @@ fun PasswordCrackerScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back),
                             tint = TextPrimary
                         )
                     }
@@ -140,7 +142,7 @@ fun PasswordCrackerScreen(
                     OutlinedButton(
                         onClick = { viewModel.onEvent(PasswordCrackerEvent.CancelHint) }
                     ) {
-                        Text("Cancel", color = CyberBlue)
+                        Text(stringResource(R.string.cancel), color = CyberBlue)
                     }
                 },
                 containerColor = DeepSpaceMedium
