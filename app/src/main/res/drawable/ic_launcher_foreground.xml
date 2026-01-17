@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Centered group -->
+    <group
+        android:translateX="24"
+        android:translateY="24">
+        
+        <!-- Key head (circle) - Cyber Blue -->
+        <path
+            android:pathData="M20,30m-12,0a12,12 0,1,1 24,0a12,12 0,1,1 -24,0"
+            android:fillColor="#00D9FF"/>
+        
+        <!-- Key head inner circle - Dark -->
+        <path
+            android:pathData="M20,30m-7,0a7,7 0,1,1 14,0a7,7 0,1,1 -14,0"
+            android:fillColor="#0A0E27"/>
+        
+        <!-- Key shaft - Cyber Blue -->
+        <path
+            android:pathData="M32,28h18v4h-18z"
+            android:fillColor="#00D9FF"/>
+        
+        <!-- Key teeth (password symbols) -->
+        <!-- Tooth 1 -->
+        <path
+            android:pathData="M38,32h2v4h-2z"
+            android:fillColor="#00D9FF"/>
+        <!-- Tooth 2 -->
+        <path
+            android:pathData="M42,32h2v6h-2z"
+            android:fillColor="#00D9FF"/>
+        <!-- Tooth 3 -->
+        <path
+            android:pathData="M46,32h2v5h-2z"
+            android:fillColor="#00D9FF"/>
+        
+        <!-- Sparkle effect 1 (top-left) - Purple accent -->
+        <path
+            android:pathData="M8,18L10,20L8,22L6,20Z"
+            android:fillColor="#B24BF3"/>
+        
+        <!-- Sparkle effect 2 (top-right) - Orange accent -->
+        <path
+            android:pathData="M52,12L54,14L52,16L50,14Z"
+            android:fillColor="#FF6B35"/>
+        
+        <!-- Sparkle effect 3 (bottom) - Green accent -->
+        <path
+            android:pathData="M12,42L14,44L12,46L10,44Z"
+            android:fillColor="#00FF88"/>
+            
+    </group>
+</vector>

@@ -1,68 +1,182 @@
 plugins {
     id 'com.android.application'
-}
-
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute module('org.hamcrest:hamcrest-library:1.3') with module('org.hamcrest:hamcrest:2.2')
-    }
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/newuser/demidovichapp-keychain')
-            storePassword 'Yawara$an125'
-            keyAlias 'key0'
-            keyPassword 'Yawara$an125'
+            def keystorePath = System.getenv("KEYSTORE_FILE") ?: project.findProperty("KEYSTORE_FILE")
+            
+            if (keystorePath != null && file(keystorePath).exists()) {
+                storeFile file(keystorePath)
+                storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
+                keyAlias System.getenv("KEY_ALIAS") ?: "key0"
+                keyPassword System.getenv("KEY_PASSWORD") ?: ""
+            } else {
+                logger.error("═══════════════════════════════════════════════════════════════")
+                logger.error("ERROR: Release signing configuration is missing!")
+                logger.error("═══════════════════════════════════════════════════════════════")
+                logger.error("")
+                logger.error("Please set the following environment variables:")
+                logger.error("  - KEYSTORE_FILE: Path to your keystore file")
+                logger.error("  - KEYSTORE_PASSWORD: Keystore password")
+                logger.error("  - KEY_ALIAS: Key alias")
+                logger.error("  - KEY_PASSWORD: Key password")
+                logger.error("")
+                logger.error("Release builds require proper signing credentials for security.")
+                logger.error("For local development, use 'assembleDebug' instead.")
+                logger.error("")
+                logger.error("═══════════════════════════════════════════════════════════════")
+                
+                // Set placeholder config that will fail at signing time with clear error
+                storeFile file("${projectDir}/MISSING_RELEASE_KEYSTORE_CONFIGURATION")
+                storePassword "KEYSTORE_NOT_CONFIGURED"
+                keyAlias "KEYSTORE_NOT_CONFIGURED"
+                keyPassword "KEYSTORE_NOT_CONFIGURED"
+            }
         }
     }
-    compileSdk 33
+    namespace 'com.vtoptunov.passwordgenerator'
+    compileSdk 34
 
     defaultConfig {
-        applicationId "com.demidovich"
-        minSdk 25
-        targetSdk 33
-        versionCode 1
-        versionName '2.1'
+        applicationId "com.vtoptunov.passwordgenerator"
+        minSdk 26
+        targetSdk 34
+        versionCode 2
+        versionName '3.0.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.debug
+        
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += [
+            '-opt-in=androidx.compose.material3.ExperimentalMaterial3Api',
+            '-opt-in=androidx.compose.foundation.ExperimentalFoundationApi'
+        ]
+    }
+    
     buildFeatures {
-        viewBinding true
+        compose true
     }
-    dependenciesInfo {
-        includeInApk false
-        includeInBundle false
+    
+    composeOptions {
+        kotlinCompilerExtensionVersion = '1.5.10'
     }
-    namespace 'com.demidovich'
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'com.google.ar.sceneform:filament-android:1.17.1'
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.test.espresso:espresso-contrib:3.5.1'
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
-    androidTestImplementation group: 'androidx.test.espresso', name: 'espresso-core', version: '3.5.1'
-    androidTestImplementation 'org.hamcrest:hamcrest-core:2.2'
-    debugImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    def compose_version = '1.6.0'
+    def hilt_version = '2.50'
+    def room_version = '2.6.1'
+    
+    // Core Android
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    
+    // Compose
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.compose.material3:material3:1.2.0'
+    implementation 'androidx.compose.material:material-icons-extended:1.6.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation 'androidx.navigation:navigation-compose:2.7.6'
+    
+    // ViewModel & Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.7.0'
+    
+    // Hilt (DI)
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
+    
+    // Room Database + SQLCipher
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation 'net.zetetic:android-database-sqlcipher:4.5.4'
+    implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
+    
+    // Security
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    implementation 'androidx.biometric:biometric:1.1.0'
+    
+    // DataStore (Settings)
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    
+    // WorkManager (Background updates)
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    
+    // QR Code
+    implementation 'com.google.zxing:core:3.5.2'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    
+    // CameraX (QR scanning)
+    implementation 'androidx.camera:camera-camera2:1.3.1'
+    implementation 'androidx.camera:camera-lifecycle:1.3.1'
+    implementation 'androidx.camera:camera-view:1.3.1'
+    
+    // Bloom Filter (Breach checker)
+    implementation 'com.github.Baqend:Orestes-Bloomfilter:2.2.2'
+    
+    // Network
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    
+    // JSON Serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Google Play Billing
+    implementation 'com.android.billingclient:billing-ktx:6.1.0'
+    
+    // Splash Screen
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.mockk:mockk:1.13.9'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    androidTestImplementation 'androidx.room:room-testing:2.6.0'
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+}
+
+kapt {
+    correctErrorTypes true
 }
