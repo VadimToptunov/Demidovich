@@ -39,6 +39,7 @@ fun GeneratorScreen(
     onNavigateToPremium: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
     
     Box(
         modifier = Modifier
@@ -53,8 +54,8 @@ fun GeneratorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
         ) {
             // Header
             Row(
@@ -76,13 +77,13 @@ fun GeneratorScreen(
                 )
                 }
                 
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)) {
                     IconButton(onClick = onNavigateToPremium) {
                         Icon(
                             Icons.Default.Star,
                             contentDescription = "Premium",
                             tint = WarningOrange,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                     IconButton(onClick = onNavigateToAcademy) {
@@ -90,7 +91,7 @@ fun GeneratorScreen(
                             Icons.Default.School,
                             contentDescription = "PassForge Academy",
                             tint = ElectricPurple,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                     IconButton(onClick = onNavigateToDashboard) {
@@ -98,7 +99,7 @@ fun GeneratorScreen(
                             Icons.Default.Dashboard,
                             contentDescription = "Dashboard",
                             tint = CyberBlue,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                     IconButton(onClick = onNavigateToSaved) {
@@ -106,7 +107,7 @@ fun GeneratorScreen(
                             Icons.Default.Storage,
                             contentDescription = "Saved Passwords",
                             tint = NeonGreen,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                     IconButton(onClick = onNavigateToSettings) {
@@ -114,7 +115,7 @@ fun GeneratorScreen(
                             Icons.Default.Settings,
                             contentDescription = "Settings",
                             tint = TextSecondary,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                 }
