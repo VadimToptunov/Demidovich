@@ -1,7 +1,7 @@
 # PassForge - Password Security & Cybersecurity Academy
 
 <p align="center">
-  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="PassForge Logo" width="120"/>
+  <img src="screens/shot1.png" alt="PassForge Logo" width="200"/>
 </p>
 
 <p align="center">
@@ -176,19 +176,27 @@ Securely transfer passwords between your devices:
 
 ## 📸 Screenshots
 
-### Password Generator
+<p align="center">
+  <img src="screens/shot1.png" alt="Password Generator" width="250"/>
+  <img src="screens/shot2.png" alt="Academy Home" width="250"/>
+  <img src="screens/shot3.png" alt="Security Dashboard" width="250"/>
+</p>
+
+<p align="center">
+  <img src="screens/shot4.png" alt="Password List" width="250"/>
+</p>
+
+### 🎮 Password Generator
 Modern cyberpunk interface with real-time crack time simulation and strength meter.
 
-### Academy Home
+### 🏆 Academy Home
 Gamified progression system with XP, levels, and unlockable games.
 
-### Network Defense
-Tower defense gameplay teaching real network security concepts.
+### 🛡️ Security Dashboard
+Comprehensive overview of your password health and achievements.
 
-### Transfer Screen
-Secure QR code generation with password selection and review.
-
-*(Screenshots coming soon)*
+### 📝 Password Manager
+Encrypted password storage with search and organization features.
 
 ---
 
@@ -361,13 +369,6 @@ git clone https://github.com/VadimToptunov/PassForge.git
 - 🔜 Malware Scanner game
 - 🔜 Widget support
 - 🔜 Offline breach database
-
-### Version 4.0.0 (Future)
-- 📅 Browser extension (Chrome, Firefox)
-- 📅 Desktop apps (Windows, macOS, Linux)
-- 📅 Hardware key support (YubiKey, Titan)
-- 📅 Team/Family sharing
-- 📅 Encrypted cloud backup (optional)
 
 ---
 
