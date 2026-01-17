@@ -157,6 +157,15 @@ fun SettingsScreen(
                     title = "Open Source",
                     description = "Built with Kotlin + Jetpack Compose"
                 )
+                
+                Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
+                
+                SettingsItem(
+                    icon = Icons.Default.School,
+                    title = "Show Onboarding",
+                    description = "View welcome tutorial again",
+                    onClick = { viewModel.resetOnboarding() }
+                )
             }
         }
     }
