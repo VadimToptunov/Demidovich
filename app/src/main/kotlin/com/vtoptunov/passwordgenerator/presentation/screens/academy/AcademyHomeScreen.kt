@@ -18,12 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vtoptunov.passwordgenerator.R
 import com.vtoptunov.passwordgenerator.domain.model.AcademyGame
 import com.vtoptunov.passwordgenerator.domain.model.AcademyProgress
 import com.vtoptunov.passwordgenerator.presentation.theme.*
@@ -51,7 +53,7 @@ fun AcademyHomeScreen(
                             fontSize = 24.sp
                         )
                         Text(
-                            "CyberSafe Academy",
+                            "PassForge Academy",
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -110,13 +112,13 @@ fun AcademyHomeScreen(
                             )
                             Column {
                                 Text(
-                                    "Уроки безопасности",
+                                    stringResource(R.string.security_lessons),
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = TextPrimary
                                 )
                                 Text(
-                                    "Изучай основы кибербезопасности",
+                                    stringResource(R.string.learn_cybersecurity_basics),
                                     fontSize = 14.sp,
                                     color = TextSecondary
                                 )

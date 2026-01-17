@@ -30,7 +30,7 @@ import kotlin.random.Random
  * - Falling green characters (Matrix Rain effect)
  * - Random red characters that will form the app name
  * - Fade effect from bright to dark
- * - CYBERSAFE title assembly from red characters
+ * - PASSFORGE title assembly from red characters
  */
 @Composable
 fun EnhancedMatrixSplashScreen(onTimeout: () -> Unit) {
@@ -38,14 +38,14 @@ fun EnhancedMatrixSplashScreen(onTimeout: () -> Unit) {
     var showTitle by remember { mutableStateOf(false) }
     
     LaunchedEffect(Unit) {
-        // Phase 1: Matrix rain (1 second) - SHORTER
-        delay(1000)
+        // Phase 1: Matrix rain (2 seconds) - LONGER
+        delay(2000)
         
         // Phase 2: Show title
         animationPhase = SplashPhase.TITLE_SHOWN
         showTitle = true
         
-        delay(800) // SHORTER: 800ms instead of 1500ms
+        delay(1500) // LONGER: 1500ms for better visibility
         
         // Complete
         onTimeout()
@@ -203,7 +203,7 @@ private fun DrawScope.drawMatrixColumn(
 }
 
 /**
- * CYBERSAFE title with Matrix effect
+ * PASSFORGE title with Matrix effect
  */
 @Composable
 fun MatrixTitle() {
@@ -216,7 +216,7 @@ fun MatrixTitle() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            "CYBERSAFE".forEachIndexed { index, char ->
+            "PASSFORGE".forEachIndexed { index, char ->
                 var visible by remember { mutableStateOf(false) }
                 
                 LaunchedEffect(Unit) {

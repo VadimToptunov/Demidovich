@@ -2,8 +2,11 @@ package com.vtoptunov.passwordgenerator.presentation.screens.onboarding
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,12 +27,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.domain.model.OnboardingIcon
 import com.vtoptunov.passwordgenerator.presentation.theme.*
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
     onOnboardingComplete: () -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val pagerState = rememberPagerState(pageCount = { state.pages.size })
 
     LaunchedEffect(Unit) {
         // Listen for onboarding completion
@@ -52,8 +57,8 @@ fun OnboardingScreen(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Skip button
-                if (state.canSkip && state.currentPage < state.pages.size - 1) {
+                // Skip button - only show on non-last pages
+                if (pagerState.currentPage < state.pages.size - 1) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
@@ -71,19 +76,12 @@ fun OnboardingScreen(
 
                 Spacer(modifier = Modifier.weight(0.5f))
 
-                // Page content
-                val currentPageData = state.pages.getOrNull(state.currentPage)
-                currentPageData?.let { page ->
-                    AnimatedContent(
-                        targetState = page,
-                        transitionSpec = {
-                            fadeIn(animationSpec = tween(300)) + 
-                                slideInHorizontally(animationSpec = tween(300)) { it / 2 } togetherWith
-                                fadeOut(animationSpec = tween(300)) + 
-                                slideOutHorizontally(animationSpec = tween(300)) { -it / 2 }
-                        },
-                        label = "pageTransition"
-                    ) { pageData ->
+                // Horizontal Pager with swipe support
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.weight(1f)
+                ) { page ->
+                    state.pages.getOrNull(page)?.let { pageData ->
                         OnboardingPageContent(page = pageData)
                     }
                 }
@@ -93,70 +91,42 @@ fun OnboardingScreen(
                 // Page indicators
                 PageIndicators(
                     totalPages = state.pages.size,
-                    currentPage = state.currentPage
+                    currentPage = pagerState.currentPage
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Navigation buttons
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Back button
-                    if (state.currentPage > 0) {
-                        OutlinedButton(
-                            onClick = { viewModel.onEvent(OnboardingEvent.PreviousPage) },
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = TextPrimary
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.ArrowBack,
-                                contentDescription = "Back",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text("Back")
-                        }
-                    } else {
-                        Spacer(modifier = Modifier.width(1.dp))
-                    }
-
-                    // Next/Get Started button
+                // Only show Get Started button on last page
+                if (pagerState.currentPage == state.pages.size - 1) {
                     Button(
                         onClick = {
-                            if (state.currentPage < state.pages.size - 1) {
-                                viewModel.onEvent(OnboardingEvent.NextPage)
-                            } else {
-                                viewModel.onEvent(OnboardingEvent.Complete)
-                                onOnboardingComplete()
-                            }
+                            viewModel.onEvent(OnboardingEvent.Complete)
+                            onOnboardingComplete()
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = NeonGreen
                         ),
                         shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.height(48.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
                     ) {
                         Text(
-                            if (state.currentPage < state.pages.size - 1) "Next" else "Get Started",
+                            "Get Started",
                             color = DeepSpace,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.titleMedium
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
                         Icon(
-                            if (state.currentPage < state.pages.size - 1) 
-                                Icons.Default.ArrowForward 
-                            else 
-                                Icons.Default.Check,
+                            Icons.Default.Check,
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp),
+                            modifier = Modifier.size(24.dp),
                             tint = DeepSpace
                         )
                     }
+                } else {
+                    Spacer(modifier = Modifier.height(56.dp))
                 }
             }
         }

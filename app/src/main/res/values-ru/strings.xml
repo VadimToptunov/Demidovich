@@ -90,4 +90,6 @@
     
     <!-- Lessons -->
     <string name="lesson_not_found">Урок не найден</string>
+    <string name="security_lessons">Уроки безопасности</string>
+    <string name="learn_cybersecurity_basics">Изучай основы кибербезопасности</string>
 </resources>
