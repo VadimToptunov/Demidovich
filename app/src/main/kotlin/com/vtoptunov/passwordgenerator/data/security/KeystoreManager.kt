@@ -1,13 +1,8 @@
 package com.vtoptunov.passwordgenerator.data.security
 
 import android.content.Context
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import java.security.KeyStore
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,8 +12,6 @@ class KeystoreManager @Inject constructor(
 ) {
     
     companion object {
-        private const val KEYSTORE_ALIAS = "password_db_key"
-        private const val ANDROID_KEYSTORE = "AndroidKeyStore"
         private const val PREFS_NAME = "secure_prefs"
         private const val KEY_DB_PASSPHRASE = "db_passphrase"
     }
@@ -62,35 +55,16 @@ class KeystoreManager @Inject constructor(
     }
     
     private fun generateSecurePassphrase(): ByteArray {
+        // Note: We cannot export keys from AndroidKeyStore (they return null).
+        // Instead, we generate a random passphrase secured by EncryptedSharedPreferences,
+        // which itself is backed by the AndroidKeyStore MasterKey.
         return try {
-            val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
-            keyStore.load(null)
-            
-            if (!keyStore.containsAlias(KEYSTORE_ALIAS)) {
-                val keyGenerator = KeyGenerator.getInstance(
-                    KeyProperties.KEY_ALGORITHM_AES,
-                    ANDROID_KEYSTORE
-                )
-                
-                val keyGenParameterSpec = KeyGenParameterSpec.Builder(
-                    KEYSTORE_ALIAS,
-                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                )
-                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                    .setKeySize(256)
-                    .build()
-                
-                keyGenerator.init(keyGenParameterSpec)
-                keyGenerator.generateKey()
-            }
-            
-            val secretKey = keyStore.getKey(KEYSTORE_ALIAS, null) as SecretKey
-            secretKey.encoded
-            
-        } catch (e: Exception) {
             val random = java.security.SecureRandom()
             ByteArray(32).apply { random.nextBytes(this) }
+        } catch (e: Exception) {
+            // Fallback to timestamp-based seed if SecureRandom fails
+            val fallbackRandom = java.util.Random(System.currentTimeMillis())
+            ByteArray(32).apply { fallbackRandom.nextBytes(this) }
         }
     }
 }
