@@ -1,7 +1,7 @@
 # PassForge - Password Security & Cybersecurity Academy
 
 <p align="center">
-  <img src="screens/shot1.png" alt="PassForge Logo" width="200"/>
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="PassForge Logo" width="200"/>
 </p>
 
 <p align="center">
@@ -177,16 +177,19 @@ Securely transfer passwords between your devices:
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screens/shot1.png" alt="Password Generator" width="250"/>
-  <img src="screens/shot2.png" alt="Academy Home" width="250"/>
-  <img src="screens/shot3.png" alt="Security Dashboard" width="250"/>
+  <img src="screens/screenshot_generator.png" alt="Password Generator" width="250"/>
+  <img src="screens/screenshot_academy.png" alt="Academy Home" width="250"/>
+  <img src="screens/screenshot_game1.png" alt="Memory Match Game" width="250"/>
 </p>
 
 <p align="center">
-  <img src="screens/shot4.png" alt="Password List" width="250"/>
+  <img src="screens/screenshot_passwords.png" alt="Saved Passwords" width="250"/>
+  <img src="screens/screenshot_security_dashboard.png" alt="Security Dashboard" width="250"/>
+  <img src="screens/screenshot_settings.png" alt="Settings" width="250"/>
 </p>
 
 ### 🎮 Password Generator
+**Generate ultra-secure passwords** with live strength analysis and crack time estimation.
 Modern cyberpunk interface with real-time crack time simulation and strength meter.
 
 ### 🏆 Academy Home
