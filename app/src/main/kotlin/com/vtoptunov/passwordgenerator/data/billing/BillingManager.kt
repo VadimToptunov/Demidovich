@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -84,7 +86,7 @@ class BillingManager @Inject constructor(
     /**
      * Query available product details from Google Play
      */
-    private suspend fun queryProductDetails() {
+    private suspend fun queryProductDetails() = coroutineScope {
         // Query subscriptions
         val subscriptionProducts = listOf(
             QueryProductDetailsParams.Product.newBuilder()
@@ -100,22 +102,6 @@ class BillingManager @Inject constructor(
         val subscriptionParams = QueryProductDetailsParams.newBuilder()
             .setProductList(subscriptionProducts)
             .build()
-
-        suspendCancellableCoroutine<Unit> { continuation ->
-            billingClient.queryProductDetailsAsync(subscriptionParams) { billingResult, productDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    productDetailsList.forEach { productDetails ->
-                        this.productDetails = this.productDetails + (productDetails.productId to productDetails)
-                    }
-                    Log.d(TAG, "Queried ${productDetailsList.size} subscription products")
-                } else {
-                    Log.e(TAG, "Failed to query subscription products: ${billingResult.debugMessage}")
-                }
-                if (continuation.isActive) {
-                    continuation.resume(Unit)
-                }
-            }
-        }
 
         // Query in-app products
         val inAppProducts = listOf(
@@ -133,21 +119,51 @@ class BillingManager @Inject constructor(
             .setProductList(inAppProducts)
             .build()
 
-        suspendCancellableCoroutine<Unit> { continuation ->
-            billingClient.queryProductDetailsAsync(inAppParams) { billingResult, productDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    productDetailsList.forEach { productDetails ->
-                        this.productDetails = this.productDetails + (productDetails.productId to productDetails)
+        // Query both subscription and in-app products in parallel
+        val subscriptionDeferred = async {
+            suspendCancellableCoroutine<List<ProductDetails>> { continuation ->
+                billingClient.queryProductDetailsAsync(subscriptionParams) { billingResult, productDetailsList ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        Log.d(TAG, "Queried ${productDetailsList.size} subscription products")
+                        if (continuation.isActive) {
+                            continuation.resume(productDetailsList)
+                        }
+                    } else {
+                        Log.e(TAG, "Failed to query subscription products: ${billingResult.debugMessage}")
+                        if (continuation.isActive) {
+                            continuation.resume(emptyList())
+                        }
                     }
-                    Log.d(TAG, "Queried ${productDetailsList.size} in-app products")
-                } else {
-                    Log.e(TAG, "Failed to query in-app products: ${billingResult.debugMessage}")
-                }
-                if (continuation.isActive) {
-                    continuation.resume(Unit)
                 }
             }
         }
+
+        val inAppDeferred = async {
+            suspendCancellableCoroutine<List<ProductDetails>> { continuation ->
+                billingClient.queryProductDetailsAsync(inAppParams) { billingResult, productDetailsList ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        Log.d(TAG, "Queried ${productDetailsList.size} in-app products")
+                        if (continuation.isActive) {
+                            continuation.resume(productDetailsList)
+                        }
+                    } else {
+                        Log.e(TAG, "Failed to query in-app products: ${billingResult.debugMessage}")
+                        if (continuation.isActive) {
+                            continuation.resume(emptyList())
+                        }
+                    }
+                }
+            }
+        }
+
+        // Wait for both queries to complete
+        val subscriptionResults = subscriptionDeferred.await()
+        val inAppResults = inAppDeferred.await()
+
+        // Combine results into productDetails map
+        val allProductDetails = (subscriptionResults + inAppResults).associateBy { it.productId }
+        this@BillingManager.productDetails = allProductDetails
+        Log.d(TAG, "Total ${allProductDetails.size} products loaded")
     }
 
     /**
