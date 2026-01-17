@@ -1,4 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.splash
+import com.vtoptunov.passwordgenerator.R
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -216,7 +218,7 @@ fun MatrixTitle() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            "PASSFORGE".forEachIndexed { index, char ->
+            stringResource(R.string.passforge).forEachIndexed { index, char ->
                 var visible by remember { mutableStateOf(false) }
                 
                 LaunchedEffect(Unit) {
@@ -254,7 +256,7 @@ fun MatrixTitle() {
             enter = fadeIn(animationSpec = tween(600))
         ) {
             Text(
-                text = "Password Generator",
+                text = stringResource(R.string.password_generator),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = FontFamily.Monospace,

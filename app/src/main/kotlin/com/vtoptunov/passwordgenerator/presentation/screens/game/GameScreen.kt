@@ -683,7 +683,7 @@ fun ResultPhase(
                             modifier = Modifier.size(LocalDimensions.current.iconSmall)
                         )
                         Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
-                        Text("Watch Ad")
+                        Text(stringResource(R.string.watch_ad))
                     }
                 }
             }
@@ -705,7 +705,7 @@ fun ResultPhase(
                 ),
                 shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
             ) {
-                Text("Exit")
+                Text(stringResource(R.string.exit))
             }
             
             Button(
@@ -722,7 +722,7 @@ fun ResultPhase(
                     modifier = Modifier.size(LocalDimensions.current.iconSmall)
                 )
                 Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
-                Text("Play Again")
+                Text(stringResource(R.string.play_again))
             }
         }
     }

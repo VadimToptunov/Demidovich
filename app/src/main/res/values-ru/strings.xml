@@ -385,4 +385,13 @@
     <string name="try_again_later">Попробуйте позже</string>
     <string name="loading">Загрузка...</string>
     <string name="please_wait">Подождите...</string>
+    
+    <!-- Final missing strings -->
+    <string name="exit">Выход</string>
+    <string name="play_again">Играть снова</string>
+    <string name="choose_game">Выберите игру</string>
+    <string name="completed_exclamation">Завершено!</string>
+    <string name="no_hints_left">Подсказок не осталось</string>
+    <string name="password_generator">Генератор паролей</string>
+    <string name="passforge">PASSFORGE</string>
 </resources>

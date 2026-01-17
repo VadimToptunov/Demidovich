@@ -344,7 +344,7 @@ private fun InfoCard() {
             
             Column {
                 Text(
-                    "Learn While Playing",
+                    stringResource(R.string.learn_while_playing),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = ElectricPurple

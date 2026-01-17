@@ -377,7 +377,7 @@ fun ProductCard(
                         shape = RoundedCornerShape(4.dp)
                     ) {
                         Text(
-                            "BEST VALUE",
+                            stringResource(R.string.best_value),
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.labelSmall,
                             color = DeepSpace,

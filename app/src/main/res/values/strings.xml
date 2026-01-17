@@ -385,4 +385,13 @@
     <string name="try_again_later">Please try again later</string>
     <string name="loading">Loading...</string>
     <string name="please_wait">Please wait...</string>
+    
+    <!-- Final missing strings -->
+    <string name="exit">Exit</string>
+    <string name="play_again">Play Again</string>
+    <string name="choose_game">Choose Your Game</string>
+    <string name="completed_exclamation">Completed!</string>
+    <string name="no_hints_left">No hints left</string>
+    <string name="password_generator">Password Generator</string>
+    <string name="passforge">PASSFORGE</string>
 </resources>

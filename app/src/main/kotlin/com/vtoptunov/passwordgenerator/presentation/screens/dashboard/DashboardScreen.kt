@@ -115,7 +115,7 @@ fun DashboardHeader(onNavigateBack: () -> Unit) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                "DASHBOARD",
+                stringResource(R.string.dashboard_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = TextSecondary
             )
