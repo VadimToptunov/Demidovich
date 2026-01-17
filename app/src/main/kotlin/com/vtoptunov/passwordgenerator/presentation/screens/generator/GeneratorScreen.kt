@@ -81,35 +81,40 @@ fun GeneratorScreen(
                         Icon(
                             Icons.Default.Star,
                             contentDescription = "Premium",
-                            tint = WarningOrange
+                            tint = WarningOrange,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = onNavigateToAcademy) {
                         Icon(
                             Icons.Default.School,
                             contentDescription = "PassForge Academy",
-                            tint = ElectricPurple
+                            tint = ElectricPurple,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = onNavigateToDashboard) {
                         Icon(
                             Icons.Default.Dashboard,
                             contentDescription = "Dashboard",
-                            tint = CyberBlue
+                            tint = CyberBlue,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = onNavigateToSaved) {
                         Icon(
                             Icons.Default.Storage,
                             contentDescription = "Saved Passwords",
-                            tint = NeonGreen
+                            tint = NeonGreen,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(
                             Icons.Default.Settings,
                             contentDescription = "Settings",
-                            tint = TextSecondary
+                            tint = TextSecondary,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 }
