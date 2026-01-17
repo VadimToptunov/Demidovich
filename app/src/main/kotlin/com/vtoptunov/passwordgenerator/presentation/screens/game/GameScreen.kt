@@ -41,6 +41,7 @@ fun GameScreen(
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
     
     Column(
         modifier = Modifier

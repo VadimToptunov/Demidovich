@@ -39,6 +39,7 @@ fun AcademyHomeScreen(
     viewModel: AcademyHomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
     
     Scaffold(
         topBar = {
@@ -46,7 +47,7 @@ fun AcademyHomeScreen(
                 title = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
                     ) {
                         Text(
                             "🎮",
@@ -79,8 +80,8 @@ fun AcademyHomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            contentPadding = PaddingValues(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
         ) {
             item {
                 ProgressCard(state.progress)
@@ -93,17 +94,17 @@ fun AcademyHomeScreen(
                         .fillMaxWidth()
                         .clickable { onLessonsClick() },
                     colors = CardDefaults.cardColors(containerColor = ElectricPurple.copy(alpha = 0.2f)),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(20.dp),
+                            .padding(dimensions.spacingLarge),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -128,7 +129,7 @@ fun AcademyHomeScreen(
                             Icons.Default.ChevronRight,
                             contentDescription = null,
                             tint = ElectricPurple,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                     }
                 }
@@ -140,7 +141,7 @@ fun AcademyHomeScreen(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = dimensions.spacingSmall)
                 )
             }
             
@@ -162,15 +163,17 @@ fun AcademyHomeScreen(
 
 @Composable
 private fun ProgressCard(progress: AcademyProgress) {
+    val dimensions = LocalDimensions.current
+    
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .border(2.dp, ElectricPurple.copy(alpha = 0.5f), RoundedCornerShape(16.dp)),
+            .border(2.dp, ElectricPurple.copy(alpha = 0.5f), RoundedCornerShape(dimensions.cardCornerRadius)),
         color = SurfaceDark,
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(dimensions.spacingLarge)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -209,19 +212,19 @@ private fun ProgressCard(progress: AcademyProgress) {
                 }
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimensions.spacingMedium))
             
             LinearProgressIndicator(
                 progress = (progress.totalXp % 100) / 100f,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(4.dp)),
+                    .height(dimensions.spacingSmall)
+                    .clip(RoundedCornerShape(dimensions.spacingExtraSmall)),
                 color = CyberBlue,
                 trackColor = SurfaceMedium
             )
             
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(dimensions.spacingSmall))
             
             Text(
                 "${progress.totalXp % 100}/100 XP to next level",
@@ -239,6 +242,7 @@ private fun GameCard(
     onClick: () -> Unit
 ) {
     val isUnlocked = progress.gamesUnlocked.contains(game)
+    val dimensions = LocalDimensions.current
     
     Surface(
         modifier = Modifier
@@ -253,21 +257,21 @@ private fun GameCard(
             .border(
                 width = 2.dp,
                 color = if (isUnlocked) CyberBlue.copy(alpha = 0.5f) else SurfaceMedium,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ),
         color = if (isUnlocked) SurfaceDark else SurfaceDark.copy(alpha = 0.5f),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(dimensions.iconExtraLarge)
                     .background(
                         color = if (isUnlocked) ElectricPurple.copy(alpha = 0.2f) else SurfaceMedium,
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius)
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -277,7 +281,7 @@ private fun GameCard(
                 )
             }
             
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(dimensions.spacingMedium))
             
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -287,7 +291,7 @@ private fun GameCard(
                     color = if (isUnlocked) TextPrimary else TextTertiary
                 )
                 
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(dimensions.spacingExtraSmall))
                 
                 Text(
                     game.description,
@@ -297,7 +301,7 @@ private fun GameCard(
                 )
                 
                 if (!isUnlocked) {
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(dimensions.spacingSmall))
                     Text(
                         "Unlocks at Level ${game.unlockLevel}",
                         fontSize = 12.sp,
@@ -311,7 +315,8 @@ private fun GameCard(
                 Icon(
                     Icons.Default.ChevronRight,
                     contentDescription = null,
-                    tint = CyberBlue
+                    tint = CyberBlue,
+                    modifier = Modifier.size(dimensions.iconMedium)
                 )
             }
         }
