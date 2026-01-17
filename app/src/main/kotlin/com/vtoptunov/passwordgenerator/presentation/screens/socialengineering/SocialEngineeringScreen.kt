@@ -295,7 +295,7 @@ fun GameContent(
         // Response Options
         item {
             Text(
-                "Choose your response:",
+                stringResource(R.string.choose_your_response),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
@@ -415,7 +415,7 @@ fun ResponseCard(
                 if (showResult && isCorrect) {
                     Icon(
                         Icons.Default.Check,
-                        contentDescription = "Correct",
+                        contentDescription = stringResource(R.string.correct),
                         tint = DeepSpace,
                         modifier = Modifier.size(LocalDimensions.current.iconSmall)
                     )
@@ -576,7 +576,7 @@ fun ExplanationContent(
                 colors = ButtonDefaults.buttonColors(containerColor = CyberBlue)
             ) {
                 Text(
-                    "Next Scenario →",
+                    stringResource(R.string.next_scenario),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = DeepSpace

@@ -89,7 +89,7 @@ fun GeneratorScreen(
                     IconButton(onClick = onNavigateToAcademy) {
                         Icon(
                             Icons.Default.School,
-                            contentDescription = "PassForge Academy",
+                            contentDescription = stringResource(R.string.passforge_academy_title),
                             tint = ElectricPurple,
                             modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
@@ -563,13 +563,13 @@ fun OptionsCard(
                 FilterChip(
                     selected = includeUppercase,
                     onClick = { onOptionToggled(PasswordOption.UPPERCASE) },
-                    label = { Text("A-Z") },
+                    label = { Text(stringResource(R.string.uppercase_letters)) },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     selected = includeLowercase,
                     onClick = { onOptionToggled(PasswordOption.LOWERCASE) },
-                    label = { Text("a-z") },
+                    label = { Text(stringResource(R.string.lowercase_letters)) },
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -580,13 +580,13 @@ fun OptionsCard(
                 FilterChip(
                     selected = includeNumbers,
                     onClick = { onOptionToggled(PasswordOption.NUMBERS) },
-                    label = { Text("0-9") },
+                    label = { Text(stringResource(R.string.numbers_label)) },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     selected = includeSymbols,
                     onClick = { onOptionToggled(PasswordOption.SYMBOLS) },
-                    label = { Text("!@#") },
+                    label = { Text(stringResource(R.string.symbols_label)) },
                     modifier = Modifier.weight(1f)
                 )
             }

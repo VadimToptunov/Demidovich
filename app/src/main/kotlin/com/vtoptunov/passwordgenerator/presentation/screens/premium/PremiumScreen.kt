@@ -177,7 +177,7 @@ fun PremiumScreen(
                 modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissError) }) {
-                        Text("Dismiss", color = TextPrimary)
+                        Text(stringResource(R.string.dismiss), color = TextPrimary)
                     }
                 },
                 containerColor = DangerRed,

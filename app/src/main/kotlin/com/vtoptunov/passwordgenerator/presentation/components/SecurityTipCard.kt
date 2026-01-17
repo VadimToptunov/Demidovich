@@ -1,4 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.components
+import com.vtoptunov.passwordgenerator.R
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -85,7 +87,7 @@ fun SecurityTipCard(
             ) {
                 Icon(
                     Icons.Default.Close,
-                    contentDescription = "Dismiss",
+                    contentDescription = stringResource(R.string.dismiss),
                     tint = TextSecondary,
                     modifier = Modifier.size(16.dp)
                 )

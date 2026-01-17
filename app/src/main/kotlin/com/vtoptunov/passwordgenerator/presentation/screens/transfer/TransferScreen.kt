@@ -122,7 +122,7 @@ fun TransferScreen(
                 modifier = Modifier.padding(LocalDimensions.current.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(TransferEvent.DismissError) }) {
-                        Text("Dismiss", color = TextPrimary)
+                        Text(stringResource(R.string.dismiss), color = TextPrimary)
                     }
                 },
                 containerColor = DangerRed
@@ -156,7 +156,7 @@ fun SelectModeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Choose Transfer Mode",
+            text = stringResource(R.string.choose_transfer_mode),
             style = MaterialTheme.typography.headlineMedium,
             color = TextPrimary,
             modifier = Modifier.padding(bottom = 32.dp)
@@ -438,7 +438,7 @@ fun ImportScanScreen(
             Spacer(modifier = Modifier.height(LocalDimensions.current.spacingLarge))
             
             Text(
-                text = "Scan QR Code",
+                text = stringResource(R.string.scan_qr_code),
                 style = MaterialTheme.typography.headlineMedium,
                 color = TextPrimary
             )
@@ -585,7 +585,7 @@ fun ImportReviewScreen(
                 } else {
                     Icon(Icons.Default.Check, null, tint = DeepSpace)
                     Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
-                    Text("Import", color = DeepSpace, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.import_action), color = DeepSpace, fontWeight = FontWeight.Bold)
                 }
             }
         }

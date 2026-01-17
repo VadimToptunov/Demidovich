@@ -54,7 +54,7 @@ fun AcademyHomeScreen(
                             fontSize = 24.sp
                         )
                         Text(
-                            "PassForge Academy",
+                            stringResource(R.string.passforge_academy_title),
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -354,7 +354,7 @@ private fun InfoCard() {
                 
                 Text(
                     "Each game teaches you real cybersecurity concepts. " +
-                    "Complete levels to earn XP and unlock new games!",
+                    stringResource(R.string.complete_levels_to_unlock),
                     fontSize = 14.sp,
                     color = TextSecondary,
                     lineHeight = 20.sp

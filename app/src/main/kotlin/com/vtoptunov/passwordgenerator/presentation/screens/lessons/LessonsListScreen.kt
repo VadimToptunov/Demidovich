@@ -69,7 +69,7 @@ fun LessonsListScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        if (isRussian) "Изучай кибербезопасность" else "Learn cybersecurity",
+                        if (isRussian) "Изучай кибербезопасность" else stringResource(R.string.learn_cybersecurity),
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextSecondary
                     )
@@ -235,7 +235,7 @@ fun LessonCard(
                         modifier = Modifier.size(16.dp)
                     )
                     Text(
-                        if (isRussian) "Заблокировано" else "Locked",
+                        if (isRussian) "Заблокировано" else stringResource(R.string.locked),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextTertiary
                     )
@@ -251,7 +251,7 @@ fun LessonCard(
                 ) {
                     Icon(Icons.Default.PlayArrow, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text(if (isRussian) "Начать урок" else "Start Lesson")
+                    Text(if (isRussian) "Начать урок" else stringResource(R.string.start_lesson_button))
                 }
             }
         }

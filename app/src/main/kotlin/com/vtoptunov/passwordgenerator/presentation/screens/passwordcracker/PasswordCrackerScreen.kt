@@ -290,7 +290,7 @@ fun GameContent(
         OutlinedTextField(
             value = state.userInput,
             onValueChange = { onEvent(PasswordCrackerEvent.InputChanged(it)) },
-            label = { Text("Enter the weak password", color = TextSecondary) },
+            label = { Text(stringResource(R.string.enter_weak_password), color = TextSecondary) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = CyberBlue,
@@ -320,9 +320,9 @@ fun GameContent(
                     contentColor = CyberBlue
                 )
             ) {
-                Icon(Icons.Default.Lightbulb, contentDescription = "Hint", modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.Lightbulb, contentDescription = stringResource(R.string.hint), modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Hint")
+                Text(stringResource(R.string.hint))
             }
 
             // Submit Button
@@ -334,7 +334,7 @@ fun GameContent(
             ) {
                 Icon(Icons.Default.Check, contentDescription = "Submit", modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Crack Password", color = DeepSpace, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.crack_password), color = DeepSpace, fontWeight = FontWeight.Bold)
             }
         }
     }

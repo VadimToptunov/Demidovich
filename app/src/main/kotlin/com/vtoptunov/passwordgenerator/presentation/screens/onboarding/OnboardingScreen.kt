@@ -1,4 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.onboarding
+import com.vtoptunov.passwordgenerator.R
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -259,7 +261,7 @@ fun BiometricSetupDialog(
             )
         },
         title = {
-            Text("Enable Biometric Lock?", fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.enable_biometric_lock), fontWeight = FontWeight.Bold)
         },
         text = {
             Text(

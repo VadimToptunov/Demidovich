@@ -268,7 +268,7 @@ private fun TopicCard(
                                 modifier = Modifier.size(LocalDimensions.current.iconSmall)
                             )
                             Text(
-                                if (isRussian) "Пример" else "Example",
+                                if (isRussian) "Пример" else stringResource(R.string.example),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = ElectricPurple
@@ -716,7 +716,7 @@ private fun ResultsCard(
                 StatItem(
                     icon = Icons.Default.CheckCircle,
                     value = correctAnswers.toString(),
-                    label = if (isRussian) "Правильно" else "Correct",
+                    label = if (isRussian) "Правильно" else stringResource(R.string.correct),
                     color = SuccessGreen
                 )
             }

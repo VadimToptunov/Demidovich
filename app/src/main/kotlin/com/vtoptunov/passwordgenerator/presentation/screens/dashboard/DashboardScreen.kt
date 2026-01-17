@@ -256,7 +256,7 @@ fun QuickStatsGrid(stats: PasswordHealthStats) {
         QuickStatCard(
             modifier = Modifier.weight(1f),
             value = "${stats.averageEntropy.roundToInt()}",
-            label = "Avg Entropy",
+            label = stringResource(R.string.avg_entropy),
             color = CyberBlue,
             icon = "🔐"
         )
@@ -361,7 +361,7 @@ fun OverviewTab(stats: PasswordHealthStats) {
         
         // Average Strength
         InfoCard(
-            title = "Average Strength",
+            title = stringResource(R.string.average_strength),
             value = stats.averageStrength.displayName,
             icon = "📊",
             color = when(stats.averageStrength) {
@@ -452,8 +452,8 @@ fun IssuesTab(issues: List<SecurityIssue>) {
     if (issues.isEmpty()) {
         EmptyState(
             icon = "✅",
-            title = "All Clear!",
-            description = "No security issues detected"
+            title = stringResource(R.string.all_clear),
+            description = stringResource(R.string.no_security_issues)
         )
     } else {
         LazyColumn(
