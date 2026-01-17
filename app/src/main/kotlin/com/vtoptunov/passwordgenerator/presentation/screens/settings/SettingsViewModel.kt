@@ -83,6 +83,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
     
+    fun setUseSystemLockTimeout(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setUseSystemLockTimeout(enabled)
+        }
+    }
+    
     fun setClipboardClear(seconds: Int) {
         viewModelScope.launch {
             settingsRepository.setClipboardClearSeconds(seconds)

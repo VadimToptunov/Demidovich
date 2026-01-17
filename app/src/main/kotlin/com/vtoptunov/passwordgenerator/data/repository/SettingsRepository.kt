@@ -21,6 +21,7 @@ class SettingsRepository @Inject constructor(
         val BIOMETRIC_ENABLED = booleanPreferencesKey("biometric_enabled")
         val AUTO_LOCK_ENABLED = booleanPreferencesKey("auto_lock_enabled")
         val AUTO_LOCK_TIMEOUT = intPreferencesKey("auto_lock_timeout")
+        val USE_SYSTEM_LOCK_TIMEOUT = booleanPreferencesKey("use_system_lock_timeout")
         val CLIPBOARD_CLEAR_SECONDS = intPreferencesKey("clipboard_clear_seconds")
         val SHOW_PASSWORD_STRENGTH = booleanPreferencesKey("show_password_strength")
         val ENABLE_ANALYTICS = booleanPreferencesKey("enable_analytics")
@@ -59,6 +60,7 @@ class SettingsRepository @Inject constructor(
                 biometricEnabled = preferences[PreferencesKeys.BIOMETRIC_ENABLED] ?: false,
                 autoLockEnabled = preferences[PreferencesKeys.AUTO_LOCK_ENABLED] ?: false,
                 autoLockTimeoutMinutes = preferences[PreferencesKeys.AUTO_LOCK_TIMEOUT] ?: 5,
+                useSystemLockTimeout = preferences[PreferencesKeys.USE_SYSTEM_LOCK_TIMEOUT] ?: false,
                 clipboardClearSeconds = preferences[PreferencesKeys.CLIPBOARD_CLEAR_SECONDS] ?: 30,
                 showPasswordStrength = preferences[PreferencesKeys.SHOW_PASSWORD_STRENGTH] ?: true,
                 enableAnalytics = preferences[PreferencesKeys.ENABLE_ANALYTICS] ?: false,
@@ -83,6 +85,12 @@ class SettingsRepository @Inject constructor(
     suspend fun setAutoLockTimeout(minutes: Int) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.AUTO_LOCK_TIMEOUT] = minutes
+        }
+    }
+    
+    suspend fun setUseSystemLockTimeout(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.USE_SYSTEM_LOCK_TIMEOUT] = enabled
         }
     }
     

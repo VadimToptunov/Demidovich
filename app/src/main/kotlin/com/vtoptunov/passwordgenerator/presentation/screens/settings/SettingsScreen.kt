@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.presentation.theme.*
+import com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil
 
 @Composable
 fun SettingsScreen(
@@ -94,65 +95,78 @@ fun SettingsScreen(
                 if (state.settings.autoLockEnabled) {
                     Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
                     
-                    Column(modifier = Modifier.padding(horizontal = LocalDimensions.current.spacingMedium)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Timer,
-                                contentDescription = null,
-                                tint = CyberBlue,
-                                modifier = Modifier.size(LocalDimensions.current.iconMedium)
-                            )
-                            Spacer(Modifier.width(LocalDimensions.current.spacingMedium))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "Lock Timeout",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = TextPrimary
-                                )
-                                Text(
-                                    text = "Lock after ${state.settings.autoLockTimeoutMinutes} minute(s)",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = TextSecondary
-                                )
-                            }
-                        }
+                    // Use System Timeout toggle
+                    SettingsSwitch(
+                        icon = Icons.Default.PhoneAndroid,
+                        title = "Use System Timeout",
+                        description = "Match device screen timeout (${SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(context)}m)",
+                        checked = state.settings.useSystemLockTimeout,
+                        onCheckedChange = { viewModel.setUseSystemLockTimeout(it) }
+                    )
+                    
+                    if (!state.settings.useSystemLockTimeout) {
+                        Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
                         
-                        Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
-                        
-                        // Timeout selector buttons
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 40.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            listOf(1, 3, 5, 10, 15).forEach { minutes ->
-                                OutlinedButton(
-                                    onClick = { viewModel.setAutoLockTimeout(minutes) },
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        containerColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
-                                            CyberBlue.copy(alpha = 0.2f) 
-                                        else 
-                                            SurfaceDark,
-                                        contentColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
-                                            CyberBlue 
-                                        else 
-                                            TextSecondary
-                                    ),
-                                    border = if (state.settings.autoLockTimeoutMinutes == minutes)
-                                        androidx.compose.foundation.BorderStroke(1.dp, CyberBlue)
-                                    else
-                                        null,
-                                    modifier = Modifier.weight(1f),
-                                    contentPadding = PaddingValues(vertical = 8.dp)
-                                ) {
+                        Column(modifier = Modifier.padding(horizontal = LocalDimensions.current.spacingMedium)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Timer,
+                                    contentDescription = null,
+                                    tint = CyberBlue,
+                                    modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                                )
+                                Spacer(Modifier.width(LocalDimensions.current.spacingMedium))
+                                Column(modifier = Modifier.weight(1f)) {
                                     Text(
-                                        text = "${minutes}m",
-                                        style = MaterialTheme.typography.bodySmall
+                                        text = "Lock Timeout",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = TextPrimary
                                     )
+                                    Text(
+                                        text = "Lock after ${state.settings.autoLockTimeoutMinutes} minute(s)",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = TextSecondary
+                                    )
+                                }
+                            }
+                            
+                            Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
+                            
+                            // Timeout selector buttons
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 40.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                listOf(1, 3, 5, 10, 15).forEach { minutes ->
+                                    OutlinedButton(
+                                        onClick = { viewModel.setAutoLockTimeout(minutes) },
+                                        colors = ButtonDefaults.outlinedButtonColors(
+                                            containerColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
+                                                CyberBlue.copy(alpha = 0.2f) 
+                                            else 
+                                                SurfaceDark,
+                                            contentColor = if (state.settings.autoLockTimeoutMinutes == minutes) 
+                                                CyberBlue 
+                                            else 
+                                                TextSecondary
+                                        ),
+                                        border = if (state.settings.autoLockTimeoutMinutes == minutes)
+                                            androidx.compose.foundation.BorderStroke(1.dp, CyberBlue)
+                                        else
+                                            null,
+                                        modifier = Modifier.weight(1f),
+                                        contentPadding = PaddingValues(vertical = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = "${minutes}m",
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                    }
                                 }
                             }
                         }

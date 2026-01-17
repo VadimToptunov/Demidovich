@@ -21,6 +21,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.lock.BiometricLockSc
 import com.vtoptunov.passwordgenerator.presentation.screens.onboarding.OnboardingScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.splash.EnhancedMatrixSplashScreen
 import com.vtoptunov.passwordgenerator.presentation.theme.PasswordGeneratorTheme
+import com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -138,4 +139,3 @@ class MainActivity : FragmentActivity() {
         // Will trigger recomposition and lock screen if needed
     }
 }
-
