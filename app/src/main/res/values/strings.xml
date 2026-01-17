@@ -121,4 +121,58 @@
     <string name="privacy_section">🛡️ Privacy</string>
     <string name="data_section">💾 Data</string>
     <string name="about_section">ℹ️ About</string>
+    
+    <!-- Biometric Lock Screen -->
+    <string name="unlock_passforge">Unlock PassForge</string>
+    <string name="verify_identity">Verify your identity</string>
+    <string name="use_fingerprint_to_continue">Use your fingerprint or face to continue</string>
+    <string name="authentication_failed">Authentication failed. Please try again.</string>
+    <string name="unlock">Unlock</string>
+    <string name="biometric">Biometric</string>
+    <string name="locked">LOCKED</string>
+    
+    <!-- Saved Passwords Screen -->
+    <string name="no_passwords_yet">No passwords yet</string>
+    <string name="search_passwords">Search passwords...</string>
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="clear">Clear</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+    <string name="no_saved_passwords">No Saved Passwords</string>
+    <string name="generate_and_save">Generate and save passwords to see them here</string>
+    <string name="no_results_found">No Results Found</string>
+    <string name="adjust_search">Try adjusting your search or filter</string>
+    <string name="delete_password_question">Delete Password?</string>
+    <string name="action_cannot_be_undone">This action cannot be undone.</string>
+    <string name="date_format">MMM d, yyyy</string>
+    
+    <!-- Password Cracker Game -->
+    <string name="level_number">Level %1$d</string>
+    <string name="time">Time</string>
+    <string name="hints">Hints</string>
+    <string name="streak">Streak</string>
+    <string name="why_weak_password">Why this password is weak:</string>
+    
+    <!-- Phishing Hunter Game -->
+    <string name="next_scenario">Next Scenario →</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="unknown_error">Unknown error occurred</string>
+    
+    <!-- Phishing Red Flags -->
+    <string name="typo_in_url">URL contains typos</string>
+    <string name="too_good_to_be_true">Offer seems too good to be true</string>
+    <string name="suspicious_email">Email address is suspicious</string>
+    <string name="suspicious_domain">Domain name looks suspicious</string>
+    <string name="suspicious_attachment">Has suspicious attachment</string>
+    <string name="spelling_errors">Contains spelling errors</string>
+    <string name="requests_password">Asks for password</string>
+    <string name="numbers_in_domain">Domain has suspicious numbers</string>
+    <string name="no_https">Website doesn\'t use HTTPS encryption</string>
+    <string name="mismatched_url">URL doesn\'t match claimed sender</string>
+    <string name="generic_greeting">Uses generic greeting</string>
+    <string name="false_urgency">Creates false urgency</string>
+    
+    <!-- Transfer Screen -->
+    <string name="import_passwords">Import Passwords</string>
 </resources>

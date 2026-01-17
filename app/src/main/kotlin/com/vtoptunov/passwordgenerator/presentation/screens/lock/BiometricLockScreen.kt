@@ -9,10 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
+import com.vtoptunov.passwordgenerator.R
 import com.vtoptunov.passwordgenerator.data.security.BiometricAuthManager
 import com.vtoptunov.passwordgenerator.presentation.theme.*
 
@@ -28,9 +30,9 @@ fun BiometricLockScreen(
         // Automatically trigger biometric authentication on screen load
         biometricAuthManager.authenticate(
             activity = activity,
-            title = "Unlock PassForge",
-            subtitle = "Verify your identity",
-            description = "Use your fingerprint or face to continue",
+            title = activity.getString(R.string.unlock_passforge),
+            subtitle = activity.getString(R.string.verify_identity),
+            description = activity.getString(R.string.use_fingerprint_to_continue),
             onSuccess = {
                 onAuthenticated()
             },
@@ -38,7 +40,7 @@ fun BiometricLockScreen(
                 errorMessage = error
             },
             onFailed = {
-                errorMessage = "Authentication failed. Please try again."
+                errorMessage = activity.getString(R.string.authentication_failed)
             }
         )
     }
@@ -60,7 +62,7 @@ fun BiometricLockScreen(
         ) {
             Icon(
                 imageVector = Icons.Default.Fingerprint,
-                contentDescription = "Biometric",
+                contentDescription = stringResource(R.string.biometric),
                 tint = CyberBlue,
                 modifier = Modifier.size(120.dp)
             )
@@ -68,7 +70,7 @@ fun BiometricLockScreen(
             Spacer(Modifier.height(32.dp))
             
             Text(
-                text = "🔒 PASSFORGE LOCKED",
+                text = "🔒 ${stringResource(R.string.app_name).uppercase()} ${stringResource(R.string.locked)}",
                 style = MaterialTheme.typography.headlineMedium,
                 color = CyberBlue,
                 fontWeight = FontWeight.Bold,
@@ -78,7 +80,7 @@ fun BiometricLockScreen(
             Spacer(Modifier.height(16.dp))
             
             Text(
-                text = "Use your fingerprint or face to unlock",
+                text = stringResource(R.string.use_fingerprint_to_continue),
                 style = MaterialTheme.typography.bodyLarge,
                 color = TextSecondary,
                 textAlign = TextAlign.Center
@@ -91,12 +93,12 @@ fun BiometricLockScreen(
                     errorMessage = null
                     biometricAuthManager.authenticate(
                         activity = activity,
-                        title = "Unlock PassForge",
-                        subtitle = "Verify your identity",
-                        description = "Use your fingerprint or face to continue",
+                        title = activity.getString(R.string.unlock_passforge),
+                        subtitle = activity.getString(R.string.verify_identity),
+                        description = activity.getString(R.string.use_fingerprint_to_continue),
                         onSuccess = onAuthenticated,
                         onError = { error -> errorMessage = error },
-                        onFailed = { errorMessage = "Authentication failed. Please try again." }
+                        onFailed = { errorMessage = activity.getString(R.string.authentication_failed) }
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -106,7 +108,7 @@ fun BiometricLockScreen(
             ) {
                 Icon(Icons.Default.Fingerprint, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Unlock")
+                Text(stringResource(R.string.unlock))
             }
             
             errorMessage?.let { error ->

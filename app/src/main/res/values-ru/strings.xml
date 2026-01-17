@@ -121,4 +121,58 @@
     <string name="privacy_section">🛡️ Приватность</string>
     <string name="data_section">💾 Данные</string>
     <string name="about_section">ℹ️ О приложении</string>
+    
+    <!-- Biometric Lock Screen -->
+    <string name="unlock_passforge">Разблокировать PassForge</string>
+    <string name="verify_identity">Подтвердите свою личность</string>
+    <string name="use_fingerprint_to_continue">Используйте отпечаток пальца или Face ID</string>
+    <string name="authentication_failed">Аутентификация не удалась. Попробуйте снова.</string>
+    <string name="unlock">Разблокировать</string>
+    <string name="biometric">Биометрия</string>
+    <string name="locked">ЗАБЛОКИРОВАНО</string>
+    
+    <!-- Saved Passwords Screen -->
+    <string name="no_passwords_yet">Пока нет паролей</string>
+    <string name="search_passwords">Поиск паролей...</string>
+    <string name="collapse">Свернуть</string>
+    <string name="expand">Развернуть</string>
+    <string name="clear">Очистить</string>
+    <string name="show">Показать</string>
+    <string name="hide">Скрыть</string>
+    <string name="no_saved_passwords">Нет сохранённых паролей</string>
+    <string name="generate_and_save">Создавайте и сохраняйте пароли, чтобы увидеть их здесь</string>
+    <string name="no_results_found">Ничего не найдено</string>
+    <string name="adjust_search">Попробуйте изменить поиск или фильтр</string>
+    <string name="delete_password_question">Удалить пароль?</string>
+    <string name="action_cannot_be_undone">Это действие нельзя отменить.</string>
+    <string name="date_format">d MMM yyyy</string>
+    
+    <!-- Password Cracker Game -->
+    <string name="level_number">Уровень %1$d</string>
+    <string name="time">Время</string>
+    <string name="hints">Подсказки</string>
+    <string name="streak">Серия</string>
+    <string name="why_weak_password">Почему этот пароль слабый:</string>
+    
+    <!-- Phishing Hunter Game -->
+    <string name="next_scenario">Следующий сценарий →</string>
+    <string name="dismiss">Закрыть</string>
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
+    
+    <!-- Phishing Red Flags -->
+    <string name="typo_in_url">URL содержит опечатки</string>
+    <string name="too_good_to_be_true">Предложение слишком хорошее</string>
+    <string name="suspicious_email">Подозрительный email адрес</string>
+    <string name="suspicious_domain">Подозрительное доменное имя</string>
+    <string name="suspicious_attachment">Подозрительное вложение</string>
+    <string name="spelling_errors">Содержит орфографические ошибки</string>
+    <string name="requests_password">Запрашивает пароль</string>
+    <string name="numbers_in_domain">Подозрительные цифры в домене</string>
+    <string name="no_https">Сайт не использует HTTPS шифрование</string>
+    <string name="mismatched_url">URL не соответствует отправителю</string>
+    <string name="generic_greeting">Использует общее приветствие</string>
+    <string name="false_urgency">Создаёт ложную срочность</string>
+    
+    <!-- Transfer Screen -->
+    <string name="import_passwords">Импорт паролей</string>
 </resources>
