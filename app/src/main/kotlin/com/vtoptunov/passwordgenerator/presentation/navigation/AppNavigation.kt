@@ -18,6 +18,7 @@ import com.vtoptunov.passwordgenerator.presentation.screens.premium.PremiumScree
 import com.vtoptunov.passwordgenerator.presentation.screens.saved.SavedPasswordsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.settings.SettingsScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.socialengineering.SocialEngineeringScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.transfer.TransferScreen
 
 sealed class Screen(val route: String) {
     object Generator : Screen("generator")
@@ -30,6 +31,7 @@ sealed class Screen(val route: String) {
         fun createRoute(lessonId: String) = "lesson_detail/$lessonId"
     }
     object Premium : Screen("premium")
+    object Transfer : Screen("transfer")
     object Game : Screen("game?password={password}") {
         fun createRoute(password: String? = null): String {
             return if (password != null) {
@@ -87,6 +89,9 @@ fun AppNavigation() {
             SettingsScreen(
                 onNavigateBack = {
                     navController.popBackStack()
+                },
+                onNavigateToTransfer = {
+                    navController.navigate(Screen.Transfer.route)
                 }
             )
         }
@@ -193,6 +198,11 @@ fun AppNavigation() {
                     navController.popBackStack()
                 }
             )
+        }
+        
+        // Transfer Screen (QR Code Export/Import)
+        composable(Screen.Transfer.route) {
+            TransferScreen(navController = navController)
         }
     }
 }

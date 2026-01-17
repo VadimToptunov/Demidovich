@@ -1,6 +1,7 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,7 +25,8 @@ import com.vtoptunov.passwordgenerator.presentation.theme.*
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onNavigateToTransfer: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current as? FragmentActivity
@@ -118,6 +120,20 @@ fun SettingsScreen(
                     description = "Show strength when generating",
                     checked = state.settings.showPasswordStrength,
                     onCheckedChange = { viewModel.setShowPasswordStrength(it) }
+                )
+            }
+            
+            Spacer(Modifier.height(16.dp))
+            
+            // Data Section
+            SectionHeader("💾 Data")
+            
+            SettingsCard {
+                SettingsItem(
+                    icon = Icons.Default.QrCode2,
+                    title = "Transfer Passwords",
+                    description = "Export or import via QR code",
+                    onClick = onNavigateToTransfer
                 )
             }
             
@@ -249,10 +265,20 @@ fun SettingsSwitch(
 fun SettingsItem(
     icon: ImageVector,
     title: String,
-    description: String
+    description: String,
+    onClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(onClick = onClick)
+                } else {
+                    Modifier
+                }
+            )
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
