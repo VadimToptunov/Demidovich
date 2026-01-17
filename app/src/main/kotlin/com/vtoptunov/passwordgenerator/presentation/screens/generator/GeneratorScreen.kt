@@ -83,7 +83,7 @@ fun GeneratorScreen(
                             Icons.Default.Star,
                             contentDescription = "Premium",
                             tint = WarningOrange,
-                            modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                            modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
                     }
                     IconButton(onClick = onNavigateToAcademy) {
@@ -91,7 +91,7 @@ fun GeneratorScreen(
                             Icons.Default.School,
                             contentDescription = "PassForge Academy",
                             tint = ElectricPurple,
-                            modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                            modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
                     }
                     IconButton(onClick = onNavigateToDashboard) {
@@ -99,7 +99,7 @@ fun GeneratorScreen(
                             Icons.Default.Dashboard,
                             contentDescription = "Dashboard",
                             tint = CyberBlue,
-                            modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                            modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
                     }
                     IconButton(onClick = onNavigateToSaved) {
@@ -107,7 +107,7 @@ fun GeneratorScreen(
                             Icons.Default.Storage,
                             contentDescription = "Saved Passwords",
                             tint = NeonGreen,
-                            modifier = Modifier.size(LocalDimensions.current.iconMedium)
+                            modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
                     }
                     IconButton(onClick = onNavigateToSettings) {

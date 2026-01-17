@@ -64,7 +64,7 @@ class OnboardingViewModel @Inject constructor(
     private fun buildOnboardingPages(includeBiometric: Boolean): List<OnboardingPage> {
         val pages = mutableListOf(
             OnboardingPage(
-                title = "Welcome to CyberSafe",
+                title = "Welcome to PassForge",
                 description = "Generate ultra-secure passwords with military-grade encryption. Your digital fortress starts here.",
                 icon = OnboardingIcon.WELCOME,
                 pageNumber = 0,
@@ -78,7 +78,7 @@ class OnboardingViewModel @Inject constructor(
                 totalPages = if (includeBiometric) 5 else 4
             ),
             OnboardingPage(
-                title = "CyberSafe Academy",
+                title = "PassForge Academy",
                 description = "Level up your security skills! Play games, earn XP, and become a cybersecurity expert.",
                 icon = OnboardingIcon.ACADEMY,
                 pageNumber = 2,
@@ -90,7 +90,7 @@ class OnboardingViewModel @Inject constructor(
             pages.add(
                 OnboardingPage(
                     title = "Biometric Protection",
-                    description = "Use your fingerprint or face to unlock CyberSafe. Maximum security, minimum effort.",
+                    description = "Use your fingerprint or face to unlock PassForge. Maximum security, minimum effort.",
                     icon = OnboardingIcon.BIOMETRIC,
                     pageNumber = 3,
                     totalPages = 5
