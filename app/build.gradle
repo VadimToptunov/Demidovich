@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.kapt'
     id 'com.google.dagger.hilt.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
@@ -81,10 +82,7 @@ android {
     buildFeatures {
         compose true
     }
-    
-    composeOptions {
-        kotlinCompilerExtensionVersion = '1.5.10'
-    }
+
 
     packagingOptions {
         resources {
@@ -95,7 +93,7 @@ android {
 
 dependencies {
     def compose_version = '1.6.0'
-    def hilt_version = '2.50'
+    def hilt_version = '2.51.1'
     def room_version = '2.6.1'
     
     // Core Android
