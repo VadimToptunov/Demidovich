@@ -2,6 +2,7 @@ package com.vtoptunov.passwordgenerator.presentation.screens.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vtoptunov.passwordgenerator.data.datastore.AcademyProgressDataStore
 import com.vtoptunov.passwordgenerator.data.repository.PremiumRepository
 import com.vtoptunov.passwordgenerator.domain.model.GameDifficulty
 import com.vtoptunov.passwordgenerator.domain.model.GamePhase
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val generateMemoryGameUseCase: GenerateMemoryGameUseCase,
-    private val premiumRepository: PremiumRepository
+    private val premiumRepository: PremiumRepository,
+    private val academyProgressDataStore: AcademyProgressDataStore
 ) : ViewModel() {
     
     private val _state = MutableStateFlow(GameState())
@@ -36,6 +38,13 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch {
             premiumRepository.premiumStatus.collect { premiumStatus ->
                 isPremium = premiumStatus.isPremium
+            }
+        }
+        
+        // Load player stats from DataStore
+        viewModelScope.launch {
+            academyProgressDataStore.playerStats.collect { stats ->
+                _state.update { it.copy(playerStats = stats) }
             }
         }
     }
@@ -145,7 +154,12 @@ class GameViewModel @Inject constructor(
                     password = game.correctPassword
                 )
                 
-                val updatedStats = updatePlayerStats(currentState.playerStats, result)
+                // Save stats to DataStore
+                academyProgressDataStore.updateStats(
+                    xpEarned = result.xpEarned,
+                    isWin = true,
+                    difficulty = result.difficulty
+                )
                 
                 _state.update {
                     it.copy(
@@ -153,7 +167,6 @@ class GameViewModel @Inject constructor(
                             phase = GamePhase.RESULT,
                             result = result
                         ),
-                        playerStats = updatedStats,
                         showResult = true,
                         isCheckingAnswer = false
                     )
@@ -172,7 +185,12 @@ class GameViewModel @Inject constructor(
                     password = game.correctPassword
                 )
                 
-                val updatedStats = updatePlayerStats(currentState.playerStats, result)
+                // Save failed attempt to DataStore (no XP, but count the game)
+                academyProgressDataStore.updateStats(
+                    xpEarned = 0,
+                    isWin = false,
+                    difficulty = result.difficulty
+                )
                 
                 _state.update {
                     it.copy(
@@ -180,7 +198,6 @@ class GameViewModel @Inject constructor(
                             phase = GamePhase.RESULT,
                             result = result
                         ),
-                        playerStats = updatedStats,
                         attemptsRemaining = 0,
                         showResult = true,
                         isCheckingAnswer = false,
@@ -235,31 +252,6 @@ class GameViewModel @Inject constructor(
     
     private fun exitGame() {
         memorizeTimerJob?.cancel()
-    }
-    
-    private fun updatePlayerStats(stats: PlayerStats, result: GameResult): PlayerStats {
-        val newTotalGames = stats.totalGamesPlayed + 1
-        val newTotalWins = if (result.isSuccess) stats.totalGamesWon + 1 else stats.totalGamesWon
-        val newTotalXP = stats.totalXP + result.xpEarned
-        val newStreak = if (result.isSuccess) stats.currentStreak + 1 else 0
-        val newBestStreak = maxOf(stats.bestStreak, newStreak)
-        val newLevel = (newTotalXP / 100) + 1
-        
-        val updatedWinsByDifficulty = stats.gamesWonByDifficulty.toMutableMap()
-        if (result.isSuccess) {
-            updatedWinsByDifficulty[result.difficulty] = 
-                (updatedWinsByDifficulty[result.difficulty] ?: 0) + 1
-        }
-        
-        return stats.copy(
-            totalGamesPlayed = newTotalGames,
-            totalGamesWon = newTotalWins,
-            totalXP = newTotalXP,
-            level = newLevel,
-            currentStreak = newStreak,
-            bestStreak = newBestStreak,
-            gamesWonByDifficulty = updatedWinsByDifficulty
-        )
     }
 }
 
