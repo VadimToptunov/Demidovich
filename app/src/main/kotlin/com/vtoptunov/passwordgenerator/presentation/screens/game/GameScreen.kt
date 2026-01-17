@@ -141,7 +141,7 @@ fun GameHeader(
             }
             Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
             Text(
-                text = "Memory Training",
+                text = stringResource(R.string.memory_training),
                 style = MaterialTheme.typography.headlineSmall,
                 color = CyberBlue
             )
@@ -366,7 +366,7 @@ fun MemorizePhase(
         Spacer(modifier = Modifier.height(32.dp))
         
         Text(
-            text = "Memorize this password",
+            text = stringResource(R.string.memorize_this_password),
             style = MaterialTheme.typography.titleLarge,
             color = TextPrimary,
             textAlign = TextAlign.Center
@@ -415,7 +415,7 @@ fun MemorizePhase(
                 modifier = Modifier.size(LocalDimensions.current.iconSmall)
             )
             Text(
-                text = "Focus on the details!",
+                text = stringResource(R.string.focus_on_details),
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextSecondary
             )
@@ -461,7 +461,7 @@ fun SelectionPhase(
         Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         
         Text(
-            text = "Select the correct password",
+            text = stringResource(R.string.select_correct_password),
             style = MaterialTheme.typography.titleLarge,
             color = TextPrimary,
             textAlign = TextAlign.Center,
@@ -627,7 +627,7 @@ fun ResultPhase(
                 Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
                 
                 Text(
-                    text = "Correct Password:",
+                    text = stringResource(R.string.correct_password),
                     style = MaterialTheme.typography.labelMedium,
                     color = TextSecondary
                 )

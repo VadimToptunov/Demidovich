@@ -442,4 +442,17 @@
     <string name="entropy_format">Entropy: %1$d bits</string>
     <string name="attempts_format_full">Attempts: %1$s</string>
     <string name="extra_attempts_format">Extra Attempts: %1$d</string>
+    
+    <!-- Final critical strings -->
+    <string name="memorize_this_password">Memorize this password</string>
+    <string name="select_correct_password">Select the correct password</string>
+    <string name="focus_on_details">Focus on the details!</string>
+    <string name="memory_training">Memory Training</string>
+    <string name="time_format">Time: %1$ds</string>
+    <string name="length_format">Length: %1$d+ chars</string>
+    <string name="options_format">Options: %1$d</string>
+    <string name="level_format">Level %1$d</string>
+    <string name="time_spent_format">%1$ds</string>
+    <string name="xp_plus_format">+%1$d XP</string>
+    <string name="xp_reward_format">+%1$d</string>
 </resources>

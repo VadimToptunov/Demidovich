@@ -442,4 +442,17 @@
     <string name="entropy_format">Энтропия: %1$d бит</string>
     <string name="attempts_format_full">Попытки: %1$s</string>
     <string name="extra_attempts_format">Дополнительные попытки: %1$d</string>
+    
+    <!-- Final critical strings -->
+    <string name="memorize_this_password">Запомните этот пароль</string>
+    <string name="select_correct_password">Выберите правильный пароль</string>
+    <string name="focus_on_details">Обратите внимание на детали!</string>
+    <string name="memory_training">Тренировка памяти</string>
+    <string name="time_format">Время: %1$d сек</string>
+    <string name="length_format">Длина: %1$d+ символов</string>
+    <string name="options_format">Вариантов: %1$d</string>
+    <string name="level_format">Уровень %1$d</string>
+    <string name="time_spent_format">%1$d сек</string>
+    <string name="xp_plus_format">+%1$d ОО</string>
+    <string name="xp_reward_format">+%1$d</string>
 </resources>
