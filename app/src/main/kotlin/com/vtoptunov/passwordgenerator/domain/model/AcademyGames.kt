@@ -261,6 +261,12 @@ enum class AcademyGame(
         "🎭",
         7,
         "Defend against manipulation tactics"
+    ),
+    NETWORK_DEFENSE(
+        "Network Defense",
+        "🛡️",
+        10,
+        "Build security defenses against cyber attacks"
     )
 }
 

@@ -104,8 +104,8 @@ fun AppNavigation() {
                 onNavigateBack = {
                     navController.popBackStack()
                 },
-                    onGameSelected = { game ->
-                        when (game) {
+                onGameSelected = { game ->
+                    when (game) {
                         com.vtoptunov.passwordgenerator.domain.model.AcademyGame.MEMORY_MATCH -> {
                             navController.navigate(Screen.Game.createRoute())
                         }
@@ -117,6 +117,10 @@ fun AppNavigation() {
                         }
                         com.vtoptunov.passwordgenerator.domain.model.AcademyGame.SOCIAL_ENGINEERING -> {
                             navController.navigate(Screen.SocialEngineeringGame.route)
+                        }
+                        com.vtoptunov.passwordgenerator.domain.model.AcademyGame.NETWORK_DEFENSE -> {
+                            // TODO: Implement Network Defense game screen
+                            // navController.navigate(Screen.NetworkDefenseGame.route)
                         }
                     }
                 },
