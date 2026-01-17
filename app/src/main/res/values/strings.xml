@@ -70,7 +70,6 @@
     <!-- Games -->
     <string name="memory_match">Memory Match</string>
     <string name="password_cracker">Password Cracker</string>
-    <string name="phishing_hunter">Phishing Hunter</string>
     <string name="social_engineering">Social Engineering</string>
     
     <!-- Common -->
@@ -129,7 +128,7 @@
     <string name="authentication_failed">Authentication failed. Please try again.</string>
     <string name="unlock">Unlock</string>
     <string name="biometric">Biometric</string>
-    <string name="locked">LOCKED</string>
+    <string name="app_locked">LOCKED</string>
     
     <!-- Saved Passwords Screen -->
     <string name="no_passwords_yet">No passwords yet</string>
@@ -175,4 +174,136 @@
     
     <!-- Transfer Screen -->
     <string name="import_passwords">Import Passwords</string>
+    
+    <!-- Memory Match Game -->
+    <string name="memorize_password">Memorize the Password</string>
+    <string name="select_password">Select the Password</string>
+    <string name="confirm_selection">Confirm Selection</string>
+    <string name="attempts">Attempts</string>
+    <string name="score">Score</string>
+    <string name="game_over">Game Over</string>
+    <string name="you_won">You Won!</string>
+    <string name="try_again">Try Again</string>
+    <string name="final_score">Final Score: %1$d</string>
+    <string name="attempts_used">Attempts Used</string>
+    <string name="choose_difficulty">Choose Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="expert">Expert</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="correct_answer">✅ Correct!</string>
+    <string name="incorrect_answer">❌ Incorrect</string>
+    <string name="attempt">Attempt</string>
+    <string name="get_extra_attempt">Get an Extra Attempt</string>
+    <string name="watch_ad">Watch Ad</string>
+    <string name="watch_short_ad">Watch a short ad to try again</string>
+    <string name="how_to_play">How to Play</string>
+    
+    <!-- Password Cracker Game -->
+    <string name="crack_password">Crack Password</string>
+    <string name="enter_weak_password">Enter the weak password</string>
+    <string name="hint">Hint</string>
+    <string name="check_answer">Check Answer</string>
+    
+    <!-- Phishing Hunter Game -->
+    <string name="phishing_hunter">Phishing Hunter 🎣</string>
+    <string name="is_legitimate_or_phishing">Is this legitimate or a phishing attempt?</string>
+    <string name="legitimate">Legitimate</string>
+    <string name="phishing">Phishing</string>
+    <string name="investigate_this">🎯 Investigate This:</string>
+    <string name="email_details">Email Details</string>
+    <string name="website_url">Website URL</string>
+    <string name="explanation">🔍 Explanation:</string>
+    <string name="red_flags">🚩 Red Flags:</string>
+    <string name="red_flags_in_scenario">Red flags in this scenario:</string>
+    <string name="legitimate_scenario">This scenario appears legitimate with no obvious red flags. Always verify through official channels when in doubt!</string>
+    <string name="phishing_attempt">This was a PHISHING attempt</string>
+    <string name="legitimate_message">This was LEGITIMATE</string>
+    <string name="xp_reward">+%1$d XP</string>
+    <string name="total_xp">%1$d XP</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_title">DASHBOARD</string>
+    <string name="password_health">Password Health</string>
+    <string name="security_score">Security Score</string>
+    <string name="total_passwords">Total Passwords</string>
+    <string name="weak_passwords">Weak Passwords</string>
+    <string name="reused_passwords">Reused Passwords</string>
+    <string name="average_strength">Average Strength</string>
+    <string name="avg_entropy">Avg Entropy</string>
+    <string name="all_clear">All Clear!</string>
+    <string name="no_security_issues">No security issues detected</string>
+    
+    <!-- Academy -->
+    <string name="choose_your_game">Choose Your Game</string>
+    <string name="learn_while_playing">Learn While Playing</string>
+    <string name="each_game_teaches">Each game teaches you real cybersecurity concepts.</string>
+    <string name="complete_levels_to_unlock">Complete levels to earn XP and unlock new games!</string>
+    <string name="locked">Locked</string>
+    <string name="completed">Completed!</string>
+    <string name="learn_cybersecurity">Learn cybersecurity</string>
+    <string name="start_lesson_button">Start Lesson</string>
+    <string name="example">Example</string>
+    
+    <!-- Common UI -->
+    <string name="enable">Enable</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get Started</string>
+    <string name="info">Info</string>
+    <string name="email_lowercase">Email</string>
+    <string name="url_lowercase">URL</string>
+    <string name="watch_lowercase">Watch</string>
+    
+    <!-- Premium Screen -->
+    <string name="unlock_premium">Unlock Premium</string>
+    <string name="best_value">BEST VALUE</string>
+    <string name="premium_features">Premium Features</string>
+    <string name="exclusive_security_tips">Exclusive security tips</string>
+    <string name="extra_attempts">Extra Attempts: %1$d</string>
+    <string name="unlock_all_features">Unlock all premium features</string>
+    <string name="restore_purchases">Restore Purchases</string>
+    <string name="subscribe">Subscribe</string>
+    
+    <!-- Social Engineering Game -->
+    <string name="social_engineering_title">Social Engineering</string>
+    <string name="choose_your_response">Choose your response:</string>
+    <string name="always_verify">Always verify the identity of people requesting information</string>
+    <string name="be_suspicious">Be suspicious of unsolicited offers. If it seems too good to be true, it probably is!</string>
+    
+    <!-- Transfer Screen Details -->
+    <string name="choose_transfer_mode">Choose Transfer Mode</string>
+    <string name="export">Export</string>
+    <string name="import_action">Import</string>
+    <string name="scan_qr">Scan QR Code</string>
+    <string name="generating_qr">Generating QR Code...</string>
+    <string name="camera_scanner">Camera Scanner</string>
+    <string name="camera">Camera</string>
+    <string name="select_passwords_to_export">Select passwords to export</string>
+    <string name="select_all">Select All</string>
+    <string name="deselect_all">Deselect All</string>
+    <string name="export_selected">Export Selected</string>
+    <string name="passwords_selected">%1$d selected</string>
+    
+    <!-- Onboarding -->
+    <string name="welcome_to_passforge">Welcome to PassForge</string>
+    <string name="enable_biometric_lock">Enable Biometric Lock?</string>
+    <string name="protect_passwords_biometric">Protect your passwords with your fingerprint or face. You can change this later in settings.</string>
+    <string name="fort_knox_security">Fort Knox Security</string>
+    <string name="generate_military_grade">Generate ultra-secure passwords with military-grade encryption</string>
+    <string name="passforge_academy_title">PassForge Academy</string>
+    <string name="level_up_security">Level up your security skills! Play games, earn XP, and become a cybersecurity expert.</string>
+    <string name="biometric_protection">Biometric Protection</string>
+    
+    <!-- Generator -->
+    <string name="generator_title">GENERATOR</string>
+    <string name="password_title">PASSWORD</string>
+    <string name="train_memory">Train Memory</string>
+    <string name="copy_password">Copy Password</string>
+    <string name="attempts_format">Attempts: %1$s</string>
+    <string name="uppercase_letters">A-Z</string>
+    <string name="lowercase_letters">a-z</string>
+    <string name="numbers_label">0-9</string>
+    <string name="symbols_label">!@#</string>
 </resources>

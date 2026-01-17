@@ -70,7 +70,6 @@
     <!-- Games -->
     <string name="memory_match">Тренажер памяти</string>
     <string name="password_cracker">Взломщик паролей</string>
-    <string name="phishing_hunter">Охотник за фишингом</string>
     <string name="social_engineering">Социальная инженерия</string>
     
     <!-- Common -->
@@ -129,7 +128,7 @@
     <string name="authentication_failed">Аутентификация не удалась. Попробуйте снова.</string>
     <string name="unlock">Разблокировать</string>
     <string name="biometric">Биометрия</string>
-    <string name="locked">ЗАБЛОКИРОВАНО</string>
+    <string name="app_locked">ЗАБЛОКИРОВАНО</string>
     
     <!-- Saved Passwords Screen -->
     <string name="no_passwords_yet">Пока нет паролей</string>
@@ -175,4 +174,136 @@
     
     <!-- Transfer Screen -->
     <string name="import_passwords">Импорт паролей</string>
+    
+    <!-- Memory Match Game -->
+    <string name="memorize_password">Запомните пароль</string>
+    <string name="select_password">Выберите пароль</string>
+    <string name="confirm_selection">Подтвердить выбор</string>
+    <string name="attempts">Попытки</string>
+    <string name="score">Счёт</string>
+    <string name="game_over">Игра окончена</string>
+    <string name="you_won">Вы выиграли!</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="final_score">Итоговый счёт: %1$d</string>
+    <string name="attempts_used">Использовано попыток</string>
+    <string name="choose_difficulty">Выберите сложность</string>
+    <string name="easy">Легко</string>
+    <string name="medium">Средне</string>
+    <string name="hard">Сложно</string>
+    <string name="expert">Эксперт</string>
+    <string name="correct">Верно</string>
+    <string name="incorrect">Неверно</string>
+    <string name="correct_answer">✅ Правильно!</string>
+    <string name="incorrect_answer">❌ Неправильно</string>
+    <string name="attempt">Попытка</string>
+    <string name="get_extra_attempt">Получить дополнительную попытку</string>
+    <string name="watch_ad">Посмотреть рекламу</string>
+    <string name="watch_short_ad">Посмотрите короткую рекламу, чтобы попробовать снова</string>
+    <string name="how_to_play">Как играть</string>
+    
+    <!-- Password Cracker Game -->
+    <string name="crack_password">Взломать пароль</string>
+    <string name="enter_weak_password">Введите слабый пароль</string>
+    <string name="hint">Подсказка</string>
+    <string name="check_answer">Проверить ответ</string>
+    
+    <!-- Phishing Hunter Game -->
+    <string name="phishing_hunter">Охотник за фишингом 🎣</string>
+    <string name="is_legitimate_or_phishing">Это легитимно или фишинг?</string>
+    <string name="legitimate">Легитимно</string>
+    <string name="phishing">Фишинг</string>
+    <string name="investigate_this">🎯 Исследуйте это:</string>
+    <string name="email_details">Детали письма</string>
+    <string name="website_url">URL сайта</string>
+    <string name="explanation">🔍 Объяснение:</string>
+    <string name="red_flags">🚩 Тревожные сигналы:</string>
+    <string name="red_flags_in_scenario">Тревожные сигналы в этом сценарии:</string>
+    <string name="legitimate_scenario">Этот сценарий выглядит легитимным без явных тревожных сигналов. Всегда проверяйте через официальные каналы!</string>
+    <string name="phishing_attempt">Это была попытка ФИШИНГА</string>
+    <string name="legitimate_message">Это было ЛЕГИТИМНО</string>
+    <string name="xp_reward">+%1$d опыта</string>
+    <string name="total_xp">%1$d опыта</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_title">ПАНЕЛЬ</string>
+    <string name="password_health">Здоровье паролей</string>
+    <string name="security_score">Рейтинг безопасности</string>
+    <string name="total_passwords">Всего паролей</string>
+    <string name="weak_passwords">Слабые пароли</string>
+    <string name="reused_passwords">Повторяющиеся пароли</string>
+    <string name="average_strength">Средняя надёжность</string>
+    <string name="avg_entropy">Средняя энтропия</string>
+    <string name="all_clear">Всё в порядке!</string>
+    <string name="no_security_issues">Проблем безопасности не обнаружено</string>
+    
+    <!-- Academy -->
+    <string name="choose_your_game">Выберите игру</string>
+    <string name="learn_while_playing">Учитесь играя</string>
+    <string name="each_game_teaches">Каждая игра обучает реальным концепциям кибербезопасности.</string>
+    <string name="complete_levels_to_unlock">Проходите уровни, зарабатывайте опыт и открывайте новые игры!</string>
+    <string name="locked">Заблокировано</string>
+    <string name="completed">Завершено!</string>
+    <string name="learn_cybersecurity">Изучай кибербезопасность</string>
+    <string name="start_lesson_button">Начать урок</string>
+    <string name="example">Пример</string>
+    
+    <!-- Common UI -->
+    <string name="enable">Включить</string>
+    <string name="skip">Пропустить</string>
+    <string name="get_started">Начать</string>
+    <string name="info">Инфо</string>
+    <string name="email_lowercase">Email</string>
+    <string name="url_lowercase">URL</string>
+    <string name="watch_lowercase">Смотреть</string>
+    
+    <!-- Premium Screen -->
+    <string name="unlock_premium">Разблокировать Премиум</string>
+    <string name="best_value">ЛУЧШЕЕ ПРЕДЛОЖЕНИЕ</string>
+    <string name="premium_features">Премиум функции</string>
+    <string name="exclusive_security_tips">Эксклюзивные советы по безопасности</string>
+    <string name="extra_attempts">Дополнительные попытки: %1$d</string>
+    <string name="unlock_all_features">Разблокировать все премиум функции</string>
+    <string name="restore_purchases">Восстановить покупки</string>
+    <string name="subscribe">Подписаться</string>
+    
+    <!-- Social Engineering Game -->
+    <string name="social_engineering_title">Социальная инженерия</string>
+    <string name="choose_your_response">Выберите свой ответ:</string>
+    <string name="always_verify">Всегда проверяйте личность людей, запрашивающих информацию</string>
+    <string name="be_suspicious">Будьте подозрительны к непрошеным предложениям. Если это выглядит слишком хорошо, чтобы быть правдой, вероятно, так и есть!</string>
+    
+    <!-- Transfer Screen Details -->
+    <string name="choose_transfer_mode">Выберите режим переноса</string>
+    <string name="export">Экспорт</string>
+    <string name="import_action">Импорт</string>
+    <string name="scan_qr">Сканировать QR-код</string>
+    <string name="generating_qr">Генерация QR-кода...</string>
+    <string name="camera_scanner">Сканер камеры</string>
+    <string name="camera">Камера</string>
+    <string name="select_passwords_to_export">Выберите пароли для экспорта</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="deselect_all">Снять выделение</string>
+    <string name="export_selected">Экспортировать выбранное</string>
+    <string name="passwords_selected">Выбрано: %1$d</string>
+    
+    <!-- Onboarding -->
+    <string name="welcome_to_passforge">Добро пожаловать в PassForge</string>
+    <string name="enable_biometric_lock">Включить биометрическую блокировку?</string>
+    <string name="protect_passwords_biometric">Защитите свои пароли отпечатком пальца или лицом. Вы можете изменить это позже в настройках.</string>
+    <string name="fort_knox_security">Безопасность как форт Нокс</string>
+    <string name="generate_military_grade">Создавайте ультра-безопасные пароли с шифрованием военного уровня</string>
+    <string name="passforge_academy_title">Академия PassForge</string>
+    <string name="level_up_security">Повышайте свои навыки безопасности! Играйте в игры, зарабатывайте опыт и становитесь экспертом кибербезопасности.</string>
+    <string name="biometric_protection">Биометрическая защита</string>
+    
+    <!-- Generator -->
+    <string name="generator_title">ГЕНЕРАТОР</string>
+    <string name="password_title">ПАРОЛЬ</string>
+    <string name="train_memory">Тренировка памяти</string>
+    <string name="copy_password">Копировать пароль</string>
+    <string name="attempts_format">Попытки: %1$s</string>
+    <string name="uppercase_letters">A-Z</string>
+    <string name="lowercase_letters">a-z</string>
+    <string name="numbers_label">0-9</string>
+    <string name="symbols_label">!@#</string>
 </resources>

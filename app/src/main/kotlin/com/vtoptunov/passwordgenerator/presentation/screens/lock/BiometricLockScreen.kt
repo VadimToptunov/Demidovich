@@ -70,7 +70,7 @@ fun BiometricLockScreen(
             Spacer(Modifier.height(32.dp))
             
             Text(
-                text = "🔒 ${stringResource(R.string.app_name).uppercase()} ${stringResource(R.string.locked)}",
+                text = "🔒 ${stringResource(R.string.app_name).uppercase()} ${stringResource(R.string.app_locked)}",
                 style = MaterialTheme.typography.headlineMedium,
                 color = CyberBlue,
                 fontWeight = FontWeight.Bold,
