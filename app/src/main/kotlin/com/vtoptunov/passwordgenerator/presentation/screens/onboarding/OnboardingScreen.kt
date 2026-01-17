@@ -265,7 +265,7 @@ fun BiometricSetupDialog(
         },
         text = {
             Text(
-                "Protect your passwords with your fingerprint or face. You can change this later in Settings.",
+                stringResource(R.string.protect_passwords_biometric),
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextSecondary
             )

@@ -288,8 +288,6 @@
     <!-- Onboarding -->
     <string name="welcome_to_passforge">Welcome to PassForge</string>
     <string name="enable_biometric_lock">Enable Biometric Lock?</string>
-    <string name="protect_passwords_biometric">Protect your passwords with your fingerprint or face. You can change this later in settings.</string>
-    <string name="fort_knox_security">Fort Knox Security</string>
     <string name="generate_military_grade">Generate ultra-secure passwords with military-grade encryption</string>
     <string name="passforge_academy_title">PassForge Academy</string>
     <string name="level_up_security">Level up your security skills! Play games, earn XP, and become a cybersecurity expert.</string>
@@ -459,4 +457,5 @@
     <string name="unlock_premium">Unlock PassForge Premium</string>
     <string name="generate_and_save_passwords_description">Generate and save passwords to see them here</string>
     <string name="unlocks_at_level_format">Unlocks at Level %1$d</string>
+    <string name="protect_passwords_biometric">Protect your passwords with your fingerprint or face. You can change this later in Settings.</string>
 </resources>

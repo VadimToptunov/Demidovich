@@ -288,8 +288,6 @@
     <!-- Onboarding -->
     <string name="welcome_to_passforge">Добро пожаловать в PassForge</string>
     <string name="enable_biometric_lock">Включить биометрическую блокировку?</string>
-    <string name="protect_passwords_biometric">Защитите свои пароли отпечатком пальца или лицом. Вы можете изменить это позже в настройках.</string>
-    <string name="fort_knox_security">Безопасность как форт Нокс</string>
     <string name="generate_military_grade">Создавайте ультра-безопасные пароли с шифрованием военного уровня</string>
     <string name="passforge_academy_title">Академия PassForge</string>
     <string name="level_up_security">Повышайте свои навыки безопасности! Играйте в игры, зарабатывайте опыт и становитесь экспертом кибербезопасности.</string>
@@ -459,4 +457,5 @@
     <string name="unlock_premium">Разблокировать PassForge Премиум</string>
     <string name="generate_and_save_passwords_description">Создавайте и сохраняйте пароли здесь</string>
     <string name="unlocks_at_level_format">Откроется на уровне %1$d</string>
+    <string name="protect_passwords_biometric">Защитите свои пароли с помощью отпечатка пальца или лица. Вы сможете изменить это позже в настройках.</string>
 </resources>
