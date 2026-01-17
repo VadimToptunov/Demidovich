@@ -2,17 +2,22 @@ package com.vtoptunov.passwordgenerator.presentation.screens.academy
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vtoptunov.passwordgenerator.data.datastore.AcademyProgressDataStore
+import com.vtoptunov.passwordgenerator.domain.model.AcademyGame
 import com.vtoptunov.passwordgenerator.domain.model.AcademyProgress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AcademyHomeViewModel @Inject constructor() : ViewModel() {
+class AcademyHomeViewModel @Inject constructor(
+    private val academyProgressDataStore: AcademyProgressDataStore
+) : ViewModel() {
     
     private val _state = MutableStateFlow(AcademyHomeState())
     val state: StateFlow<AcademyHomeState> = _state.asStateFlow()
@@ -39,23 +44,41 @@ class AcademyHomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             
-            // Load from DataStore persistence
-            // Note: Full integration with AcademyProgressDataStore.playerStats
-            // can be added when gameplay stats are actively tracked
-            val mockProgress = AcademyProgress(
-                totalXp = 450,
-                level = 5,
-                memoryMatchBestStreak = 12,
-                passwordCrackerBestStreak = 8,
-                phishingHunterAccuracy = 0.85f,
-                socialEngineeringCompleted = 5
-            )
-            
-            _state.update {
-                it.copy(
-                    progress = mockProgress,
-                    isLoading = false
+            // Combine player stats and unlocked games from DataStore
+            combine(
+                academyProgressDataStore.playerStats,
+                academyProgressDataStore.unlockedGames,
+                academyProgressDataStore.completedLessons
+            ) { playerStats, unlockedGames, completedLessons ->
+                // Auto-unlock games based on player level
+                val gamesUnlockedByLevel = AcademyGame.values().filter { game ->
+                    playerStats.level >= game.unlockLevel
+                }.toSet()
+                
+                // Unlock games that should be unlocked but aren't yet
+                gamesUnlockedByLevel.forEach { game ->
+                    if (game !in unlockedGames) {
+                        academyProgressDataStore.unlockGame(game)
+                    }
+                }
+                
+                AcademyProgress(
+                    totalXp = playerStats.totalXP,
+                    level = playerStats.level,
+                    memoryMatchBestStreak = playerStats.bestStreak,
+                    passwordCrackerBestStreak = 0, // TODO: Track per-game stats
+                    phishingHunterAccuracy = 0f, // TODO: Track accuracy
+                    socialEngineeringCompleted = 0, // TODO: Track completions
+                    gamesUnlocked = gamesUnlockedByLevel.union(unlockedGames),
+                    lessonsCompleted = completedLessons.size
                 )
+            }.collect { progress ->
+                _state.update {
+                    it.copy(
+                        progress = progress,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
