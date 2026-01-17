@@ -77,8 +77,9 @@ fun GameScreen(
                     }
                     GamePhase.SELECTING -> {
                         SelectionPhase(
-                            game = state.session!!.game,
+                            passwords = state.shuffledPasswords, // Используем фиксированный список
                             selectedPassword = state.selectedPassword,
+                            lastWrongPassword = state.lastWrongPassword,
                             attemptsRemaining = state.attemptsRemaining,
                             onPasswordSelected = { password ->
                                 viewModel.onEvent(GameEvent.SelectPassword(password))
@@ -418,15 +419,14 @@ fun MemorizePhase(
 
 @Composable
 fun SelectionPhase(
-    game: com.vtoptunov.passwordgenerator.domain.model.MemoryGame,
+    passwords: List<String>, // Фиксированный список паролей
     selectedPassword: String?,
+    lastWrongPassword: String?, // Последний неправильный ответ
     attemptsRemaining: Int,
     onPasswordSelected: (String) -> Unit,
     onConfirm: () -> Unit,
     isChecking: Boolean
 ) {
-    val allPasswords = (listOf(game.correctPassword) + game.decoyPasswords).shuffled()
-    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -461,28 +461,9 @@ fun SelectionPhase(
             modifier = Modifier.fillMaxWidth()
         )
         
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        // Password Options Grid
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(if (allPasswords.size <= 4) 1 else 2),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-            items(allPasswords) { password ->
-                PasswordOptionCard(
-                    password = password,
-                    isSelected = password == selectedPassword,
-                    onClick = { onPasswordSelected(password) },
-                    enabled = !isChecking
-                )
-            }
-        }
-        
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Confirm Button
+        // Confirm Button - ВЫШЕ списка паролей
         Button(
             onClick = onConfirm,
             enabled = selectedPassword != null && !isChecking,
@@ -508,6 +489,27 @@ fun SelectionPhase(
                 )
             }
         }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // Password Options Grid
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(if (passwords.size <= 4) 1 else 2),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            items(passwords.size) { index ->
+                val password = passwords[index]
+                PasswordOptionCard(
+                    password = password,
+                    isSelected = password == selectedPassword,
+                    isWrong = password == lastWrongPassword, // Показываем красным
+                    onClick = { onPasswordSelected(password) },
+                    enabled = !isChecking
+                )
+            }
+        }
     }
 }
 
@@ -515,30 +517,44 @@ fun SelectionPhase(
 fun PasswordOptionCard(
     password: String,
     isSelected: Boolean,
+    isWrong: Boolean, // Новый параметр
     onClick: () -> Unit,
     enabled: Boolean
 ) {
+    val borderColor = when {
+        isWrong -> DangerRed // Неправильный ответ - красный
+        isSelected -> NeonGreen // Выбранный - зелёный
+        else -> TextSecondary.copy(alpha = 0.3f) // Обычный
+    }
+    
+    val textColor = when {
+        isWrong -> DangerRed
+        isSelected -> NeonGreen
+        else -> TextPrimary
+    }
+    
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(enabled = enabled, onClick = onClick)
             .border(
-                width = if (isSelected) 3.dp else 1.dp,
-                color = if (isSelected) NeonGreen else TextSecondary.copy(alpha = 0.3f),
+                width = if (isSelected || isWrong) 3.dp else 1.dp,
+                color = borderColor,
                 shape = RoundedCornerShape(12.dp)
             ),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) 
-                CardBackground.copy(alpha = 0.8f) 
-            else 
-                CardBackground
+            containerColor = when {
+                isWrong -> DangerRed.copy(alpha = 0.1f) // Красный фон для ошибки
+                isSelected -> CardBackground.copy(alpha = 0.8f)
+                else -> CardBackground
+            }
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
         Text(
             text = password,
             style = PasswordTextStyle.copy(fontSize = 16.sp),
-            color = if (isSelected) NeonGreen else TextPrimary,
+            color = textColor,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

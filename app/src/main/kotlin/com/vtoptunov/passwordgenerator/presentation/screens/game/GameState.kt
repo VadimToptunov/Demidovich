@@ -16,7 +16,9 @@ data class GameState(
     val attemptsRemaining: Int = 3,
     val selectedPassword: String? = null,
     val isCheckingAnswer: Boolean = false,
-    val showResult: Boolean = false
+    val showResult: Boolean = false,
+    val shuffledPasswords: List<String> = emptyList(), // Фиксированный порядок паролей
+    val lastWrongPassword: String? = null // Последний неправильный ответ для отображения красным
 )
 
 sealed class GameEvent {
