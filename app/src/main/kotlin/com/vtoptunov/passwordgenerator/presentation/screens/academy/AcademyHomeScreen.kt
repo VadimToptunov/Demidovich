@@ -33,6 +33,7 @@ import com.vtoptunov.passwordgenerator.presentation.theme.*
 fun AcademyHomeScreen(
     onNavigateBack: () -> Unit,
     onGameSelected: (AcademyGame) -> Unit,
+    onLessonsClick: () -> Unit = {},
     viewModel: AcademyHomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -81,6 +82,54 @@ fun AcademyHomeScreen(
         ) {
             item {
                 ProgressCard(state.progress)
+            }
+            
+            item {
+                // Lessons Button
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onLessonsClick() },
+                    colors = CardDefaults.cardColors(containerColor = ElectricPurple.copy(alpha = 0.2f)),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                "📚",
+                                fontSize = 32.sp
+                            )
+                            Column {
+                                Text(
+                                    "Уроки безопасности",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                                Text(
+                                    "Изучай основы кибербезопасности",
+                                    fontSize = 14.sp,
+                                    color = TextSecondary
+                                )
+                            }
+                        }
+                        Icon(
+                            Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = ElectricPurple,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+                }
             }
             
             item {

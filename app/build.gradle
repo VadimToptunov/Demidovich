@@ -9,22 +9,34 @@ plugins {
 android {
     signingConfigs {
         release {
-            // BUG FIX #21: Properly handle missing signing config
-            // Use debug signing as fallback to allow builds without keystore
             def keystorePath = System.getenv("KEYSTORE_FILE") ?: project.findProperty("KEYSTORE_FILE")
+            
             if (keystorePath != null && file(keystorePath).exists()) {
                 storeFile file(keystorePath)
                 storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
                 keyAlias System.getenv("KEY_ALIAS") ?: "key0"
                 keyPassword System.getenv("KEY_PASSWORD") ?: ""
             } else {
-                // Fallback to debug signing config to allow builds
-                logger.warn("Release keystore not configured. Using debug signing. Set KEYSTORE_FILE, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD environment variables for production builds.")
-                // Use Android's built-in debug keystore as fallback
-                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
+                logger.error("═══════════════════════════════════════════════════════════════")
+                logger.error("ERROR: Release signing configuration is missing!")
+                logger.error("═══════════════════════════════════════════════════════════════")
+                logger.error("")
+                logger.error("Please set the following environment variables:")
+                logger.error("  - KEYSTORE_FILE: Path to your keystore file")
+                logger.error("  - KEYSTORE_PASSWORD: Keystore password")
+                logger.error("  - KEY_ALIAS: Key alias")
+                logger.error("  - KEY_PASSWORD: Key password")
+                logger.error("")
+                logger.error("Release builds require proper signing credentials for security.")
+                logger.error("For local development, use 'assembleDebug' instead.")
+                logger.error("")
+                logger.error("═══════════════════════════════════════════════════════════════")
+                
+                // Set placeholder config that will fail at signing time with clear error
+                storeFile file("${projectDir}/MISSING_RELEASE_KEYSTORE_CONFIGURATION")
+                storePassword "KEYSTORE_NOT_CONFIGURED"
+                keyAlias "KEYSTORE_NOT_CONFIGURED"
+                keyPassword "KEYSTORE_NOT_CONFIGURED"
             }
         }
     }
@@ -71,9 +83,9 @@ android {
     }
     
     composeOptions {
-        kotlinCompilerExtensionVersion = '1.5.8'
+        kotlinCompilerExtensionVersion = '1.5.10'
     }
-    
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'

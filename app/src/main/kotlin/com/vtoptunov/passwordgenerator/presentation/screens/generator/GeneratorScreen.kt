@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vtoptunov.passwordgenerator.domain.model.PasswordCategory
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStrength
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStyle
 import com.vtoptunov.passwordgenerator.presentation.theme.*
@@ -139,18 +140,31 @@ fun GeneratorScreen(
                 onStyleSelected = { viewModel.onEvent(GeneratorEvent.StyleSelected(it)) }
             )
             
-            // Options (only for Random style)
-            if (state.selectedStyle == PasswordStyle.Random) {
-                OptionsCard(
-                    length = state.passwordLength,
-                    onLengthChanged = { viewModel.onEvent(GeneratorEvent.LengthChanged(it)) },
-                    includeUppercase = state.includeUppercase,
-                    includeLowercase = state.includeLowercase,
-                    includeNumbers = state.includeNumbers,
-                    includeSymbols = state.includeSymbols,
-                    onOptionToggled = { viewModel.onEvent(GeneratorEvent.OptionToggled(it)) }
-                )
-            }
+            // Settings Dropdown
+            SettingsDropdownCard(
+                expanded = state.settingsExpanded,
+                onToggle = { viewModel.onEvent(GeneratorEvent.ToggleSettings) },
+                content = {
+                    // Options (only for Random style)
+                    if (state.selectedStyle == PasswordStyle.Random) {
+                        OptionsCard(
+                            length = state.passwordLength,
+                            onLengthChanged = { viewModel.onEvent(GeneratorEvent.LengthChanged(it)) },
+                            includeUppercase = state.includeUppercase,
+                            includeLowercase = state.includeLowercase,
+                            includeNumbers = state.includeNumbers,
+                            includeSymbols = state.includeSymbols,
+                            onOptionToggled = { viewModel.onEvent(GeneratorEvent.OptionToggled(it)) }
+                        )
+                    }
+                }
+            )
+            
+            // Category Selector
+            CategorySelectorCard(
+                selectedCategory = state.selectedCategory,
+                onCategorySelected = { viewModel.onEvent(GeneratorEvent.CategorySelected(it)) }
+            )
             
             // Action Buttons
             Row(
@@ -489,8 +503,6 @@ fun OptionsCard(
                 value = length.toFloat(),
                 onValueChange = { onLengthChanged(it.toInt()) },
                 valueRange = 8f..32f,
-                // BUG FIX #5: Correct steps calculation for slider
-                // Range 8-32 has 25 values (32-8+1), so we need 24 steps (25-1)
                 steps = 24,
                 colors = SliderDefaults.colors(
                     thumbColor = CyberBlue,
@@ -545,3 +557,209 @@ fun formatNumber(number: Long): String {
     }
 }
 
+@Composable
+fun SettingsDropdownCard(
+    expanded: Boolean,
+    onToggle: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Settings,
+                        contentDescription = null,
+                        tint = CyberBlue,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Settings",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                }
+                IconButton(onClick = onToggle) {
+                    Icon(
+                        if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        tint = CyberBlue
+                    )
+                }
+            }
+            
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                Column(modifier = Modifier.padding(top = 16.dp)) {
+                    content()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CategorySelectorCard(
+    selectedCategory: PasswordCategory,
+    onCategorySelected: (PasswordCategory) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    Icons.Default.Category,
+                    contentDescription = null,
+                    tint = ElectricPurple,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    "Category",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrimary
+                )
+            }
+            
+            Spacer(Modifier.height(12.dp))
+            
+            // Category chips in rows
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    CategoryChip(
+                        category = PasswordCategory.UNCATEGORIZED,
+                        selected = selectedCategory == PasswordCategory.UNCATEGORIZED,
+                        onClick = { onCategorySelected(PasswordCategory.UNCATEGORIZED) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    CategoryChip(
+                        category = PasswordCategory.WORK,
+                        selected = selectedCategory == PasswordCategory.WORK,
+                        onClick = { onCategorySelected(PasswordCategory.WORK) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    CategoryChip(
+                        category = PasswordCategory.PERSONAL,
+                        selected = selectedCategory == PasswordCategory.PERSONAL,
+                        onClick = { onCategorySelected(PasswordCategory.PERSONAL) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    CategoryChip(
+                        category = PasswordCategory.BANKING,
+                        selected = selectedCategory == PasswordCategory.BANKING,
+                        onClick = { onCategorySelected(PasswordCategory.BANKING) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    CategoryChip(
+                        category = PasswordCategory.SOCIAL,
+                        selected = selectedCategory == PasswordCategory.SOCIAL,
+                        onClick = { onCategorySelected(PasswordCategory.SOCIAL) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    CategoryChip(
+                        category = PasswordCategory.EMAIL,
+                        selected = selectedCategory == PasswordCategory.EMAIL,
+                        onClick = { onCategorySelected(PasswordCategory.EMAIL) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    CategoryChip(
+                        category = PasswordCategory.SHOPPING,
+                        selected = selectedCategory == PasswordCategory.SHOPPING,
+                        onClick = { onCategorySelected(PasswordCategory.SHOPPING) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    CategoryChip(
+                        category = PasswordCategory.OTHER,
+                        selected = selectedCategory == PasswordCategory.OTHER,
+                        onClick = { onCategorySelected(PasswordCategory.OTHER) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoryChip(
+    category: PasswordCategory,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val categoryIcon = when (category) {
+        PasswordCategory.WORK -> "💼"
+        PasswordCategory.PERSONAL -> "👤"
+        PasswordCategory.BANKING -> "🏦"
+        PasswordCategory.SOCIAL -> "📱"
+        PasswordCategory.EMAIL -> "✉️"
+        PasswordCategory.SHOPPING -> "🛒"
+        PasswordCategory.OTHER -> "📁"
+        PasswordCategory.UNCATEGORIZED -> "🔐"
+    }
+    
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(categoryIcon, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    category.displayName,
+                    style = MaterialTheme.typography.bodySmall,
+                    maxLines = 1
+                )
+            }
+        },
+        modifier = modifier,
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = ElectricPurple.copy(alpha = 0.3f),
+            selectedLabelColor = ElectricPurple,
+            containerColor = SurfaceMedium,
+            labelColor = TextSecondary
+        )
+    )
+}

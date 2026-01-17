@@ -38,14 +38,14 @@ fun EnhancedMatrixSplashScreen(onTimeout: () -> Unit) {
     var showTitle by remember { mutableStateOf(false) }
     
     LaunchedEffect(Unit) {
-        // Phase 1: Matrix rain (2 seconds)
-        delay(2000)
+        // Phase 1: Matrix rain (1 second) - SHORTER
+        delay(1000)
         
         // Phase 2: Show title
         animationPhase = SplashPhase.TITLE_SHOWN
         showTitle = true
         
-        delay(1500)
+        delay(800) // SHORTER: 800ms instead of 1500ms
         
         // Complete
         onTimeout()
@@ -93,14 +93,14 @@ fun MatrixRainBackground(modifier: Modifier = Modifier) {
     
     // Initialize falling columns
     val columns = remember {
-        val columnCount = 40
+        val columnCount = 50 // MORE columns
         List(columnCount) { index ->
             MatrixColumn(
                 id = index,
-                speed = Random.nextFloat() * 2f + 1f,
-                startDelay = Random.nextInt(0, 100),
-                length = Random.nextInt(15, 30),
-                isRedColumn = Random.nextFloat() < 0.15f // 15% chance for red column
+                speed = Random.nextFloat() * 3f + 2f, // FASTER: 2-5 instead of 1-3
+                startDelay = Random.nextInt(0, 50), // LESS delay
+                length = Random.nextInt(10, 20), // SHORTER columns
+                isRedColumn = Random.nextFloat() < 0.2f // MORE red columns (20%)
             )
         }
     }
@@ -110,7 +110,7 @@ fun MatrixRainBackground(modifier: Modifier = Modifier) {
     
     LaunchedEffect(Unit) {
         while (true) {
-            delay(50) // 20 FPS
+            delay(30) // FASTER: 33 FPS instead of 20 FPS
             tick++
         }
     }
@@ -158,8 +158,8 @@ private fun DrawScope.drawMatrixColumn(
     for (i in 0 until column.length) {
         val charY = y - i * charHeight
         
-        // Skip if off screen
-        if (charY < -charHeight || charY > screenHeight + charHeight) continue
+        // Skip if off screen - more strict bounds check
+        if (charY < 0 || charY > screenHeight) continue
         
         // Calculate alpha (fade from bright to dark)
         val alpha = when (i) {
@@ -180,21 +180,25 @@ private fun DrawScope.drawMatrixColumn(
         // Random character
         val char = matrixChars.random()
         
-        // Draw character
-        drawText(
-            textMeasurer = textMeasurer,
-            text = char.toString(),
-            style = TextStyle(
-                color = color,
-                fontSize = with(this) { fontSize.toSp() },
-                fontFamily = FontFamily.Monospace,
-                fontWeight = if (i == 0) FontWeight.Bold else FontWeight.Normal
-            ),
-            topLeft = Offset(
-                x = x - columnWidth / 4,
-                y = charY
+        // Draw character safely with bounds check
+        try {
+            drawText(
+                textMeasurer = textMeasurer,
+                text = char.toString(),
+                style = TextStyle(
+                    color = color,
+                    fontSize = with(this) { fontSize.toSp() },
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = if (i == 0) FontWeight.Bold else FontWeight.Normal
+                ),
+                topLeft = Offset(
+                    x = (x - columnWidth / 4).coerceAtLeast(0f),
+                    y = charY.coerceIn(0f, screenHeight)
+                )
             )
-        )
+        } catch (e: IllegalArgumentException) {
+            // Skip if constraints are invalid
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.vtoptunov.passwordgenerator.domain.model.AppSettings
+import com.vtoptunov.passwordgenerator.domain.model.PasswordStyle
 import com.vtoptunov.passwordgenerator.domain.model.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,7 @@ class SettingsRepository @Inject constructor(
         val SHOW_PASSWORD_STRENGTH = booleanPreferencesKey("show_password_strength")
         val ENABLE_ANALYTICS = booleanPreferencesKey("enable_analytics")
         val DEFAULT_PASSWORD_LENGTH = intPreferencesKey("default_password_length")
+        val DEFAULT_PASSWORD_STYLE = stringPreferencesKey("default_password_style")
         val THEME_MODE = stringPreferencesKey("theme_mode")
     }
     
@@ -48,6 +50,16 @@ class SettingsRepository @Inject constructor(
                 ThemeMode.DARK
             }
             
+            val passwordStyleString = preferences[PreferencesKeys.DEFAULT_PASSWORD_STYLE] ?: "Random"
+            val passwordStyle = when (passwordStyleString) {
+                "Random" -> PasswordStyle.Random
+                "XKCD" -> PasswordStyle.XKCD
+                "Phonetic" -> PasswordStyle.Phonetic
+                "Story" -> PasswordStyle.Story
+                "Pronounceable" -> PasswordStyle.Pronounceable
+                else -> PasswordStyle.Random
+            }
+            
             AppSettings(
                 biometricEnabled = preferences[PreferencesKeys.BIOMETRIC_ENABLED] ?: false,
                 autoLockEnabled = preferences[PreferencesKeys.AUTO_LOCK_ENABLED] ?: false,
@@ -56,6 +68,7 @@ class SettingsRepository @Inject constructor(
                 showPasswordStrength = preferences[PreferencesKeys.SHOW_PASSWORD_STRENGTH] ?: true,
                 enableAnalytics = preferences[PreferencesKeys.ENABLE_ANALYTICS] ?: false,
                 defaultPasswordLength = preferences[PreferencesKeys.DEFAULT_PASSWORD_LENGTH] ?: 16,
+                defaultPasswordStyle = passwordStyle,
                 themeMode = themeMode
             )
         }
@@ -99,6 +112,19 @@ class SettingsRepository @Inject constructor(
     suspend fun setDefaultPasswordLength(length: Int) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEFAULT_PASSWORD_LENGTH] = length
+        }
+    }
+    
+    suspend fun setDefaultPasswordStyle(style: PasswordStyle) {
+        val styleName = when (style) {
+            PasswordStyle.Random -> "Random"
+            PasswordStyle.XKCD -> "XKCD"
+            PasswordStyle.Phonetic -> "Phonetic"
+            PasswordStyle.Story -> "Story"
+            PasswordStyle.Pronounceable -> "Pronounceable"
+        }
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DEFAULT_PASSWORD_STYLE] = styleName
         }
     }
     

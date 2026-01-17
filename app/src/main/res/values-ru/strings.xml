@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">CyberSafe</string>
+    
+    <!-- Main Screens -->
+    <string name="generator">Генератор</string>
+    <string name="saved_passwords">Сохраненные</string>
+    <string name="dashboard">Панель</string>
+    <string name="academy">Академия</string>
+    <string name="settings">Настройки</string>
+    <string name="premium">Премиум</string>
+    
+    <!-- Generator Screen -->
+    <string name="password">Пароль</string>
+    <string name="generate">Сгенерировать</string>
+    <string name="save">Сохранить</string>
+    <string name="copy">Копировать</string>
+    <string name="copied">Скопировано!</string>
+    <string name="category">Категория</string>
+    <string name="settings_label">Настройки</string>
+    <string name="length">Длина</string>
+    <string name="uppercase">Заглавные</string>
+    <string name="lowercase">Строчные</string>
+    <string name="numbers">Цифры</string>
+    <string name="symbols">Символы</string>
+    
+    <!-- Password Strength -->
+    <string name="very_weak">Очень слабый</string>
+    <string name="weak">Слабый</string>
+    <string name="moderate">Средний</string>
+    <string name="strong">Сильный</string>
+    <string name="very_strong">Очень сильный</string>
+    <string name="strength">Надёжность</string>
+    <string name="entropy">Энтропия</string>
+    <string name="crack_time">Время взлома</string>
+    
+    <!-- Categories -->
+    <string name="uncategorized">Без категории</string>
+    <string name="work">Работа</string>
+    <string name="personal">Личное</string>
+    <string name="banking">Банки</string>
+    <string name="social">Соцсети</string>
+    <string name="email">Почта</string>
+    <string name="shopping">Покупки</string>
+    <string name="other">Другое</string>
+    
+    <!-- Password Styles -->
+    <string name="random">Случайный</string>
+    <string name="memorable">Запоминаемый</string>
+    <string name="pin">PIN-код</string>
+    <string name="passphrase">Кодовая фраза</string>
+    
+    <!-- Academy -->
+    <string name="cybersafe_academy">Академия CyberSafe</string>
+    <string name="games">Игры</string>
+    <string name="lessons">Уроки</string>
+    <string name="progress">Прогресс</string>
+    <string name="level">Уровень</string>
+    <string name="xp">Опыт</string>
+    <string name="play">Играть</string>
+    <string name="start_lesson">Начать урок</string>
+    <string name="next">Далее</string>
+    <string name="complete">Завершить</string>
+    <string name="quiz">Тест</string>
+    
+    <!-- Games -->
+    <string name="memory_match">Тренажер памяти</string>
+    <string name="password_cracker">Взломщик паролей</string>
+    <string name="phishing_hunter">Охотник за фишингом</string>
+    <string name="social_engineering">Социальная инженерия</string>
+    
+    <!-- Common -->
+    <string name="back">Назад</string>
+    <string name="close">Закрыть</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="search">Поиск</string>
+    <string name="filter">Фильтр</string>
+    <string name="all">Все</string>
+    
+    <!-- Widget -->
+    <string name="widget_description">Быстрая генерация паролей</string>
+    <string name="generate_password">Сгенерировать пароль</string>
+    
+    <!-- Lessons -->
+    <string name="lesson_not_found">Урок не найден</string>
+</resources>

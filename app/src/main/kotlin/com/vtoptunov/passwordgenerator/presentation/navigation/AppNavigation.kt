@@ -10,6 +10,8 @@ import com.vtoptunov.passwordgenerator.presentation.screens.academy.AcademyHomeS
 import com.vtoptunov.passwordgenerator.presentation.screens.dashboard.DashboardScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.game.GameScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.generator.GeneratorScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.lessons.LessonsListScreen
+import com.vtoptunov.passwordgenerator.presentation.screens.lessons.LessonScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.passwordcracker.PasswordCrackerScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.phishinghunter.PhishingHunterScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.premium.PremiumScreen
@@ -23,6 +25,10 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object Settings : Screen("settings")
     object AcademyHome : Screen("academy")
+    object Lessons : Screen("lessons")
+    object LessonDetail : Screen("lesson_detail/{lessonId}") {
+        fun createRoute(lessonId: String) = "lesson_detail/$lessonId"
+    }
     object Premium : Screen("premium")
     object Game : Screen("game?password={password}") {
         fun createRoute(password: String? = null): String {
@@ -98,9 +104,8 @@ fun AppNavigation() {
                 onNavigateBack = {
                     navController.popBackStack()
                 },
-                onGameSelected = { game ->
-                    // BUG FIX #16: Navigate to the correct game screen based on selected game type
-                    when (game) {
+                    onGameSelected = { game ->
+                        when (game) {
                         com.vtoptunov.passwordgenerator.domain.model.AcademyGame.MEMORY_MATCH -> {
                             navController.navigate(Screen.Game.createRoute())
                         }
@@ -114,8 +119,35 @@ fun AppNavigation() {
                             navController.navigate(Screen.SocialEngineeringGame.route)
                         }
                     }
+                },
+                onLessonsClick = {
+                    navController.navigate(Screen.Lessons.route)
                 }
             )
+        }
+        
+        composable(Screen.Lessons.route) {
+            LessonsListScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onLessonClick = { lessonId ->
+                    navController.navigate(Screen.LessonDetail.createRoute(lessonId))
+                }
+            )
+        }
+        
+        composable(
+            route = Screen.LessonDetail.route,
+            arguments = listOf(navArgument("lessonId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId")
+            if (lessonId != null) {
+                LessonScreen(
+                    lessonId = lessonId,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
         
         composable(

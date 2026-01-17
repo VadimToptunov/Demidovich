@@ -58,5 +58,6 @@ val StatusWarning = WarningOrange
 val StatusError = DangerRed
 val StatusInfo = CyberBlue
 
-// Compatibility alias
+// Compatibility aliases
 val ErrorRed = DangerRed
+val SuccessGreen = NeonGreen

@@ -135,8 +135,6 @@ class GeneratePasswordUseCase @Inject constructor() {
     }
     
     private fun calculateCrackTime(entropy: Double): String {
-        // BUG FIX #8: Prevent overflow for high entropy values (>1024 bits)
-        // Cap entropy to reasonable maximum to avoid Infinity in calculations
         val cappedEntropy = entropy.coerceAtMost(512.0)
         
         val attemptsPerSecond = 100_000_000_000.0
@@ -162,7 +160,7 @@ class GeneratePasswordUseCase @Inject constructor() {
             seconds < 3600 -> "${(seconds / 60).roundToLong()} minutes"
             seconds < 86400 -> "${(seconds / 3600).roundToLong()} hours"
             seconds < 31536000 -> "${(seconds / 86400).roundToLong()} days"
-            seconds < 3153600000 -> "${(seconds / 31536000).roundToLong()} years"
+            seconds < 31536000000 -> "${(seconds / 31536000).roundToLong()} years"
             else -> "${(seconds / 31536000000).roundToLong()} centuries"
         }
     }

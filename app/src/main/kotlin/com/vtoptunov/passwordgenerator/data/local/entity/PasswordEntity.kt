@@ -20,7 +20,11 @@ data class PasswordEntity(
 fun PasswordEntity.toDomain(): Password = Password(
     id = id,
     password = password,
-    category = PasswordCategory.valueOf(category),
+    category = try {
+        PasswordCategory.valueOf(category)
+    } catch (e: IllegalArgumentException) {
+        PasswordCategory.UNCATEGORIZED
+    },
     createdAt = createdAt,
     lastModified = lastModified,
     isFavorite = isFavorite,

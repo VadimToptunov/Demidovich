@@ -77,7 +77,7 @@ class CalculatePasswordHealthUseCase @Inject constructor(
             )
             
             // Calculate achievements
-            val achievements = calculateAchievements(passwords, avgEntropy)
+            val achievements = calculateAchievements(passwords)
             
             // Determine average strength
             val avgStrength = PasswordStrength.fromEntropy(avgEntropy)
@@ -131,8 +131,7 @@ class CalculatePasswordHealthUseCase @Inject constructor(
     }
     
     private fun calculateAchievements(
-        passwords: List<Password>,
-        avgEntropy: Double
+        passwords: List<Password>
     ): List<Achievement> {
         val all = Achievement.getAll()
         
@@ -181,6 +180,51 @@ class CalculatePasswordHealthUseCase @Inject constructor(
                 "perfect_health" -> {
                     // This would require calculating health score, simplified here
                     achievement.copy(isUnlocked = false, progress = 0f)
+                }
+                "xkcd_lover" -> {
+                    // Count passwords that look like XKCD style (4+ words with dashes/spaces)
+                    val xkcdStyleCount = passwords.count { password ->
+                        val hasMultipleWords = password.password.count { it == '-' || it == ' ' } >= 3
+                        val hasNoDigits = !password.password.any { it.isDigit() }
+                        val longEnough = password.password.length >= 20
+                        hasMultipleWords && hasNoDigits && longEnough
+                    }
+                    achievement.copy(
+                        isUnlocked = xkcdStyleCount >= 20,
+                        currentValue = xkcdStyleCount,
+                        progress = (xkcdStyleCount / 20f).coerceAtMost(1f)
+                    )
+                }
+                "variety_master" -> {
+                    // Count unique password patterns (length ranges, character types)
+                    val patterns = passwords.map { password ->
+                        val hasUpper = password.password.any { it.isUpperCase() }
+                        val hasLower = password.password.any { it.isLowerCase() }
+                        val hasDigit = password.password.any { it.isDigit() }
+                        val hasSymbol = password.password.any { !it.isLetterOrDigit() }
+                        val lengthCategory = when {
+                            password.password.length < 12 -> "short"
+                            password.password.length < 20 -> "medium"
+                            else -> "long"
+                        }
+                        "$hasUpper$hasLower$hasDigit$hasSymbol$lengthCategory"
+                    }.toSet().size
+                    achievement.copy(
+                        isUnlocked = patterns >= 5,
+                        currentValue = patterns,
+                        progress = (patterns / 5f).coerceAtMost(1f)
+                    )
+                }
+                "weekend_warrior" -> {
+                    // Check if passwords were created across different days
+                    val uniqueDays = passwords.map { password ->
+                        TimeUnit.MILLISECONDS.toDays(password.createdAt)
+                    }.toSet().size
+                    achievement.copy(
+                        isUnlocked = uniqueDays >= 7,
+                        currentValue = uniqueDays,
+                        progress = (uniqueDays / 7f).coerceAtMost(1f)
+                    )
                 }
                 else -> achievement
             }

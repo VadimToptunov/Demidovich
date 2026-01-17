@@ -46,8 +46,6 @@ class GeneratorViewModel @Inject constructor(
             }
             is GeneratorEvent.LengthChanged -> {
                 _state.update { it.copy(passwordLength = event.length) }
-                // BUG FIX #3: Generate password immediately when length changes
-                // to provide instant feedback like StyleSelected does
                 generatePassword()
             }
             is GeneratorEvent.OptionToggled -> {
@@ -59,13 +57,17 @@ class GeneratorViewModel @Inject constructor(
                         PasswordOption.SYMBOLS -> current.copy(includeSymbols = !current.includeSymbols)
                     }
                 }
-                // BUG FIX #6: Generate password immediately when options toggle
-                // to provide instant feedback consistent with StyleSelected and LengthChanged
                 generatePassword()
             }
             GeneratorEvent.GeneratePassword -> generatePassword()
             GeneratorEvent.SavePassword -> savePassword()
             GeneratorEvent.CopyToClipboard -> copyToClipboard()
+            is GeneratorEvent.CategorySelected -> {
+                _state.update { it.copy(selectedCategory = event.category) }
+            }
+            GeneratorEvent.ToggleSettings -> {
+                _state.update { it.copy(settingsExpanded = !it.settingsExpanded) }
+            }
         }
     }
     
@@ -91,7 +93,6 @@ class GeneratorViewModel @Inject constructor(
     private fun startCrackingSimulation(password: String, entropy: Double) {
         crackingJob?.cancel()
         
-        // BUG FIX #4: Guard against empty passwords that would cause division by zero
         if (password.isEmpty()) {
             _state.update { it.copy(crackingSimulation = null) }
             return
@@ -136,7 +137,12 @@ class GeneratorViewModel @Inject constructor(
         val password = _state.value.generatedPassword?.password ?: return
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            passwordRepository.insertPassword(Password(password = password))
+            passwordRepository.insertPassword(
+                Password(
+                    password = password,
+                    category = _state.value.selectedCategory // USE selected category
+                )
+            )
             _state.update { it.copy(isSaving = false, showSaveSuccess = true) }
             delay(2000)
             _state.update { it.copy(showSaveSuccess = false) }

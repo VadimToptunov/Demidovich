@@ -1,5 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.generator
 
+import com.vtoptunov.passwordgenerator.domain.model.PasswordCategory
 import com.vtoptunov.passwordgenerator.domain.model.PasswordGenerationResult
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStyle
 
@@ -14,7 +15,9 @@ data class GeneratorState(
     val isGenerating: Boolean = false,
     val isSaving: Boolean = false,
     val showSaveSuccess: Boolean = false,
-    val crackingSimulation: CrackingSimulationState? = null
+    val crackingSimulation: CrackingSimulationState? = null,
+    val selectedCategory: PasswordCategory = PasswordCategory.UNCATEGORIZED, // NEW
+    val settingsExpanded: Boolean = true // NEW: для dropdown
 )
 
 data class CrackingSimulationState(
@@ -31,6 +34,8 @@ sealed class GeneratorEvent {
     object GeneratePassword : GeneratorEvent()
     object SavePassword : GeneratorEvent()
     object CopyToClipboard : GeneratorEvent()
+    data class CategorySelected(val category: PasswordCategory) : GeneratorEvent() // NEW
+    object ToggleSettings : GeneratorEvent() // NEW
 }
 
 enum class PasswordOption {

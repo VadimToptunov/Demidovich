@@ -64,17 +64,14 @@ data class GameResult(
 )
 
 data class PlayerStats(
-    val totalXp: Int = 0,
     val level: Int = 1,
+    val totalXP: Int = 0,
     val currentStreak: Int = 0,
     val bestStreak: Int = 0,
-    val gamesPlayed: Int = 0,
-    val gamesWon: Int = 0,
     val totalGamesPlayed: Int = 0,
     val totalGamesWon: Int = 0,
-    val totalXP: Int = 0,
     val gamesWonByDifficulty: Map<GameDifficulty, Int> = emptyMap(),
-    val xpProgress: Float = 0f // BUG FIX #20: Pass correct value from DataStore instead of computing
+    val xpProgress: Float = 0f
 )
 
 data class GameSession(

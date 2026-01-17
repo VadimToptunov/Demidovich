@@ -26,10 +26,7 @@ class ImportPasswordsUseCase @Inject constructor() {
         return try {
             val export = json.decodeFromString<PasswordExport>(jsonString)
             
-            // BUG FIX #17: Use the same serialization method as ExportPasswordsUseCase
-            // to ensure checksum verification works correctly
             val exportWithoutChecksum = export.copy(checksum = "")
-            // Must use inline reified version (without explicit serializer) to match Export
             val calculatedChecksum = calculateChecksum(json.encodeToString(exportWithoutChecksum))
             
             if (export.checksum != calculatedChecksum) {
