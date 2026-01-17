@@ -219,7 +219,7 @@ object LessonLibrary {
                     content = "Password managers remember all your passwords, so you only need to remember one master password. They generate strong, unique passwords for each site.",
                     contentRu = "Менеджеры паролей запоминают все ваши пароли, вам нужно помнить только один мастер-пароль. Они генерируют надежные, уникальные пароли для каждого сайта.",
                     tip = "You're already using one - PassForge!",
-                    tipRu = "Вы уже используете один - PassForge!"
+                    tipRu = "Вы уже используете PassForge!"
                 ),
                 LessonTopic(
                     title = "Best practices",

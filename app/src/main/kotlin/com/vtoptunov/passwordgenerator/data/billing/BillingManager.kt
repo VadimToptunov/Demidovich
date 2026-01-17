@@ -10,6 +10,8 @@ import com.vtoptunov.passwordgenerator.domain.model.PurchaseState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +38,7 @@ class BillingManager @Inject constructor(
     private val _connectionState = MutableStateFlow(BillingConnectionState.DISCONNECTED)
     val connectionState: StateFlow<BillingConnectionState> = _connectionState.asStateFlow()
 
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val billingClient: BillingClient by lazy {
         BillingClient.newBuilder(context)
@@ -361,8 +363,16 @@ class BillingManager @Inject constructor(
 
     /**
      * Clean up resources
+     * 
+     * This method should be called when the BillingManager is no longer needed
+     * (e.g., in Application.onTerminate() or when cleaning up the singleton).
+     * However, since this is a singleton that lives for the app's lifetime,
+     * it's typically cleaned up by the system when the app process is destroyed.
      */
     fun endConnection() {
+        // Cancel all ongoing coroutines to prevent leaks
+        coroutineScope.cancel()
+        
         if (billingClient.isReady) {
             billingClient.endConnection()
             _connectionState.value = BillingConnectionState.DISCONNECTED
