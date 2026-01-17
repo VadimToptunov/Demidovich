@@ -163,7 +163,7 @@ fun SelectModeScreen(
         )
         
         TransferModeCard(
-            title = "Export Passwords",
+            title = stringResource(R.string.export_passwords),
             description = "Generate QR code to transfer passwords to another device",
             icon = Icons.Default.QrCode2,
             iconTint = NeonGreen,
@@ -256,10 +256,10 @@ fun ExportSelectScreen(
             )
             Row(horizontalArrangement = Arrangement.spacedBy(LocalDimensions.current.spacingSmall)) {
                 TextButton(onClick = onSelectAll) {
-                    Text("Select All", color = CyberBlue)
+                    Text(stringResource(R.string.select_all), color = CyberBlue)
                 }
                 TextButton(onClick = onDeselectAll) {
-                    Text("Deselect All", color = TextSecondary)
+                    Text(stringResource(R.string.deselect_all), color = TextSecondary)
                 }
             }
         }
@@ -498,7 +498,7 @@ fun ImportScanScreen(
                             tint = TextSecondary
                         )
                         Text(
-                            "Camera Scanner",
+                            stringResource(R.string.camera_scanner),
                             style = MaterialTheme.typography.titleMedium,
                             color = TextPrimary
                         )
@@ -619,7 +619,7 @@ fun PasswordReviewItem(password: Password) {
                 if (password.isFavorite) {
                     Icon(
                         imageVector = Icons.Default.Favorite,
-                        contentDescription = "Favorite",
+                        contentDescription = stringResource(R.string.favorite),
                         tint = DangerRed,
                         modifier = Modifier.size(16.dp)
                     )

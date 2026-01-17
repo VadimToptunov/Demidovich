@@ -619,7 +619,7 @@ fun ResultPhase(
             ) {
                 ResultStat("Attempts Used", "${result.attemptsUsed}")
                 ResultStat("Time", "${result.timeSpentSeconds}s")
-                ResultStat("Difficulty", result.difficulty.displayName)
+                ResultStat(stringResource(R.string.difficulty_label), result.difficulty.displayName)
                 if (result.isSuccess) {
                     ResultStat("XP Earned", "+${result.xpEarned}", NeonGreen)
                 }

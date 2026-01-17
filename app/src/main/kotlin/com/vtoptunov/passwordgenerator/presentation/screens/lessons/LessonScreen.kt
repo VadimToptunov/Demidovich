@@ -376,7 +376,7 @@ private fun QuizCard(
                             )
                             Text(
                                 if (isCorrect) {
-                                    if (isRussian) "Правильно!" else "Correct!"
+                                    if (isRussian) "Правильно!" else stringResource(R.string.correct_exclamation)
                                 } else {
                                     if (isRussian) "Неправильно" else "Incorrect"
                                 },
@@ -466,7 +466,7 @@ private fun QuizCard(
                     shape = RoundedCornerShape(LocalDimensions.current.cardCornerRadius)
                 ) {
                     Text(
-                        if (isRussian) "Проверить" else "Check Answer",
+                        if (isRussian) "Проверить" else stringResource(R.string.check_answer),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(vertical = 8.dp)

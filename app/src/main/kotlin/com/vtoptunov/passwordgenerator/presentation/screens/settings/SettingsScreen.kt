@@ -217,7 +217,7 @@ fun SettingsScreen(
                 SettingsItem(
                     icon = Icons.Default.Info,
                     title = stringResource(R.string.version),
-                    description = "3.0.0 (Generator v2)"
+                    description = stringResource(R.string.app_version)
                 )
                 
                 Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))

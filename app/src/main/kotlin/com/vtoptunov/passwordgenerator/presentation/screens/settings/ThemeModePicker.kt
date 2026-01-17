@@ -1,4 +1,6 @@
 package com.vtoptunov.passwordgenerator.presentation.screens.settings
+import com.vtoptunov.passwordgenerator.R
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -41,7 +43,7 @@ fun ThemeModePicker(
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    "Choose your preferred theme",
+                    stringResource(R.string.choose_preferred_theme),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -57,19 +59,19 @@ fun ThemeModePicker(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ThemeChip(
-                label = "☀️ Light",
+                label = stringResource(R.string.light_theme),
                 selected = currentTheme == ThemeMode.LIGHT,
                 onClick = { onThemeChanged(ThemeMode.LIGHT) },
                 modifier = Modifier.weight(1f)
             )
             ThemeChip(
-                label = "🌙 Dark",
+                label = stringResource(R.string.dark_theme),
                 selected = currentTheme == ThemeMode.DARK,
                 onClick = { onThemeChanged(ThemeMode.DARK) },
                 modifier = Modifier.weight(1f)
             )
             ThemeChip(
-                label = "📱 System",
+                label = stringResource(R.string.system_theme),
                 selected = currentTheme == ThemeMode.SYSTEM,
                 onClick = { onThemeChanged(ThemeMode.SYSTEM) },
                 modifier = Modifier.weight(1f)

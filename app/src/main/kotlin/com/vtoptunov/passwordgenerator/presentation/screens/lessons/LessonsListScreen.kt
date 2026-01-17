@@ -218,7 +218,7 @@ fun LessonCard(
                         modifier = Modifier.size(16.dp)
                     )
                     Text(
-                        if (isRussian) "Пройдено!" else "Completed!",
+                        if (isRussian) "Пройдено!" else stringResource(R.string.completed_exclamation),
                         style = MaterialTheme.typography.bodySmall,
                         color = NeonGreen
                     )

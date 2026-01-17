@@ -275,7 +275,7 @@ fun BiometricSetupDialog(
                 onClick = onEnable,
                 colors = ButtonDefaults.buttonColors(containerColor = NeonGreen)
             ) {
-                Text("Enable", color = DeepSpace, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.enable), color = DeepSpace, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
