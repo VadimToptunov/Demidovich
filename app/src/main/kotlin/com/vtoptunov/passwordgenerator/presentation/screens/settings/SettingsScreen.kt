@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vtoptunov.passwordgenerator.R
 import com.vtoptunov.passwordgenerator.presentation.theme.*
 import com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil
 
@@ -35,6 +37,8 @@ fun SettingsScreen(
     val activity = context as? FragmentActivity
     val dimensions = LocalDimensions.current
     val snackbarHostState = remember { SnackbarHostState() }
+    
+    var showRestartDialog by remember { mutableStateOf(false) }
     
     Box(
         modifier = Modifier
@@ -57,13 +61,13 @@ fun SettingsScreen(
             Spacer(Modifier.height(24.dp))
             
             // Security Section
-            SectionHeader("🔒 Security")
+            SectionHeader(stringResource(R.string.security_section))
             
             SettingsCard {
                 SettingsSwitch(
                     icon = Icons.Default.Fingerprint,
-                    title = "Biometric Authentication",
-                    description = "Use fingerprint or face to unlock",
+                    title = stringResource(R.string.biometric_authentication),
+                    description = stringResource(R.string.biometric_description),
                     checked = state.settings.biometricEnabled,
                     enabled = state.biometricAvailability.isAvailable && activity != null,
                     onCheckedChange = { enabled ->
@@ -86,8 +90,8 @@ fun SettingsScreen(
                 
                 SettingsSwitch(
                     icon = Icons.Default.Lock,
-                    title = "Auto-Lock",
-                    description = "Lock app after inactivity",
+                    title = stringResource(R.string.auto_lock),
+                    description = stringResource(R.string.auto_lock_description),
                     checked = state.settings.autoLockEnabled,
                     onCheckedChange = { viewModel.setAutoLock(it) }
                 )
@@ -98,8 +102,11 @@ fun SettingsScreen(
                     // Use System Timeout toggle
                     SettingsSwitch(
                         icon = Icons.Default.PhoneAndroid,
-                        title = "Use System Timeout",
-                        description = "Match device screen timeout (${SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(context)}m)",
+                        title = stringResource(R.string.use_system_timeout),
+                        description = stringResource(
+                            R.string.use_system_timeout_description,
+                            SystemLockTimeoutUtil.getSystemScreenTimeoutFormatted(context)
+                        ),
                         checked = state.settings.useSystemLockTimeout,
                         onCheckedChange = { viewModel.setUseSystemLockTimeout(it) }
                     )
@@ -121,12 +128,12 @@ fun SettingsScreen(
                                 Spacer(Modifier.width(LocalDimensions.current.spacingMedium))
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
-                                        text = "Lock Timeout",
+                                        text = stringResource(R.string.lock_timeout),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = TextPrimary
                                     )
                                     Text(
-                                        text = "Lock after ${state.settings.autoLockTimeoutMinutes} minute(s)",
+                                        text = stringResource(R.string.lock_after_minutes, state.settings.autoLockTimeoutMinutes),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = TextSecondary
                                     )
@@ -177,26 +184,26 @@ fun SettingsScreen(
             Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // Privacy Section
-            SectionHeader("🛡️ Privacy")
+            SectionHeader(stringResource(R.string.privacy_section))
             
             SettingsCard {
                 SettingsItem(
                     icon = Icons.Default.ContentCopy,
-                    title = "Clipboard Timeout",
-                    description = "Clear clipboard after ${state.settings.clipboardClearSeconds}s"
+                    title = stringResource(R.string.clipboard_timeout),
+                    description = stringResource(R.string.clipboard_timeout_description, state.settings.clipboardClearSeconds)
                 )
             }
             
             Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // Data Section
-            SectionHeader("💾 Data")
+            SectionHeader(stringResource(R.string.data_section))
             
             SettingsCard {
                 SettingsItem(
                     icon = Icons.Default.QrCode2,
-                    title = "Transfer Passwords",
-                    description = "Export or import via QR code",
+                    title = stringResource(R.string.transfer_passwords),
+                    description = stringResource(R.string.transfer_passwords_description),
                     onClick = onNavigateToTransfer
                 )
             }
@@ -204,12 +211,12 @@ fun SettingsScreen(
             Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
             // About Section
-            SectionHeader("ℹ️ About")
+            SectionHeader(stringResource(R.string.about_section))
             
             SettingsCard {
                 SettingsItem(
                     icon = Icons.Default.Info,
-                    title = "Version",
+                    title = stringResource(R.string.version),
                     description = "3.0.0 (Generator v2)"
                 )
                 
@@ -217,17 +224,20 @@ fun SettingsScreen(
                 
                 SettingsItem(
                     icon = Icons.Default.Code,
-                    title = "Open Source",
-                    description = "Built with Kotlin + Jetpack Compose"
+                    title = stringResource(R.string.open_source),
+                    description = stringResource(R.string.open_source_description)
                 )
                 
                 Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
                 
                 SettingsItem(
                     icon = Icons.Default.School,
-                    title = "Show Onboarding",
-                    description = "View welcome tutorial again",
-                    onClick = { viewModel.resetOnboarding() }
+                    title = stringResource(R.string.show_onboarding),
+                    description = stringResource(R.string.show_onboarding_description),
+                    onClick = { 
+                        viewModel.resetOnboarding()
+                        showRestartDialog = true
+                    }
                 )
             }
         }
@@ -236,6 +246,48 @@ fun SettingsScreen(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
+        
+        // Restart dialog for onboarding reset
+        if (showRestartDialog) {
+            AlertDialog(
+                onDismissRequest = { showRestartDialog = false },
+                title = {
+                    Text(
+                        stringResource(R.string.restart_required),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = CyberBlue
+                    )
+                },
+                text = {
+                    Text(
+                        stringResource(R.string.restart_required_description),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextPrimary
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            activity?.let {
+                                it.finishAffinity()
+                                it.startActivity(it.intent)
+                            }
+                        }
+                    ) {
+                        Text(stringResource(R.string.restart_now), color = CyberBlue)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showRestartDialog = false }) {
+                        Text(stringResource(R.string.later), color = TextSecondary)
+                    }
+                },
+                containerColor = SurfaceDark,
+                iconContentColor = CyberBlue,
+                titleContentColor = CyberBlue,
+                textContentColor = TextPrimary
+            )
+        }
     }
 }
 
@@ -247,12 +299,12 @@ fun SettingsHeader(onNavigateBack: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onNavigateBack) {
-            Icon(Icons.Default.ArrowBack, "Back", tint = CyberBlue)
+            Icon(Icons.Default.ArrowBack, stringResource(R.string.back), tint = CyberBlue)
         }
         
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                "SETTINGS",
+                stringResource(R.string.settings).uppercase(),
                 style = MaterialTheme.typography.headlineSmall,
                 color = CyberBlue,
                 fontWeight = FontWeight.Bold

@@ -92,4 +92,33 @@
     <string name="lesson_not_found">Lesson not found</string>
     <string name="security_lessons">Security Lessons</string>
     <string name="learn_cybersecurity_basics">Learn the basics of cybersecurity</string>
+    
+    <!-- Settings Screen -->
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="biometric_description">Use fingerprint or face to unlock</string>
+    <string name="auto_lock">Auto-Lock</string>
+    <string name="auto_lock_description">Lock app after inactivity</string>
+    <string name="use_system_timeout">Use System Timeout</string>
+    <string name="use_system_timeout_description">Match device screen timeout (%1$s)</string>
+    <string name="lock_timeout">Lock Timeout</string>
+    <string name="lock_after_minutes">Lock after %1$d minute(s)</string>
+    <string name="clipboard_timeout">Clipboard Timeout</string>
+    <string name="clipboard_timeout_description">Clear clipboard after %1$ds</string>
+    <string name="transfer_passwords">Transfer Passwords</string>
+    <string name="transfer_passwords_description">Export or import via QR code</string>
+    <string name="version">Version</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">Built with Kotlin + Jetpack Compose</string>
+    <string name="show_onboarding">Show Onboarding</string>
+    <string name="show_onboarding_description">View welcome tutorial again</string>
+    <string name="restart_required">Restart Required</string>
+    <string name="restart_required_description">To view the onboarding tutorial, please restart the app.</string>
+    <string name="restart_now">Restart Now</string>
+    <string name="later">Later</string>
+    
+    <!-- Section Headers -->
+    <string name="security_section">🔒 Security</string>
+    <string name="privacy_section">🛡️ Privacy</string>
+    <string name="data_section">💾 Data</string>
+    <string name="about_section">ℹ️ About</string>
 </resources>

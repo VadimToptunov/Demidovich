@@ -98,12 +98,13 @@ class MainActivity : FragmentActivity() {
                     
                     // If auto-lock is enabled, check timeout
                     val inactiveTimeMs = System.currentTimeMillis() - lastPauseTimeState
-                    val timeoutMinutes = if (settings.useSystemLockTimeout) {
-                        SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(this@MainActivity)
+                    val timeoutMs = if (settings.useSystemLockTimeout) {
+                        // Use system screen timeout in seconds
+                        SystemLockTimeoutUtil.getSystemScreenTimeoutSeconds(this@MainActivity) * 1000L
                     } else {
-                        settings.autoLockTimeoutMinutes
+                        // Use app-specific timeout in minutes
+                        settings.autoLockTimeoutMinutes * 60 * 1000L
                     }
-                    val timeoutMs = timeoutMinutes * 60 * 1000L
                     inactiveTimeMs >= timeoutMs
                 }
                 

@@ -92,4 +92,33 @@
     <string name="lesson_not_found">Урок не найден</string>
     <string name="security_lessons">Уроки безопасности</string>
     <string name="learn_cybersecurity_basics">Изучай основы кибербезопасности</string>
+    
+    <!-- Settings Screen -->
+    <string name="biometric_authentication">Биометрическая аутентификация</string>
+    <string name="biometric_description">Используйте отпечаток пальца или Face ID</string>
+    <string name="auto_lock">Автоблокировка</string>
+    <string name="auto_lock_description">Блокировать приложение при неактивности</string>
+    <string name="use_system_timeout">Использовать системный таймаут</string>
+    <string name="use_system_timeout_description">Как у блокировки экрана (%1$s)</string>
+    <string name="lock_timeout">Таймаут блокировки</string>
+    <string name="lock_after_minutes">Блокировка через %1$d мин</string>
+    <string name="clipboard_timeout">Очистка буфера обмена</string>
+    <string name="clipboard_timeout_description">Очищать буфер через %1$d сек</string>
+    <string name="transfer_passwords">Перенос паролей</string>
+    <string name="transfer_passwords_description">Экспорт или импорт через QR-код</string>
+    <string name="version">Версия</string>
+    <string name="open_source">Открытый исходный код</string>
+    <string name="open_source_description">Создано на Kotlin + Jetpack Compose</string>
+    <string name="show_onboarding">Показать обучение</string>
+    <string name="show_onboarding_description">Посмотреть обучающие экраны снова</string>
+    <string name="restart_required">Требуется перезапуск</string>
+    <string name="restart_required_description">Чтобы увидеть обучающие экраны, перезапустите приложение.</string>
+    <string name="restart_now">Перезапустить</string>
+    <string name="later">Позже</string>
+    
+    <!-- Section Headers -->
+    <string name="security_section">🔒 Безопасность</string>
+    <string name="privacy_section">🛡️ Приватность</string>
+    <string name="data_section">💾 Данные</string>
+    <string name="about_section">ℹ️ О приложении</string>
 </resources>

@@ -110,8 +110,7 @@ class SettingsViewModel @Inject constructor(
     fun resetOnboarding() {
         viewModelScope.launch {
             onboardingDataStore.setOnboardingCompleted(false)
-            // User will need to restart app to see onboarding
-            android.os.Process.killProcess(android.os.Process.myPid())
+            onboardingDataStore.setBiometricSetupShown(false)
         }
     }
 }
