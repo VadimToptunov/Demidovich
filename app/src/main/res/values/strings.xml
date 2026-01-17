@@ -458,4 +458,5 @@
     <!-- Final missing strings -->
     <string name="unlock_premium">Unlock PassForge Premium</string>
     <string name="generate_and_save_passwords_description">Generate and save passwords to see them here</string>
+    <string name="unlocks_at_level_format">Unlocks at Level %1$d</string>
 </resources>

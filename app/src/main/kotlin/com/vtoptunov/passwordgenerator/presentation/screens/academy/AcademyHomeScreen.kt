@@ -182,7 +182,7 @@ private fun ProgressCard(progress: AcademyProgress) {
             ) {
                 Column {
                     Text(
-                        "Level ${progress.level}",
+                        stringResource(R.string.level_format, progress.level),
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
@@ -303,7 +303,7 @@ private fun GameCard(
                 if (!isUnlocked) {
                     Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
-                        "Unlocks at Level ${game.unlockLevel}",
+                        stringResource(R.string.unlocks_at_level_format, game.unlockLevel),
                         fontSize = 12.sp,
                         color = WarningOrange,
                         fontWeight = FontWeight.Medium
@@ -353,7 +353,7 @@ private fun InfoCard() {
                 Spacer(Modifier.height(4.dp))
                 
                 Text(
-                    "Each game teaches you real cybersecurity concepts. " +
+                    stringResource(R.string.each_game_teaches) + " " +
                     stringResource(R.string.complete_levels_to_unlock),
                     fontSize = 14.sp,
                     color = TextSecondary,

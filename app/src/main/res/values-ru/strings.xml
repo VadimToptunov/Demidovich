@@ -458,4 +458,5 @@
     <!-- Final missing strings -->
     <string name="unlock_premium">Разблокировать PassForge Премиум</string>
     <string name="generate_and_save_passwords_description">Создавайте и сохраняйте пароли здесь</string>
+    <string name="unlocks_at_level_format">Откроется на уровне %1$d</string>
 </resources>
