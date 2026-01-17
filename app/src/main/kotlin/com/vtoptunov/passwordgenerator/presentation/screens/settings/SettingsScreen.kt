@@ -104,28 +104,6 @@ fun SettingsScreen(
             
             Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
             
-            // Display Section
-            SectionHeader("🎨 Display")
-            
-            SettingsCard {
-                ThemeModePicker(
-                    currentTheme = state.settings.themeMode,
-                    onThemeChanged = { viewModel.setThemeMode(it) }
-                )
-                
-                Divider(color = SurfaceMedium, modifier = Modifier.padding(vertical = 8.dp))
-                
-                SettingsSwitch(
-                    icon = Icons.Default.Visibility,
-                    title = "Password Strength Indicator",
-                    description = "Show strength when generating",
-                    checked = state.settings.showPasswordStrength,
-                    onCheckedChange = { viewModel.setShowPasswordStrength(it) }
-                )
-            }
-            
-            Spacer(Modifier.height(LocalDimensions.current.spacingMedium))
-            
             // Data Section
             SectionHeader("💾 Data")
             
