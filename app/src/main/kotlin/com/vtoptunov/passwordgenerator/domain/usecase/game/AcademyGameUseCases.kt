@@ -20,6 +20,7 @@ class GeneratePasswordCrackerLevelUseCase @Inject constructor() {
     )
     
     operator fun invoke(levelNumber: Int): PasswordCrackerLevel {
+        // Scale tier infinitely beyond level 50
         val tier = when {
             levelNumber <= 5 -> 1
             levelNumber <= 10 -> 2
@@ -28,10 +29,10 @@ class GeneratePasswordCrackerLevelUseCase @Inject constructor() {
             levelNumber <= 30 -> 5
             levelNumber <= 40 -> 6
             levelNumber <= 50 -> 7
-            else -> 8
+            else -> 8.coerceAtMost((levelNumber / 10) + 3) // Continues scaling
         }
         
-        val passwords = weakPasswords[tier] ?: weakPasswords[8]!!
+        val passwords = weakPasswords[tier.coerceAtMost(8)] ?: weakPasswords[8]!!
         val password = passwords.random()
         val weaknesses = analyzeWeaknesses(password)
         
@@ -39,6 +40,7 @@ class GeneratePasswordCrackerLevelUseCase @Inject constructor() {
             levelNumber <= 10 -> 3
             levelNumber <= 25 -> 2
             levelNumber <= 50 -> 1
+            levelNumber <= 100 -> 1
             else -> 0
         }
         
@@ -46,7 +48,10 @@ class GeneratePasswordCrackerLevelUseCase @Inject constructor() {
             levelNumber <= 10 -> 60
             levelNumber <= 25 -> 45
             levelNumber <= 50 -> 30
-            else -> 20
+            levelNumber <= 100 -> 25
+            levelNumber <= 200 -> 20
+            levelNumber <= 500 -> 15
+            else -> 10.coerceAtLeast(5) // Minimum 5 seconds
         }
         
         val xpReward = 50 + (tier * 10) + (weaknesses.size * 5)
@@ -149,10 +154,12 @@ class GeneratePasswordCrackerLevelUseCase @Inject constructor() {
 class GeneratePhishingScenarioUseCase @Inject constructor() {
     
     operator fun invoke(levelNumber: Int): PhishingScenario {
+        // Continue scaling difficulty infinitely
         val difficulty = when {
             levelNumber <= 10 -> PhishingDifficulty.OBVIOUS
             levelNumber <= 25 -> PhishingDifficulty.SUBTLE
-            else -> PhishingDifficulty.SOPHISTICATED
+            levelNumber <= 100 -> PhishingDifficulty.SOPHISTICATED
+            else -> PhishingDifficulty.SOPHISTICATED // Stays at highest difficulty
         }
         
         val (url, emailFrom, subject, body, isPhishing, redFlags) = when (difficulty) {
@@ -161,11 +168,16 @@ class GeneratePhishingScenarioUseCase @Inject constructor() {
             PhishingDifficulty.SOPHISTICATED -> generateSophisticatedPhishing(levelNumber)
         }
         
-        val xpReward = when (difficulty) {
+        // XP reward scales with level for infinite progression
+        val baseXpReward = when (difficulty) {
             PhishingDifficulty.OBVIOUS -> 30
             PhishingDifficulty.SUBTLE -> 60
             PhishingDifficulty.SOPHISTICATED -> 100
         }
+        
+        // Add bonus XP for high levels
+        val bonusXp = if (levelNumber > 100) (levelNumber - 100) / 10 * 5 else 0
+        val xpReward = baseXpReward + bonusXp
         
         return PhishingScenario(
             levelNumber = levelNumber,
@@ -272,6 +284,11 @@ class GenerateSocialEngineeringScenarioUseCase @Inject constructor() {
             SocialEngineeringType.IMPERSONATION -> generateImpersonationScenario()
         }
         
+        // XP reward scales with level for infinite progression
+        val baseXpReward = 75 + (tactics.size * 10)
+        val bonusXp = if (levelNumber > 50) (levelNumber - 50) / 10 * 10 else 0
+        val xpReward = baseXpReward + bonusXp
+        
         return SocialEngineeringScenario(
             levelNumber = levelNumber,
             scenarioType = type,
@@ -280,7 +297,7 @@ class GenerateSocialEngineeringScenarioUseCase @Inject constructor() {
             wrongAnswers = wrong,
             explanation = "This is a ${type.displayName} attack. ${getTacticsExplanation(tactics)}",
             tactics = tactics,
-            xpReward = 75 + (tactics.size * 10)
+            xpReward = xpReward
         )
     }
     

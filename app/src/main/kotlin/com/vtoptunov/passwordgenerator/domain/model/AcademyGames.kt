@@ -47,7 +47,7 @@ enum class GameDifficulty(
             level <= 10 -> EASY
             level <= 20 -> MEDIUM
             level <= 35 -> HARD
-            else -> EXPERT
+            else -> EXPERT  // Remains at EXPERT for infinite levels
         }
     }
 }
@@ -134,7 +134,7 @@ data class PhishingScenario(
 enum class PhishingDifficulty {
     OBVIOUS,    // Level 1-10
     SUBTLE,     // Level 11-25
-    SOPHISTICATED  // Level 26+
+    SOPHISTICATED  // Level 26-1000+ (stays at highest difficulty)
 }
 
 enum class PhishingRedFlag(val displayName: String, val severity: RedFlagSeverity) {
