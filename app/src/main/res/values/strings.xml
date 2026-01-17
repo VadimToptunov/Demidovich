@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Name -->
-    <string name="app_name">CyberSafe</string>
+    <string name="app_name">PassForge</string>
     
     <!-- Main Screens -->
     <string name="generator">Generator</string>
@@ -24,6 +24,9 @@
     <string name="lowercase">Lowercase</string>
     <string name="numbers">Numbers</string>
     <string name="symbols">Symbols</string>
+    <string name="generation_style">Generation Style</string>
+    <string name="generated_password">Generated Password</string>
+    <string name="password_saved">Password saved!</string>
     
     <!-- Password Strength -->
     <string name="very_weak">Very Weak</string>
@@ -52,7 +55,7 @@
     <string name="passphrase">Passphrase</string>
     
     <!-- Academy -->
-    <string name="cybersafe_academy">CyberSafe Academy</string>
+    <string name="cybersafe_academy">PassForge Academy</string>
     <string name="games">Games</string>
     <string name="lessons">Lessons</string>
     <string name="progress">Progress</string>

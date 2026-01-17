@@ -16,8 +16,10 @@ data class GeneratorState(
     val isSaving: Boolean = false,
     val showSaveSuccess: Boolean = false,
     val crackingSimulation: CrackingSimulationState? = null,
-    val selectedCategory: PasswordCategory = PasswordCategory.UNCATEGORIZED, // NEW
-    val settingsExpanded: Boolean = true // NEW: для dropdown
+    val selectedCategory: PasswordCategory = PasswordCategory.UNCATEGORIZED,
+    val styleExpanded: Boolean = false, // Generation Style dropdown closed by default
+    val settingsExpanded: Boolean = false, // Settings dropdown closed by default
+    val categoryExpanded: Boolean = false // Category dropdown closed by default
 )
 
 data class CrackingSimulationState(
@@ -34,8 +36,10 @@ sealed class GeneratorEvent {
     object GeneratePassword : GeneratorEvent()
     object SavePassword : GeneratorEvent()
     object CopyToClipboard : GeneratorEvent()
-    data class CategorySelected(val category: PasswordCategory) : GeneratorEvent() // NEW
-    object ToggleSettings : GeneratorEvent() // NEW
+    data class CategorySelected(val category: PasswordCategory) : GeneratorEvent()
+    object ToggleStyle : GeneratorEvent()
+    object ToggleSettings : GeneratorEvent()
+    object ToggleCategory : GeneratorEvent()
 }
 
 enum class PasswordOption {

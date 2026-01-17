@@ -65,8 +65,14 @@ class GeneratorViewModel @Inject constructor(
             is GeneratorEvent.CategorySelected -> {
                 _state.update { it.copy(selectedCategory = event.category) }
             }
+            GeneratorEvent.ToggleStyle -> {
+                _state.update { it.copy(styleExpanded = !it.styleExpanded) }
+            }
             GeneratorEvent.ToggleSettings -> {
                 _state.update { it.copy(settingsExpanded = !it.settingsExpanded) }
+            }
+            GeneratorEvent.ToggleCategory -> {
+                _state.update { it.copy(categoryExpanded = !it.categoryExpanded) }
             }
         }
     }

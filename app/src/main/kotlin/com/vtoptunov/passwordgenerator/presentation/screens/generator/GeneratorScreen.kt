@@ -17,10 +17,12 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vtoptunov.passwordgenerator.R
 import com.vtoptunov.passwordgenerator.domain.model.PasswordCategory
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStrength
 import com.vtoptunov.passwordgenerator.domain.model.PasswordStyle
@@ -62,16 +64,16 @@ fun GeneratorScreen(
             ) {
                 Column {
                     Text(
-                        "PASSWORD",
+                        stringResource(R.string.password).uppercase(),
                         style = MaterialTheme.typography.headlineSmall,
                         color = CyberBlue,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        "GENERATOR",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = TextSecondary
-                    )
+                Text(
+                    stringResource(R.string.generator).uppercase(),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = TextSecondary
+                )
                 }
                 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -85,7 +87,7 @@ fun GeneratorScreen(
                     IconButton(onClick = onNavigateToAcademy) {
                         Icon(
                             Icons.Default.School,
-                            contentDescription = "CyberSafe Academy",
+                            contentDescription = "PassForge Academy",
                             tint = ElectricPurple
                         )
                     }
@@ -137,6 +139,8 @@ fun GeneratorScreen(
             // Style Selector
             StyleSelectorCard(
                 selectedStyle = state.selectedStyle,
+                expanded = state.styleExpanded,
+                onToggle = { viewModel.onEvent(GeneratorEvent.ToggleStyle) },
                 onStyleSelected = { viewModel.onEvent(GeneratorEvent.StyleSelected(it)) }
             )
             
@@ -163,6 +167,8 @@ fun GeneratorScreen(
             // Category Selector
             CategorySelectorCard(
                 selectedCategory = state.selectedCategory,
+                expanded = state.categoryExpanded,
+                onToggle = { viewModel.onEvent(GeneratorEvent.ToggleCategory) },
                 onCategorySelected = { viewModel.onEvent(GeneratorEvent.CategorySelected(it)) }
             )
             
@@ -189,7 +195,7 @@ fun GeneratorScreen(
                     } else {
                         Icon(Icons.Default.Refresh, null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Generate")
+                        Text(stringResource(R.string.generate))
                     }
                 }
                 
@@ -210,7 +216,7 @@ fun GeneratorScreen(
                     } else {
                         Icon(Icons.Default.Save, null)
                         Spacer(Modifier.width(8.dp))
-                        Text("Save")
+                        Text(stringResource(R.string.save))
                     }
                 }
             }
@@ -235,7 +241,7 @@ fun GeneratorScreen(
                 ) {
                     Icon(Icons.Default.CheckCircle, null, tint = DeepSpace)
                     Spacer(Modifier.width(8.dp))
-                    Text("Password saved!", color = DeepSpace, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.password_saved), color = DeepSpace, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -263,7 +269,7 @@ fun PasswordDisplayCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Generated Password",
+                    stringResource(R.string.generated_password),
                     style = MaterialTheme.typography.titleSmall,
                     color = TextSecondary
                 )
@@ -403,34 +409,68 @@ fun StrengthIndicatorCard(
 @Composable
 fun StyleSelectorCard(
     selectedStyle: PasswordStyle,
+    expanded: Boolean,
+    onToggle: () -> Unit,
     onStyleSelected: (PasswordStyle) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = CardBackground)
+        colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                "Generation Style",
-                style = MaterialTheme.typography.titleSmall,
-                color = TextSecondary
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Category,
+                        contentDescription = null,
+                        tint = ElectricPurple,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        stringResource(R.string.generation_style),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                }
+                IconButton(onClick = onToggle) {
+                    Icon(
+                        if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        tint = ElectricPurple
+                    )
+                }
+            }
             
-            Spacer(Modifier.height(12.dp))
-            
-            listOf(
-                PasswordStyle.Random,
-                PasswordStyle.XKCD,
-                PasswordStyle.Phonetic,
-                PasswordStyle.Story,
-                PasswordStyle.Pronounceable
-            ).forEach { style ->
-                StyleChip(
-                    style = style,
-                    isSelected = selectedStyle == style,
-                    onClick = { onStyleSelected(style) }
-                )
-                Spacer(Modifier.height(8.dp))
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    listOf(
+                        PasswordStyle.Random,
+                        PasswordStyle.XKCD,
+                        PasswordStyle.Phonetic,
+                        PasswordStyle.Story,
+                        PasswordStyle.Pronounceable
+                    ).forEach { style ->
+                        StyleChip(
+                            style = style,
+                            isSelected = selectedStyle == style,
+                            onClick = { onStyleSelected(style) }
+                        )
+                        Spacer(Modifier.height(8.dp))
+                    }
+                }
             }
         }
     }
@@ -586,7 +626,7 @@ fun SettingsDropdownCard(
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
-                        "Settings",
+                        stringResource(R.string.settings_label),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
@@ -617,6 +657,8 @@ fun SettingsDropdownCard(
 @Composable
 fun CategorySelectorCard(
     selectedCategory: PasswordCategory,
+    expanded: Boolean,
+    onToggle: () -> Unit,
     onCategorySelected: (PasswordCategory) -> Unit
 ) {
     Card(
@@ -626,94 +668,113 @@ fun CategorySelectorCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    Icons.Default.Category,
-                    contentDescription = null,
-                    tint = ElectricPurple,
-                    modifier = Modifier.size(20.dp)
-                )
-                Text(
-                    "Category",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Category,
+                        contentDescription = null,
+                        tint = NeonGreen,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        stringResource(R.string.category),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                }
+                IconButton(onClick = onToggle) {
+                    Icon(
+                        if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        tint = NeonGreen
+                    )
+                }
             }
             
-            Spacer(Modifier.height(12.dp))
-            
-            // Category chips in rows
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                Column(
+                    modifier = Modifier.padding(top = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    CategoryChip(
-                        category = PasswordCategory.UNCATEGORIZED,
-                        selected = selectedCategory == PasswordCategory.UNCATEGORIZED,
-                        onClick = { onCategorySelected(PasswordCategory.UNCATEGORIZED) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    CategoryChip(
-                        category = PasswordCategory.WORK,
-                        selected = selectedCategory == PasswordCategory.WORK,
-                        onClick = { onCategorySelected(PasswordCategory.WORK) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    CategoryChip(
-                        category = PasswordCategory.PERSONAL,
-                        selected = selectedCategory == PasswordCategory.PERSONAL,
-                        onClick = { onCategorySelected(PasswordCategory.PERSONAL) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    CategoryChip(
-                        category = PasswordCategory.BANKING,
-                        selected = selectedCategory == PasswordCategory.BANKING,
-                        onClick = { onCategorySelected(PasswordCategory.BANKING) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    CategoryChip(
-                        category = PasswordCategory.SOCIAL,
-                        selected = selectedCategory == PasswordCategory.SOCIAL,
-                        onClick = { onCategorySelected(PasswordCategory.SOCIAL) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    CategoryChip(
-                        category = PasswordCategory.EMAIL,
-                        selected = selectedCategory == PasswordCategory.EMAIL,
-                        onClick = { onCategorySelected(PasswordCategory.EMAIL) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    CategoryChip(
-                        category = PasswordCategory.SHOPPING,
-                        selected = selectedCategory == PasswordCategory.SHOPPING,
-                        onClick = { onCategorySelected(PasswordCategory.SHOPPING) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    CategoryChip(
-                        category = PasswordCategory.OTHER,
-                        selected = selectedCategory == PasswordCategory.OTHER,
-                        onClick = { onCategorySelected(PasswordCategory.OTHER) },
-                        modifier = Modifier.weight(1f)
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        CategoryChip(
+                            category = PasswordCategory.UNCATEGORIZED,
+                            selected = selectedCategory == PasswordCategory.UNCATEGORIZED,
+                            onClick = { onCategorySelected(PasswordCategory.UNCATEGORIZED) },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryChip(
+                            category = PasswordCategory.WORK,
+                            selected = selectedCategory == PasswordCategory.WORK,
+                            onClick = { onCategorySelected(PasswordCategory.WORK) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        CategoryChip(
+                            category = PasswordCategory.PERSONAL,
+                            selected = selectedCategory == PasswordCategory.PERSONAL,
+                            onClick = { onCategorySelected(PasswordCategory.PERSONAL) },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryChip(
+                            category = PasswordCategory.BANKING,
+                            selected = selectedCategory == PasswordCategory.BANKING,
+                            onClick = { onCategorySelected(PasswordCategory.BANKING) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        CategoryChip(
+                            category = PasswordCategory.SOCIAL,
+                            selected = selectedCategory == PasswordCategory.SOCIAL,
+                            onClick = { onCategorySelected(PasswordCategory.SOCIAL) },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryChip(
+                            category = PasswordCategory.EMAIL,
+                            selected = selectedCategory == PasswordCategory.EMAIL,
+                            onClick = { onCategorySelected(PasswordCategory.EMAIL) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        CategoryChip(
+                            category = PasswordCategory.SHOPPING,
+                            selected = selectedCategory == PasswordCategory.SHOPPING,
+                            onClick = { onCategorySelected(PasswordCategory.SHOPPING) },
+                            modifier = Modifier.weight(1f)
+                        )
+                        CategoryChip(
+                            category = PasswordCategory.OTHER,
+                            selected = selectedCategory == PasswordCategory.OTHER,
+                            onClick = { onCategorySelected(PasswordCategory.OTHER) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
