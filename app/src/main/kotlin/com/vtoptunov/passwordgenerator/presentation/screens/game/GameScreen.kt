@@ -77,7 +77,7 @@ fun GameScreen(
                     }
                     GamePhase.SELECTING -> {
                         SelectionPhase(
-                            passwords = state.shuffledPasswords, // Используем фиксированный список
+                            passwords = state.shuffledPasswords, // Use fixed list
                             selectedPassword = state.selectedPassword,
                             lastWrongPassword = state.lastWrongPassword,
                             attemptsRemaining = state.attemptsRemaining,
@@ -419,9 +419,9 @@ fun MemorizePhase(
 
 @Composable
 fun SelectionPhase(
-    passwords: List<String>, // Фиксированный список паролей
+    passwords: List<String>, // Fixed password list
     selectedPassword: String?,
-    lastWrongPassword: String?, // Последний неправильный ответ
+    lastWrongPassword: String?, // Last wrong answer
     attemptsRemaining: Int,
     onPasswordSelected: (String) -> Unit,
     onConfirm: () -> Unit,
@@ -463,7 +463,7 @@ fun SelectionPhase(
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Confirm Button - ВЫШЕ списка паролей
+        // Confirm Button - ABOVE password list
         Button(
             onClick = onConfirm,
             enabled = selectedPassword != null && !isChecking,
@@ -504,7 +504,7 @@ fun SelectionPhase(
                 PasswordOptionCard(
                     password = password,
                     isSelected = password == selectedPassword,
-                    isWrong = password == lastWrongPassword, // Показываем красным
+                    isWrong = password == lastWrongPassword, // Display in red
                     onClick = { onPasswordSelected(password) },
                     enabled = !isChecking
                 )
@@ -517,14 +517,14 @@ fun SelectionPhase(
 fun PasswordOptionCard(
     password: String,
     isSelected: Boolean,
-    isWrong: Boolean, // Новый параметр
+    isWrong: Boolean, // New parameter
     onClick: () -> Unit,
     enabled: Boolean
 ) {
     val borderColor = when {
-        isWrong -> DangerRed // Неправильный ответ - красный
-        isSelected -> NeonGreen // Выбранный - зелёный
-        else -> TextSecondary.copy(alpha = 0.3f) // Обычный
+        isWrong -> DangerRed // Wrong answer - red
+        isSelected -> NeonGreen // Selected - green
+        else -> TextSecondary.copy(alpha = 0.3f) // Default
     }
     
     val textColor = when {
@@ -544,7 +544,7 @@ fun PasswordOptionCard(
             ),
         colors = CardDefaults.cardColors(
             containerColor = when {
-                isWrong -> DangerRed.copy(alpha = 0.1f) // Красный фон для ошибки
+                isWrong -> DangerRed.copy(alpha = 0.1f) // Red background for error
                 isSelected -> CardBackground.copy(alpha = 0.8f)
                 else -> CardBackground
             }

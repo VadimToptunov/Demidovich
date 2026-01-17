@@ -61,7 +61,7 @@ class GameViewModel @Inject constructor(
             remainingMemorizeTime = game.memorizeTimeSeconds
         )
         
-        // Перемешиваем пароли ОДИН РАЗ при старте игры
+        // Shuffle passwords ONCE at game start
         val shuffledPasswords = (listOf(game.correctPassword) + game.decoyPasswords).shuffled()
         
         _state.update {
@@ -197,7 +197,7 @@ class GameViewModel @Inject constructor(
                         attemptsRemaining = newAttemptsValue,
                         selectedPassword = null,
                         isCheckingAnswer = false,
-                        lastWrongPassword = selectedPassword // Сохраняем неправильный ответ
+                        lastWrongPassword = selectedPassword // Save wrong password for red display
                     )
                 }
             }
