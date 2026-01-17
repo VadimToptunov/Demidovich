@@ -30,6 +30,7 @@ fun PremiumScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val activity = LocalContext.current as? Activity
+    val dimensions = LocalDimensions.current
 
     Box(
         modifier = Modifier
@@ -44,8 +45,8 @@ fun PremiumScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
         ) {
             // Header
             Row(
@@ -146,11 +147,11 @@ fun PremiumScreen(
                 enabled = !state.isLoading
             ) {
                 Icon(Icons.Default.Refresh, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spacingSmall))
                 Text("Restore Purchases")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         }
 
         // Loading Indicator
@@ -171,7 +172,7 @@ fun PremiumScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Snackbar(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(dimensions.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissError) }) {
                         Text("Dismiss", color = TextPrimary)
@@ -190,7 +191,7 @@ fun PremiumScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Snackbar(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(dimensions.spacingMedium),
                 action = {
                     TextButton(onClick = { viewModel.onEvent(PremiumEvent.DismissSuccess) }) {
                         Text("OK", color = DeepSpace)
@@ -210,11 +211,11 @@ fun PremiumStatusCard(premiumStatus: com.vtoptunov.passwordgenerator.domain.mode
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -231,7 +232,7 @@ fun PremiumStatusCard(premiumStatus: com.vtoptunov.passwordgenerator.domain.mode
                     Icons.Default.CheckCircle,
                     contentDescription = null,
                     tint = NeonGreen,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(dimensions.iconLarge)
                 )
             }
 
@@ -267,11 +268,11 @@ fun BenefitsSection() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.padding(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             Text(
                 "Premium Benefits",
@@ -312,13 +313,13 @@ fun BenefitItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         Icon(
             icon,
             contentDescription = null,
             tint = color,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(dimensions.iconMedium)
         )
         Text(
             text,
@@ -343,11 +344,11 @@ fun ProductCard(
                 CardBackground
             }
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(dimensions.spacingMedium),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -418,7 +419,7 @@ fun ProductCard(
                     ) {
                         if (isPurchasing) {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(20.dp),
+                                modifier = Modifier.size(dimensions.iconSmall),
                                 color = TextPrimary
                             )
                         } else {

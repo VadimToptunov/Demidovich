@@ -121,10 +121,11 @@ fun GameHeader(
     onBackClick: () -> Unit,
     playerStats: com.vtoptunov.passwordgenerator.domain.model.PlayerStats
 ) {
+    val dimensions = LocalDimensions.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(dimensions.spacingMedium),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -136,7 +137,7 @@ fun GameHeader(
                     tint = TextSecondary
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensions.spacingSmall))
             Text(
                 text = "Memory Training",
                 style = MaterialTheme.typography.headlineSmall,
@@ -147,7 +148,7 @@ fun GameHeader(
         // Player Level & XP
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             Column(horizontalAlignment = Alignment.End) {
                 Text(
@@ -160,7 +161,7 @@ fun GameHeader(
                     progress = playerStats.xpProgress,
                     modifier = Modifier
                         .width(80.dp)
-                        .height(4.dp)
+                        .height(dimensions.spacingExtraSmall)
                         .clip(RoundedCornerShape(2.dp)),
                     color = NeonGreen,
                     trackColor = SurfaceDark
@@ -170,7 +171,7 @@ fun GameHeader(
                 imageVector = Icons.Default.EmojiEvents,
                 contentDescription = "Level",
                 tint = NeonGreen,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(dimensions.iconMedium)
             )
         }
     }
@@ -180,11 +181,12 @@ fun GameHeader(
 fun DifficultySelector(
     onDifficultySelected: (GameDifficulty) -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(dimensions.spacingMedium),
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -204,30 +206,30 @@ fun DifficultySelector(
         }
         
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = CardBackground),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(dimensions.spacingMedium),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = "Info",
                         tint = CyberBlue,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensions.iconLarge)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         text = "How to Play",
                         style = MaterialTheme.typography.titleMedium,
                         color = TextPrimary,
                         fontWeight = FontWeight.Bold
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         text = """
                             1. Memorize the password shown
@@ -263,14 +265,14 @@ fun DifficultyCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .border(2.dp, color.copy(alpha = 0.5f), RoundedCornerShape(12.dp)),
+            .border(2.dp, color.copy(alpha = 0.5f), RoundedCornerShape(dimensions.cardCornerRadius)),
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -281,7 +283,7 @@ fun DifficultyCard(
                     color = color,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                 Text(
                     text = "Options: ${difficulty.decoyCount + 1}",
                     style = MaterialTheme.typography.bodyMedium,
@@ -304,7 +306,7 @@ fun DifficultyCard(
                     imageVector = Icons.Default.Star,
                     contentDescription = "XP",
                     tint = color,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(dimensions.iconLarge)
                 )
                 Text(
                     text = "+${difficulty.xpReward} XP",
@@ -322,6 +324,7 @@ fun MemorizePhase(
     password: String,
     remainingTime: Int
 ) {
+    val dimensions = LocalDimensions.current
     val infiniteTransition = rememberInfiniteTransition(label = "memorize_glow")
     val glowAlpha by infiniteTransition.animateFloat(
         initialValue = 0.3f,
@@ -335,7 +338,7 @@ fun MemorizePhase(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(dimensions.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -367,7 +370,7 @@ fun MemorizePhase(
             textAlign = TextAlign.Center
         )
         
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingLarge))
         
         // Password Display with Glow Effect
         Card(
@@ -381,10 +384,10 @@ fun MemorizePhase(
                             GlowPurple.copy(alpha = glowAlpha)
                         )
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ),
             colors = CardDefaults.cardColors(containerColor = CardBackground),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(dimensions.cardCornerRadius)
         ) {
             Text(
                 text = password,
@@ -392,22 +395,22 @@ fun MemorizePhase(
                 color = TextPrimary,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(dimensions.spacingLarge),
                 textAlign = TextAlign.Center
             )
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.Visibility,
                 contentDescription = "Focus",
                 tint = NeonGreen,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(dimensions.iconSmall)
             )
             Text(
                 text = "Focus on the details!",
@@ -428,10 +431,11 @@ fun SelectionPhase(
     onConfirm: () -> Unit,
     isChecking: Boolean
 ) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(dimensions.spacingMedium)
     ) {
         // Attempts Display
         Row(
@@ -446,13 +450,13 @@ fun SelectionPhase(
                     contentDescription = "Attempt",
                     tint = if (isFilled) DangerRed else TextSecondary,
                     modifier = Modifier
-                        .size(32.dp)
-                        .padding(4.dp)
+                        .size(dimensions.iconLarge)
+                        .padding(dimensions.spacingExtraSmall)
                 )
             }
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         
         Text(
             text = "Select the correct password",
@@ -462,7 +466,7 @@ fun SelectionPhase(
             modifier = Modifier.fillMaxWidth()
         )
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         
         // Confirm Button - ABOVE password list
         Button(
@@ -475,12 +479,12 @@ fun SelectionPhase(
                 containerColor = NeonGreen,
                 disabledContainerColor = SurfaceDark
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(dimensions.cardCornerRadius)
         ) {
             if (isChecking) {
                 CircularProgressIndicator(
                     color = TextPrimary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(dimensions.iconMedium)
                 )
             } else {
                 Text(
@@ -491,13 +495,13 @@ fun SelectionPhase(
             }
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         
         // Password Options Grid
         LazyVerticalGrid(
             columns = GridCells.Fixed(if (passwords.size <= 4) 1 else 2),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
             modifier = Modifier.weight(1f)
         ) {
             items(passwords.size) { index ->
@@ -522,6 +526,7 @@ fun PasswordOptionCard(
     onClick: () -> Unit,
     enabled: Boolean
 ) {
+    val dimensions = LocalDimensions.current
     val borderColor = when {
         isWrong -> DangerRed // Wrong answer - red
         isSelected -> NeonGreen // Selected - green
@@ -541,7 +546,7 @@ fun PasswordOptionCard(
             .border(
                 width = if (isSelected || isWrong) 3.dp else 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ),
         colors = CardDefaults.cardColors(
             containerColor = when {
@@ -550,7 +555,7 @@ fun PasswordOptionCard(
                 else -> CardBackground
             }
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Text(
             text = password,
@@ -558,7 +563,7 @@ fun PasswordOptionCard(
             color = textColor,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             textAlign = TextAlign.Center
         )
     }
@@ -573,10 +578,11 @@ fun ResultPhase(
     onPlayAgain: () -> Unit,
     onExit: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(dimensions.spacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -588,7 +594,7 @@ fun ResultPhase(
             modifier = Modifier.size(80.dp)
         )
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         
         Text(
             text = if (result.isSuccess) "Excellent!" else "Try Again",
@@ -597,16 +603,16 @@ fun ResultPhase(
             fontWeight = FontWeight.Bold
         )
         
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingLarge))
         
         // Stats Card
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = CardBackground),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(dimensions.cardCornerRadius)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(dimensions.spacingMedium),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ResultStat("Attempts Used", "${result.attemptsUsed}")
@@ -616,7 +622,7 @@ fun ResultPhase(
                     ResultStat("XP Earned", "+${result.xpEarned}", NeonGreen)
                 }
                 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingMedium))
                 
                 Text(
                     text = "Correct Password:",
@@ -632,26 +638,26 @@ fun ResultPhase(
             }
         }
         
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingLarge))
         
         // Ad Prompt for Extra Attempt
         if (showAdPrompt && canWatchAd) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = ElectricPurple.copy(alpha = 0.2f)),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(dimensions.spacingMedium),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         imageVector = Icons.Default.VideoLibrary,
                         contentDescription = "Watch Ad",
                         tint = ElectricPurple,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensions.iconLarge)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         text = "Get an Extra Attempt",
                         style = MaterialTheme.typography.titleMedium,
@@ -667,25 +673,25 @@ fun ResultPhase(
                     Button(
                         onClick = onWatchAd,
                         colors = ButtonDefaults.buttonColors(containerColor = ElectricPurple),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(dimensions.spacingSmall)
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
                             contentDescription = "Watch",
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(dimensions.iconSmall)
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(dimensions.spacingSmall))
                         Text("Watch Ad")
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         }
         
         // Action Buttons
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             OutlinedButton(
                 onClick = onExit,
@@ -695,7 +701,7 @@ fun ResultPhase(
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = TextPrimary
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Text("Exit")
             }
@@ -706,14 +712,14 @@ fun ResultPhase(
                     .weight(1f)
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = CyberBlue),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "Play Again",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(dimensions.iconSmall)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(dimensions.spacingSmall))
                 Text("Play Again")
             }
         }

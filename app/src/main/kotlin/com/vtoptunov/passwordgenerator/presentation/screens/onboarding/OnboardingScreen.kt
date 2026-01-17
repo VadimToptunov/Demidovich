@@ -35,6 +35,7 @@ fun OnboardingScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { state.pages.size })
+    val dimensions = LocalDimensions.current
 
     LaunchedEffect(Unit) {
         // Listen for onboarding completion
@@ -54,7 +55,7 @@ fun OnboardingScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(24.dp),
+                    .padding(dimensions.spacingLarge),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Skip button - only show on non-last pages
@@ -106,7 +107,7 @@ fun OnboardingScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = NeonGreen
                         ),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp)
@@ -117,11 +118,11 @@ fun OnboardingScreen(
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleMedium
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(dimensions.spacingSmall))
                         Icon(
                             Icons.Default.Check,
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp),
+                            modifier = Modifier.size(dimensions.iconMedium),
                             tint = DeepSpace
                         )
                     }
@@ -207,7 +208,7 @@ fun OnboardingPageContent(page: com.vtoptunov.passwordgenerator.domain.model.Onb
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
         // Description
         Text(
@@ -254,7 +255,7 @@ fun BiometricSetupDialog(
                 Icons.Default.Fingerprint,
                 contentDescription = null,
                 tint = ElectricPurple,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(dimensions.iconExtraLarge)
             )
         },
         title = {

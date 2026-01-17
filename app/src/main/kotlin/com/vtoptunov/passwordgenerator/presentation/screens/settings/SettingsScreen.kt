@@ -30,6 +30,7 @@ fun SettingsScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current as? FragmentActivity
+    val dimensions = LocalDimensions.current
     
     Box(
         modifier = Modifier
@@ -44,7 +45,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .padding(dimensions.spacingMedium)
         ) {
             // Header
             SettingsHeader(onNavigateBack = onNavigateBack)
@@ -88,7 +89,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimensions.spacingMedium))
             
             // Privacy Section
             SectionHeader("🛡️ Privacy")
@@ -101,7 +102,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimensions.spacingMedium))
             
             // Display Section
             SectionHeader("🎨 Display")
@@ -123,7 +124,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimensions.spacingMedium))
             
             // Data Section
             SectionHeader("💾 Data")
@@ -137,7 +138,7 @@ fun SettingsScreen(
                 )
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimensions.spacingMedium))
             
             // About Section
             SectionHeader("ℹ️ About")
@@ -200,12 +201,12 @@ fun SectionHeader(title: String) {
 fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             content = content
         )
     }
@@ -228,7 +229,7 @@ fun SettingsSwitch(
             icon,
             contentDescription = null,
             tint = if (enabled) CyberBlue else TextDisabled,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(dimensions.iconMedium)
         )
         
         Spacer(Modifier.width(16.dp))
@@ -285,7 +286,7 @@ fun SettingsItem(
             icon,
             contentDescription = null,
             tint = CyberBlue,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(dimensions.iconMedium)
         )
         
         Spacer(Modifier.width(16.dp))

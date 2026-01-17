@@ -32,6 +32,7 @@ fun PhishingHunterScreen(
     viewModel: PhishingHunterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
 
     Scaffold(
         topBar = {
@@ -60,7 +61,7 @@ fun PhishingHunterScreen(
                 ),
                 actions = {
                     Surface(
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -85,7 +86,7 @@ fun PhishingHunterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(dimensions.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -94,7 +95,7 @@ fun PhishingHunterScreen(
                 hintsUsed = state.hintsUsed
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -156,12 +157,12 @@ fun StatCard(
     Card(
         modifier = Modifier.width(100.dp),
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(dimensions.spacingSmall),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(20.dp))
@@ -181,22 +182,22 @@ fun GameContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "🎯 Investigate This:",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         "Is this legitimate or a phishing attempt?",
                         fontSize = 14.sp,
@@ -217,7 +218,7 @@ fun GameContent(
                         NeonGreen.copy(alpha = 0.1f)
                 )
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -235,7 +236,7 @@ fun GameContent(
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         scenario.url,
                         fontSize = 16.sp,
@@ -252,7 +253,7 @@ fun GameContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -280,7 +281,7 @@ fun GameContent(
                         fontWeight = FontWeight.Medium
                     )
                     
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     
                     Text("Subject:", fontSize = 12.sp, color = TextSecondary)
                     Text(
@@ -290,7 +291,7 @@ fun GameContent(
                         fontWeight = FontWeight.Medium
                     )
                     
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     
                     Text("Message:", fontSize = 12.sp, color = TextSecondary)
                     Text(
@@ -312,14 +313,14 @@ fun GameContent(
                         containerColor = WarningOrange.copy(alpha = 0.1f)
                     )
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                         Text(
                             "🚩 Red Flags:",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = WarningOrange
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         state.revealedRedFlags.forEach { flag ->
                             Row(
                                 modifier = Modifier
@@ -343,7 +344,7 @@ fun GameContent(
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
             ) {
                 OutlinedButton(
                     onClick = { onEvent(PhishingHunterEvent.UseHint) },
@@ -363,7 +364,7 @@ fun GameContent(
         item {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
             ) {
                 Button(
                     onClick = { onEvent(PhishingHunterEvent.AnswerSubmitted(false)) },
@@ -400,7 +401,7 @@ fun ExplanationContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             Card(
@@ -411,12 +412,12 @@ fun ExplanationContent(
                     else 
                         DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(dimensions.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -425,7 +426,7 @@ fun ExplanationContent(
                         fontWeight = FontWeight.Bold,
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         if (scenario.isPhishing) "This was a PHISHING attempt" else "This was LEGITIMATE",
                         fontSize = 16.sp,
@@ -433,7 +434,7 @@ fun ExplanationContent(
                         textAlign = TextAlign.Center
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         Text(
                             "+${scenario.xpReward} XP",
                             fontSize = 20.sp,
@@ -450,7 +451,7 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "🔍 Explanation:",
                         fontSize = 18.sp,
@@ -465,7 +466,7 @@ fun ExplanationContent(
                             fontSize = 14.sp,
                             color = TextSecondary
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         scenario.redFlags.forEach { flag ->
                             Row(
                                 modifier = Modifier

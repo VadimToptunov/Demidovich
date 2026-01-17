@@ -32,6 +32,7 @@ fun SocialEngineeringScreen(
     viewModel: SocialEngineeringViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
 
     Scaffold(
         topBar = {
@@ -60,7 +61,7 @@ fun SocialEngineeringScreen(
                 ),
                 actions = {
                     Surface(
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -85,7 +86,7 @@ fun SocialEngineeringScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(dimensions.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -93,7 +94,7 @@ fun SocialEngineeringScreen(
                 streak = state.streak
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -129,7 +130,7 @@ fun StatsBar(
             modifier = Modifier.weight(1f)
         )
         
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(dimensions.spacingSmall))
         
         StatCard(
             icon = Icons.Default.Whatshot,
@@ -152,17 +153,17 @@ fun StatCard(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(dimensions.spacingSmall),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(20.dp))
-            Spacer(modifier = Modifier.width(8.dp))
+            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(dimensions.iconSmall))
+            Spacer(modifier = Modifier.width(dimensions.spacingSmall))
             Column(horizontalAlignment = Alignment.Start) {
                 Text(label, fontSize = 10.sp, color = TextSecondary)
                 Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = color)
@@ -180,22 +181,22 @@ fun GameContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "🎭 Scenario:",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         "How would you respond to this situation?",
                         fontSize = 14.sp,
@@ -236,7 +237,7 @@ fun GameContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "💬 Conversation:",
                         fontSize = 16.sp,
@@ -247,7 +248,7 @@ fun GameContent(
                     
                     scenario.conversationMessages.forEach { message ->
                         ConversationBubble(message, state)
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     }
                 }
             }
@@ -262,14 +263,14 @@ fun GameContent(
                         containerColor = WarningOrange.copy(alpha = 0.1f)
                     )
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                         Text(
                             "⚠️ Tactics Being Used:",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = WarningOrange
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         scenario.tactics.forEach { tactic ->
                             Row(
                                 modifier = Modifier
@@ -338,15 +339,15 @@ fun ConversationBubble(
             color = TextSecondary,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
         Surface(
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(dimensions.cardCornerRadius),
             color = bubbleColor,
             modifier = Modifier.widthIn(max = 280.dp)
         ) {
             Text(
                 message.text,
-                modifier = Modifier.padding(12.dp),
+                modifier = Modifier.padding(dimensions.spacingSmall),
                 fontSize = 14.sp,
                 color = TextPrimary,
                 lineHeight = 18.sp
@@ -393,19 +394,19 @@ fun ResponseCard(
         onClick = onClick,
         enabled = !showResult,
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(2.dp, borderColor, RoundedCornerShape(12.dp))
-                .padding(16.dp),
+                .border(2.dp, borderColor, RoundedCornerShape(dimensions.cardCornerRadius))
+                .padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .size(dimensions.iconLarge)
+                    .clip(RoundedCornerShape(dimensions.spacingSmall))
                     .background(borderColor),
                 contentAlignment = Alignment.Center
             ) {
@@ -414,14 +415,14 @@ fun ResponseCard(
                         Icons.Default.Check,
                         contentDescription = "Correct",
                         tint = DeepSpace,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(dimensions.iconSmall)
                     )
                 } else if (showResult && isSelected) {
                     Icon(
                         Icons.Default.Close,
                         contentDescription = "Wrong",
                         tint = Color.White,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(dimensions.iconSmall)
                     )
                 } else {
                     Text(
@@ -455,7 +456,7 @@ fun ExplanationContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             Card(
@@ -466,12 +467,12 @@ fun ExplanationContent(
                     else 
                         DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(dimensions.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -481,7 +482,7 @@ fun ExplanationContent(
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         Text(
                             "+${scenario.xpReward} XP",
                             fontSize = 20.sp,
@@ -498,7 +499,7 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "🔍 Explanation:",
                         fontSize = 18.sp,
@@ -523,14 +524,14 @@ fun ExplanationContent(
                     containerColor = NeonGreen.copy(alpha = 0.1f)
                 )
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "✅ Best Response:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = NeonGreen
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         scenario.correctAnswer,
                         fontSize = 14.sp,
@@ -546,14 +547,14 @@ fun ExplanationContent(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "💡 Key Takeaway:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = CyberBlue
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         getKeyTakeaway(scenario.scenarioType),
                         fontSize = 14.sp,

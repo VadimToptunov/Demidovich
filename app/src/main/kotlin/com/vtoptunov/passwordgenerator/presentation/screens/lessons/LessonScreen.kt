@@ -40,6 +40,7 @@ fun LessonScreen(
     viewModel: LessonViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val dimensions = LocalDimensions.current
     
     LaunchedEffect(lessonId) {
         viewModel.loadLesson(lessonId)
@@ -133,8 +134,8 @@ private fun LessonContent(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        contentPadding = PaddingValues(dimensions.spacingMedium),
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             ProgressBar(
@@ -197,7 +198,7 @@ private fun ProgressBar(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         Text(
             if (isRussian) "Прогресс: $currentStep / $totalSteps" else "Progress: $currentStep / $totalSteps",
@@ -209,7 +210,7 @@ private fun ProgressBar(
             progress = currentStep.toFloat() / totalSteps.toFloat(),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(dimensions.spacingSmall)
                 .clip(RoundedCornerShape(4.dp)),
             color = CyberBlue,
             trackColor = SurfaceDark
@@ -225,12 +226,12 @@ private fun TopicCard(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = SurfaceDark,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         tonalElevation = 2.dp
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(dimensions.spacingLarge),
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
         ) {
             Text(
                 if (isRussian) topic.titleRu else topic.title,
@@ -250,21 +251,21 @@ private fun TopicCard(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = CardBackground,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        modifier = Modifier.padding(dimensions.spacingMedium),
+                        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
                         ) {
                             Icon(
                                 Icons.Default.Lightbulb,
                                 contentDescription = null,
                                 tint = ElectricPurple,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(dimensions.iconSmall)
                             )
                             Text(
                                 if (isRussian) "Пример" else "Example",
@@ -287,19 +288,19 @@ private fun TopicCard(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = NeonGreen.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius),
                     border = BorderStroke(1.dp, NeonGreen.copy(alpha = 0.3f))
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(dimensions.spacingMedium),
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
                         verticalAlignment = Alignment.Top
                     ) {
                         Icon(
                             Icons.Default.TipsAndUpdates,
                             contentDescription = null,
                             tint = NeonGreen,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(dimensions.iconMedium)
                         )
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
@@ -337,11 +338,11 @@ private fun QuizCard(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = SurfaceDark,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         tonalElevation = 2.dp
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(dimensions.spacingLarge),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Row(
@@ -360,7 +361,7 @@ private fun QuizCard(
                     val isCorrect = selectedAnswerIndex == question.correctAnswerIndex
                     Surface(
                         color = if (isCorrect) SuccessGreen.copy(alpha = 0.2f) else DangerRed.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(dimensions.spacingSmall)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
@@ -413,12 +414,12 @@ private fun QuizCard(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = CyberBlue.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius),
                     border = BorderStroke(1.dp, CyberBlue.copy(alpha = 0.3f))
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        modifier = Modifier.padding(dimensions.spacingMedium),
+                        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
                     ) {
                         Text(
                             if (isRussian) "Объяснение" else "Explanation",
@@ -442,7 +443,7 @@ private fun QuizCard(
                         containerColor = CyberBlue,
                         contentColor = CardBackground
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ) {
                     Text(
                         if (isRussian) "Далее" else "Next",
@@ -462,7 +463,7 @@ private fun QuizCard(
                         disabledContainerColor = SurfaceDark,
                         disabledContentColor = TextSecondary
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ) {
                     Text(
                         if (isRussian) "Проверить" else "Check Answer",
@@ -505,12 +506,12 @@ private fun AnswerOption(
             .fillMaxWidth()
             .clickable(enabled = !isRevealed, onClick = onClick),
         color = backgroundColor,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         border = BorderStroke(2.dp, borderColor)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.padding(dimensions.spacingMedium),
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -566,7 +567,7 @@ private fun NavigationButtons(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         if (canGoPrevious) {
             OutlinedButton(
@@ -576,14 +577,14 @@ private fun NavigationButtons(
                     contentColor = CyberBlue
                 ),
                 border = BorderStroke(1.dp, CyberBlue),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Icon(
                     Icons.Default.ArrowBack,
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(dimensions.iconSmall)
                 )
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(dimensions.spacingSmall))
                 Text(
                     if (isRussian) "Назад" else "Previous",
                     fontSize = 16.sp,
@@ -600,14 +601,14 @@ private fun NavigationButtons(
                     containerColor = ElectricPurple,
                     contentColor = Color.White
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Icon(
                     Icons.Default.Quiz,
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(dimensions.iconSmall)
                 )
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(dimensions.spacingSmall))
                 Text(
                     if (isRussian) "Начать тест" else "Start Quiz",
                     fontSize = 16.sp,
@@ -622,18 +623,18 @@ private fun NavigationButtons(
                     containerColor = CyberBlue,
                     contentColor = CardBackground
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Text(
                     if (isRussian) "Далее" else "Next",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(dimensions.spacingSmall))
                 Icon(
                     Icons.Default.ArrowForward,
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(dimensions.iconSmall)
                 )
             }
         }
@@ -654,11 +655,11 @@ private fun ResultsCard(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = SurfaceDark,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(dimensions.cardCornerRadius),
         tonalElevation = 2.dp
     ) {
         Column(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(dimensions.spacingLarge),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
@@ -683,7 +684,7 @@ private fun ResultsCard(
             
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
             ) {
                 Text(
                     if (isRussian) "Ваш результат" else "Your Score",
@@ -727,7 +728,7 @@ private fun ResultsCard(
                     containerColor = CyberBlue,
                     contentColor = CardBackground
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Text(
                     if (isRussian) "Завершить" else "Finish",
@@ -749,13 +750,13 @@ private fun StatItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         Icon(
             icon,
             contentDescription = null,
             tint = color,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(dimensions.iconLarge)
         )
         Text(
             value,

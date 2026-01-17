@@ -37,6 +37,7 @@ fun DashboardScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
     
     Box(
         modifier = Modifier
@@ -51,12 +52,12 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .padding(dimensions.spacingMedium)
         ) {
             // Header
             DashboardHeader(onNavigateBack = onNavigateBack)
             
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(dimensions.spacingLarge))
             
             if (state.isLoading) {
                 LoadingState()
@@ -67,12 +68,12 @@ fun DashboardScreen(
                     totalPasswords = state.stats.totalPasswords
                 )
                 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensions.spacingMedium))
                 
                 // Quick Stats Grid
                 QuickStatsGrid(state.stats)
                 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensions.spacingMedium))
                 
                 // Tab Selector
                 TabSelector(
@@ -80,7 +81,7 @@ fun DashboardScreen(
                     onTabSelected = { viewModel.selectTab(it) }
                 )
                 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(dimensions.spacingMedium))
                 
                 // Content based on selected tab
                 when (state.selectedTab) {
@@ -198,12 +199,12 @@ fun HealthScoreCard(score: Int, totalPasswords: Int) {
                     color = TextSecondary
                 )
                 
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(dimensions.spacingSmall))
                 
                 // Status indicator
                 Surface(
                     color = scoreColor.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(dimensions.cardCornerRadius)
                 ) {
                     Text(
                         text = when {
@@ -218,7 +219,7 @@ fun HealthScoreCard(score: Int, totalPasswords: Int) {
                     )
                 }
                 
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(dimensions.spacingSmall))
                 
                 Text(
                     text = "$totalPasswords passwords analyzed",
@@ -234,7 +235,7 @@ fun HealthScoreCard(score: Int, totalPasswords: Int) {
 fun QuickStatsGrid(stats: PasswordHealthStats) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         QuickStatCard(
             modifier = Modifier.weight(1f),
@@ -273,19 +274,19 @@ fun QuickStatCard(
         colors = CardDefaults.cardColors(
             containerColor = color.copy(alpha = 0.1f)
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(dimensions.spacingSmall),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = icon,
                 fontSize = 24.sp
             )
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(dimensions.spacingExtraSmall))
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleLarge,
@@ -308,7 +309,7 @@ fun TabSelector(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         DashboardTab.values().forEach { tab ->
             val isSelected = tab == selectedTab
@@ -316,12 +317,12 @@ fun TabSelector(
                 onClick = { onTabSelected(tab) },
                 modifier = Modifier.weight(1f),
                 color = if (isSelected) CyberBlue.copy(alpha = 0.2f) else SurfaceMedium,
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(dimensions.cardCornerRadius),
                 border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, CyberBlue) else null
             ) {
                 Text(
                     text = tab.name.replace("_", " "),
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(dimensions.spacingSmall),
                     style = MaterialTheme.typography.labelMedium,
                     color = if (isSelected) CyberBlue else TextSecondary,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
@@ -333,13 +334,13 @@ fun TabSelector(
 
 @Composable
 fun OverviewTab(stats: PasswordHealthStats) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)) {
         // Strength Distribution
         Card(
             colors = CardDefaults.cardColors(containerColor = CardBackground),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(dimensions.cardCornerRadius)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                 Text(
                     "Password Strength Distribution",
                     style = MaterialTheme.typography.titleMedium,
@@ -414,7 +415,7 @@ fun StrengthBar(strong: Int, weak: Int, total: Int) {
             }
         }
         
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(dimensions.spacingSmall))
         
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -455,7 +456,7 @@ fun IssuesTab(issues: List<SecurityIssue>) {
     } else {
         LazyColumn(
             modifier = Modifier.height(400.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             items(issues) { issue ->
                 IssueCard(issue)
@@ -470,12 +471,12 @@ fun IssueCard(issue: SecurityIssue) {
         colors = CardDefaults.cardColors(
             containerColor = DangerRed.copy(alpha = 0.1f)
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.Top
         ) {
             Text("⚠️", fontSize = 24.sp)
@@ -491,7 +492,7 @@ fun IssueCard(issue: SecurityIssue) {
                     color = DangerRed,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(dimensions.spacingExtraSmall))
                 Text(
                     text = when(issue) {
                         is SecurityIssue.WeakPassword -> issue.recommendation
@@ -510,7 +511,7 @@ fun IssueCard(issue: SecurityIssue) {
 fun AchievementsTab(achievements: List<Achievement>) {
     LazyColumn(
         modifier = Modifier.height(400.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
     ) {
         items(achievements) { achievement ->
             AchievementCard(achievement)
@@ -527,12 +528,12 @@ fun AchievementCard(achievement: Achievement) {
             containerColor = if (achievement.isUnlocked) 
                 NeonGreen.copy(alpha = 0.1f) else CardBackground
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -540,7 +541,7 @@ fun AchievementCard(achievement: Achievement) {
                 fontSize = 32.sp,
                 modifier = Modifier.alpha(alpha)
             )
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(dimensions.spacingMedium))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     achievement.title,
@@ -557,7 +558,7 @@ fun AchievementCard(achievement: Achievement) {
                 )
                 
                 if (!achievement.isUnlocked && achievement.progress > 0) {
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(dimensions.spacingSmall))
                     LinearProgressIndicator(
                         progress = { achievement.progress },
                         modifier = Modifier.fillMaxWidth(),
@@ -577,7 +578,7 @@ fun AchievementCard(achievement: Achievement) {
                     Icons.Default.CheckCircle,
                     contentDescription = "Unlocked",
                     tint = NeonGreen,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(dimensions.iconMedium)
                 )
             }
         }
@@ -593,16 +594,16 @@ fun InfoCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = CardBackground),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(dimensions.spacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(icon, fontSize = 32.sp)
-            Spacer(Modifier.width(16.dp))
+            Spacer(Modifier.width(dimensions.spacingMedium))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     title,
@@ -625,18 +626,18 @@ fun EmptyState(icon: String, title: String, description: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(32.dp),
+            .padding(dimensions.spacingExtraLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(icon, fontSize = 64.sp)
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(dimensions.spacingMedium))
         Text(
             title,
             style = MaterialTheme.typography.titleLarge,
             color = TextPrimary,
             fontWeight = FontWeight.Bold
         )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(dimensions.spacingSmall))
         Text(
             description,
             style = MaterialTheme.typography.bodyMedium,

@@ -35,6 +35,7 @@ fun PasswordCrackerScreen(
     viewModel: PasswordCrackerViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dimensions = LocalDimensions.current
 
     Scaffold(
         topBar = {
@@ -64,7 +65,7 @@ fun PasswordCrackerScreen(
                 actions = {
                     // XP Display
                     Surface(
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(dimensions.cardCornerRadius),
                         color = CyberBlue.copy(alpha = 0.2f),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -89,7 +90,7 @@ fun PasswordCrackerScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(dimensions.spacingMedium)
         ) {
             // Stats Bar
             StatsBar(
@@ -99,7 +100,7 @@ fun PasswordCrackerScreen(
                 hintsAvailable = state.currentLevel?.hintsAvailable ?: 0
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             if (!state.showExplanation) {
                 // Game Phase
@@ -195,16 +196,16 @@ fun StatCard(
     Card(
         modifier = Modifier.width(100.dp),
         colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(dimensions.cardCornerRadius)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(dimensions.spacingSmall),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(20.dp))
-            Spacer(modifier = Modifier.height(4.dp))
+            Icon(icon, contentDescription = label, tint = color, modifier = Modifier.size(dimensions.iconSmall))
+            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
             Text(label, fontSize = 10.sp, color = TextSecondary)
             Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = color)
         }
@@ -221,16 +222,16 @@ fun GameContent(
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(dimensions.cardCornerRadius)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                 Text(
                     "🎯 Your Mission",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = CyberBlue
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                 Text(
                     "Identify the weak password. Use hints to reveal its weaknesses. Type the exact password to crack it!",
                     fontSize = 14.sp,
@@ -239,23 +240,23 @@ fun GameContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
         // Revealed Weaknesses
         if (state.revealedWeaknesses.isNotEmpty()) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DangerRed.copy(alpha = 0.1f)),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         "🚨 Known Weaknesses:",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = DangerRed
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     state.revealedWeaknesses.forEach { weakness ->
                         Row(
                             modifier = Modifier
@@ -280,7 +281,7 @@ fun GameContent(
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
         }
 
         // Password Input
@@ -301,12 +302,12 @@ fun GameContent(
             enabled = !state.isComplete
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
         // Action Buttons
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
         ) {
             // Hint Button
             OutlinedButton(
@@ -344,7 +345,7 @@ fun ExplanationContent(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
     ) {
         item {
             // Result Card
@@ -353,12 +354,12 @@ fun ExplanationContent(
                 colors = CardDefaults.cardColors(
                     containerColor = if (state.isCorrect) NeonGreen.copy(alpha = 0.1f) else DangerRed.copy(alpha = 0.1f)
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(dimensions.spacingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -368,7 +369,7 @@ fun ExplanationContent(
                         color = if (state.isCorrect) NeonGreen else DangerRed
                     )
                     if (state.isCorrect) {
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                         Text(
                             "+${state.currentLevel?.xpReward ?: 0} XP",
                             fontSize = 20.sp,
@@ -385,9 +386,9 @@ fun ExplanationContent(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = DeepSpaceMedium),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cardCornerRadius)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.spacingMedium)) {
                     Text(
                         state.explanation,
                         fontSize = 14.sp,
