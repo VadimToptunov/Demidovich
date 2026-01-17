@@ -55,7 +55,7 @@
     <string name="passphrase">Кодовая фраза</string>
     
     <!-- Academy -->
-    <string name="cybersafe_academy">Академия PassForge</string>
+    <string name="passforge_academy">Академия PassForge</string>
     <string name="games">Игры</string>
     <string name="lessons">Уроки</string>
     <string name="progress">Прогресс</string>

@@ -55,7 +55,7 @@
     <string name="passphrase">Passphrase</string>
     
     <!-- Academy -->
-    <string name="cybersafe_academy">PassForge Academy</string>
+    <string name="passforge_academy">PassForge Academy</string>
     <string name="games">Games</string>
     <string name="lessons">Lessons</string>
     <string name="progress">Progress</string>
