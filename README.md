@@ -1,7 +1,7 @@
 # PassForge - Password Security & Cybersecurity Academy
 
 <p align="center">
-  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="PassForge Logo" width="200"/>
+  <img src="screens/logo.png" alt="PassForge Logo" width="200"/>
 </p>
 
 <p align="center">
