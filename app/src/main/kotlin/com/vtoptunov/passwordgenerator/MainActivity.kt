@@ -11,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vtoptunov.passwordgenerator.data.datastore.OnboardingDataStore
 import com.vtoptunov.passwordgenerator.data.repository.SettingsRepository
@@ -21,7 +23,6 @@ import com.vtoptunov.passwordgenerator.presentation.screens.lock.BiometricLockSc
 import com.vtoptunov.passwordgenerator.presentation.screens.onboarding.OnboardingScreen
 import com.vtoptunov.passwordgenerator.presentation.screens.splash.EnhancedMatrixSplashScreen
 import com.vtoptunov.passwordgenerator.presentation.theme.PasswordGeneratorTheme
-import com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,7 +38,8 @@ class MainActivity : FragmentActivity() {
     @Inject
     lateinit var biometricAuthManager: BiometricAuthManager
     
-    private var appInBackground by mutableStateOf(false)
+    // Synchronized state for lifecycle callbacks
+    @Volatile
     private var lastPauseTime = 0L
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +64,31 @@ class MainActivity : FragmentActivity() {
                     .collectAsStateWithLifecycle(initialValue = false)
                 var showOnboarding by remember { mutableStateOf(false) }
                 
+                // Manage app background state within Compose (fixes race condition)
+                var appInBackground by remember { mutableStateOf(false) }
+                var lastPauseTimeState by remember { mutableStateOf(0L) }
+                
+                // Sync with lifecycle
+                DisposableEffect(Unit) {
+                    val lifecycleObserver = object : DefaultLifecycleObserver {
+                        override fun onPause(owner: LifecycleOwner) {
+                            lastPauseTime = System.currentTimeMillis()
+                            lastPauseTimeState = lastPauseTime
+                            appInBackground = true
+                        }
+                        
+                        override fun onResume(owner: LifecycleOwner) {
+                            // Will trigger recomposition
+                        }
+                    }
+                    lifecycle.addObserver(lifecycleObserver)
+                    onDispose {
+                        lifecycle.removeObserver(lifecycleObserver)
+                    }
+                }
+                
                 // Check if app should be locked
-                val shouldLock = remember(appInBackground, settings.biometricEnabled, settings.autoLockEnabled) {
+                val shouldLock = remember(appInBackground, settings.biometricEnabled, settings.autoLockEnabled, settings.useSystemLockTimeout, lastPauseTimeState) {
                     if (!settings.biometricEnabled) return@remember false
                     if (!appInBackground) return@remember false
                     
@@ -71,8 +96,13 @@ class MainActivity : FragmentActivity() {
                     if (!settings.autoLockEnabled) return@remember true
                     
                     // If auto-lock is enabled, check timeout
-                    val inactiveTimeMs = System.currentTimeMillis() - lastPauseTime
-                    val timeoutMs = settings.autoLockTimeoutMinutes * 60 * 1000L
+                    val inactiveTimeMs = System.currentTimeMillis() - lastPauseTimeState
+                    val timeoutMinutes = if (settings.useSystemLockTimeout) {
+                        com.vtoptunov.passwordgenerator.util.SystemLockTimeoutUtil.getSystemScreenTimeoutMinutes(this@MainActivity)
+                    } else {
+                        settings.autoLockTimeoutMinutes
+                    }
+                    val timeoutMs = timeoutMinutes * 60 * 1000L
                     inactiveTimeMs >= timeoutMs
                 }
                 
@@ -83,7 +113,18 @@ class MainActivity : FragmentActivity() {
                     isLocked = shouldLock
                 }
                 
+                // Security-first: Check lock before any other UI
                 when {
+                    isLocked -> {
+                        BiometricLockScreen(
+                            activity = this@MainActivity,
+                            biometricAuthManager = biometricAuthManager,
+                            onAuthenticated = {
+                                isLocked = false
+                                appInBackground = false
+                            }
+                        )
+                    }
                     showSplash -> {
                         EnhancedMatrixSplashScreen(
                             onTimeout = { 
@@ -104,16 +145,6 @@ class MainActivity : FragmentActivity() {
                             }
                         )
                     }
-                    isLocked -> {
-                        BiometricLockScreen(
-                            activity = this@MainActivity,
-                            biometricAuthManager = biometricAuthManager,
-                            onAuthenticated = {
-                                isLocked = false
-                                appInBackground = false
-                            }
-                        )
-                    }
                     else -> {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -125,17 +156,5 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
-    }
-    
-    override fun onPause() {
-        super.onPause()
-        // Mark app as going to background and record time
-        lastPauseTime = System.currentTimeMillis()
-        appInBackground = true
-    }
-    
-    override fun onResume() {
-        super.onResume()
-        // Will trigger recomposition and lock screen if needed
     }
 }
