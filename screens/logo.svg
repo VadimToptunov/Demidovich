@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background (dark) -->
+    <rect width="108" height="108" fill="#0A0E27"/>
+    
+    <!-- Key head (circle) - Cyber Blue -->
+    <circle cx="44" cy="54" r="12" fill="#00D9FF"/>
+    
+    <!-- Key head inner circle - Dark -->
+    <circle cx="44" cy="54" r="7" fill="#0A0E27"/>
+    
+    <!-- Key shaft - Cyber Blue -->
+    <rect x="56" y="52" width="18" height="4" fill="#00D9FF"/>
+    
+    <!-- Key teeth (password symbols) -->
+    <!-- Tooth 1 -->
+    <rect x="62" y="56" width="2" height="4" fill="#00D9FF"/>
+    <!-- Tooth 2 -->
+    <rect x="66" y="56" width="2" height="6" fill="#00D9FF"/>
+    <!-- Tooth 3 -->
+    <rect x="70" y="56" width="2" height="5" fill="#00D9FF"/>
+    
+    <!-- Sparkle effect 1 (top-left) - Purple accent -->
+    <polygon points="32,42 34,44 32,46 30,44" fill="#B24BF3"/>
+    
+    <!-- Sparkle effect 2 (top-right) - Orange accent -->
+    <polygon points="76,36 78,38 76,40 74,38" fill="#FF6B35"/>
+    
+    <!-- Sparkle effect 3 (bottom) - Green accent -->
+    <polygon points="36,66 38,68 36,70 34,68" fill="#00FF88"/>
+</svg>
