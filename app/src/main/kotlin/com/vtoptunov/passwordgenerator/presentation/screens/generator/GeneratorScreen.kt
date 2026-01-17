@@ -114,7 +114,7 @@ fun GeneratorScreen(
                         Icon(
                             Icons.Default.Settings,
                             contentDescription = "Settings",
-                            tint = TextSecondary,
+                            tint = TextPrimary,
                             modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
                     }
