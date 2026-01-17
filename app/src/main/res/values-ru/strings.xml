@@ -257,7 +257,6 @@
     <string name="watch_lowercase">Смотреть</string>
     
     <!-- Premium Screen -->
-    <string name="unlock_premium">Разблокировать Премиум</string>
     <string name="best_value">ЛУЧШЕЕ ПРЕДЛОЖЕНИЕ</string>
     <string name="premium_features">Премиум функции</string>
     <string name="exclusive_security_tips">Эксклюзивные советы по безопасности</string>
@@ -455,4 +454,8 @@
     <string name="time_spent_format">%1$d сек</string>
     <string name="xp_plus_format">+%1$d ОО</string>
     <string name="xp_reward_format">+%1$d</string>
+    
+    <!-- Final missing strings -->
+    <string name="unlock_premium">Разблокировать PassForge Премиум</string>
+    <string name="generate_and_save_passwords_description">Создавайте и сохраняйте пароли здесь</string>
 </resources>

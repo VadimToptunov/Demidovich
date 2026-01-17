@@ -137,7 +137,7 @@ fun AcademyHomeScreen(
             
             item {
                 Text(
-                    "Choose Your Game",
+                    stringResource(R.string.choose_your_game),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary,

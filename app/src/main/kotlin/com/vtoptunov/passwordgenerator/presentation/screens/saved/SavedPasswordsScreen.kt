@@ -64,7 +64,7 @@ fun SavedPasswordsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Saved Passwords",
+                        stringResource(R.string.saved_passwords_title),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -411,7 +411,7 @@ private fun EmptyState(modifier: Modifier = Modifier) {
         Spacer(Modifier.height(LocalDimensions.current.spacingSmall))
         
         Text(
-            text = "Generate and save passwords to see them here",
+            text = stringResource(R.string.generate_and_save_passwords_description),
             fontSize = 14.sp,
             color = TextSecondary
         )
@@ -463,7 +463,7 @@ private fun DeleteConfirmationDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                "Delete Password?",
+                stringResource(R.string.delete_password_title),
                 fontWeight = FontWeight.Bold
             )
         },

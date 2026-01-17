@@ -154,7 +154,7 @@ fun GameHeader(
         ) {
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = "Level ${playerStats.level}",
+                    text = stringResource(R.string.level_format, playerStats.level),
                     style = MaterialTheme.typography.labelMedium,
                     color = ElectricPurple,
                     fontWeight = FontWeight.Bold
@@ -287,17 +287,17 @@ fun DifficultyCard(
                 )
                 Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                 Text(
-                    text = "Options: ${difficulty.decoyCount + 1}",
+                    text = stringResource(R.string.options_format, difficulty.decoyCount + 1),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary
                 )
                 Text(
-                    text = "Time: ${difficulty.memorizeTime}s",
+                    text = stringResource(R.string.time_format, difficulty.memorizeTime),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary
                 )
                 Text(
-                    text = "Length: ${difficulty.minPasswordLength}+ chars",
+                    text = stringResource(R.string.length_format, difficulty.minPasswordLength),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary
                 )
@@ -311,7 +311,7 @@ fun DifficultyCard(
                     modifier = Modifier.size(LocalDimensions.current.iconLarge)
                 )
                 Text(
-                    text = "+${difficulty.xpReward} XP",
+                    text = stringResource(R.string.xp_plus_format, difficulty.xpReward),
                     style = MaterialTheme.typography.labelLarge,
                     color = color,
                     fontWeight = FontWeight.Bold
@@ -618,10 +618,10 @@ fun ResultPhase(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ResultStat("Attempts Used", "${result.attemptsUsed}")
-                ResultStat("Time", "${result.timeSpentSeconds}s")
+                ResultStat("Time", stringResource(R.string.time_spent_format, result.timeSpentSeconds))
                 ResultStat(stringResource(R.string.difficulty_label), result.difficulty.displayName)
                 if (result.isSuccess) {
-                    ResultStat("XP Earned", "+${result.xpEarned}", NeonGreen)
+                    ResultStat("XP Earned", stringResource(R.string.xp_reward_format, result.xpEarned), NeonGreen)
                 }
                 
                 Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))

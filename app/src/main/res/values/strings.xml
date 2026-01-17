@@ -257,7 +257,6 @@
     <string name="watch_lowercase">Watch</string>
     
     <!-- Premium Screen -->
-    <string name="unlock_premium">Unlock Premium</string>
     <string name="best_value">BEST VALUE</string>
     <string name="premium_features">Premium Features</string>
     <string name="exclusive_security_tips">Exclusive security tips</string>
@@ -455,4 +454,8 @@
     <string name="time_spent_format">%1$ds</string>
     <string name="xp_plus_format">+%1$d XP</string>
     <string name="xp_reward_format">+%1$d</string>
+    
+    <!-- Final missing strings -->
+    <string name="unlock_premium">Unlock PassForge Premium</string>
+    <string name="generate_and_save_passwords_description">Generate and save passwords to see them here</string>
 </resources>

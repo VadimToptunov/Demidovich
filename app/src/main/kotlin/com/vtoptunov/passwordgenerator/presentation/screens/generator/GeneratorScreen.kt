@@ -105,7 +105,7 @@ fun GeneratorScreen(
                     IconButton(onClick = onNavigateToSaved) {
                         Icon(
                             Icons.Default.Storage,
-                            contentDescription = "Saved Passwords",
+                            contentDescription = stringResource(R.string.saved_passwords_title),
                             tint = NeonGreen,
                             modifier = Modifier.size(LocalDimensions.current.iconLarge)
                         )
