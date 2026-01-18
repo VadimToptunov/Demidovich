@@ -150,7 +150,7 @@ fun PremiumScreen(
             ) {
                 Icon(Icons.Default.Refresh, contentDescription = null)
                 Spacer(modifier = Modifier.width(LocalDimensions.current.spacingSmall))
-                Text("Restore Purchases")
+                Text(stringResource(R.string.restore_purchases))
             }
 
             Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))

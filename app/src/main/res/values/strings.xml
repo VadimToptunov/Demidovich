@@ -458,4 +458,69 @@
     <string name="generate_and_save_passwords_description">Generate and save passwords to see them here</string>
     <string name="unlocks_at_level_format">Unlocks at Level %1$d</string>
     <string name="protect_passwords_biometric">Protect your passwords with your fingerprint or face. You can change this later in Settings.</string>
+
+    <!-- FINAL MEGA BATCH - All remaining strings -->
+    
+    <!-- GameScreen (17 strings) -->
+    <string name="time_seconds_format">%1$ds</string>
+    <string name="attempts_used_format">%1$d</string>
+    <string name="watch_short_ad_to_retry">Watch a short ad to try again</string>
+    <string name="no_hints_remaining">No hints remaining</string>
+    
+    <!-- TransferScreen (15 strings) -->
+    <string name="point_camera_at_qr">Point camera at QR code</string>
+    <string name="review_imported">Review &amp; Import</string>
+    <string name="passwords_imported_format">%1$d password(s) imported</string>
+    <string name="select_at_least_one">Please select at least one password to export</string>
+    
+    <!-- LessonScreen (12 strings) -->
+    <string name="question_of_format">Question %1$d of %2$d</string>
+    <string name="your_score_format">Your Score: %1$d%%</string>
+    <string name="lesson_completed">Lesson Completed!</string>
+    
+    <!-- SocialEngineeringScreen (11 strings) -->
+    <string name="choose_response">Choose your response:</string>
+    <string name="correct_response">Correct Response!</string>
+    <string name="incorrect_response">Incorrect Response</string>
+    <string name="always_verify_tip">Always verify the identity of people requesting information</string>
+    <string name="be_suspicious_tip">Be suspicious of unsolicited offers. If it seems too good to be true, it probably is!</string>
+    
+    <!-- PasswordCrackerScreen (8 strings) -->
+    <string name="password_was_format">Password was: %1$s</string>
+    <string name="no_hints_left_tip">No hints left</string>
+    
+    <!-- PremiumScreen (17 strings) -->
+    <string name="monthly_subscription">Monthly</string>
+    <string name="yearly_subscription">Yearly</string>
+    <string name="lifetime_purchase">Lifetime</string>
+    <string name="purchase_button">Purchase</string>
+    <string name="per_month_format">%1$s/month</string>
+    <string name="per_year_format">%1$s/year</string>
+    <string name="one_time_payment">One-time payment</string>
+    <string name="premium_unlocked_title">Premium Unlocked!</string>
+    <string name="restore_complete_title">Restore Complete</string>
+    <string name="purchase_complete_title">Purchase Complete</string>
+    
+    <!-- PhishingHunterScreen (26 strings) - Most complex -->
+    <string name="phishing_hunter_emoji">Phishing Hunter 🎣</string>
+    <string name="this_was_legitimate">This was LEGITIMATE</string>
+    <string name="this_was_phishing">This was a PHISHING attempt</string>
+    <string name="next_scenario_arrow">Next Scenario →</string>
+    <string name="legitimate_no_red_flags">This scenario appears legitimate with no obvious red flags. Always verify through official channels when in doubt!</string>
+
+    <!-- Additional critical strings -->
+    <string name="xp_earned">XP Earned</string>
+    <string name="start_scanning">Start Scanning</string>
+    <string name="scan_this_qr_code">Scan this QR Code</string>
+    <string name="use_another_device_to_scan">Use another device to scan this code and import the password</string>
+    <string name="scan_qr_to_import">Scan QR code to import passwords from another device</string>
+    <string name="generate_qr_to_transfer">Generate QR code to transfer passwords to another device</string>
+    <string name="start_quiz">Start Quiz</string>
+    <string name="premium_active">PREMIUM ACTIVE</string>
+    <string name="remove_all_ads">Remove all ads</string>
+    <string name="subscription_plans">Subscription Plans</string>
+    <string name="priority_support">Priority support</string>
+    <string name="premium_benefits">Premium Benefits</string>
+    <string name="exclusive_security_tips_short">Exclusive security tips</string>
+    <string name="unlimited_game_attempts">Unlimited game attempts</string>
 </resources>

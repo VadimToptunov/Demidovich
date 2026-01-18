@@ -41,7 +41,7 @@ fun PhishingHunterScreen(
             TopAppBar(
                 title = { 
                     Column {
-                        Text("Phishing Hunter 🎣", color = TextPrimary)
+                        Text(stringResource(R.string.phishing_hunter_emoji), color = TextPrimary)
                         Text(
                             "Level ${state.currentLevelNumber}",
                             fontSize = 12.sp,
@@ -201,7 +201,7 @@ fun GameContent(
                     )
                     Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
-                        "Is this legitimate or a phishing attempt?",
+                        stringResource(R.string.is_legitimate_or_phishing),
                         fontSize = 14.sp,
                         color = TextSecondary
                     )
@@ -430,7 +430,7 @@ fun ExplanationContent(
                     )
                     Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
-                        if (scenario.isPhishing) "This was a PHISHING attempt" else "This was LEGITIMATE",
+                        if (scenario.isPhishing) stringResource(R.string.this_was_phishing) else stringResource(R.string.this_was_legitimate),
                         fontSize = 16.sp,
                         color = TextPrimary,
                         textAlign = TextAlign.Center
@@ -513,7 +513,7 @@ fun ExplanationContent(
                 colors = ButtonDefaults.buttonColors(containerColor = CyberBlue)
             ) {
                 Text(
-                    "Next Scenario →",
+                    stringResource(R.string.next_scenario_arrow),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = DeepSpace

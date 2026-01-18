@@ -164,7 +164,7 @@ fun SelectModeScreen(
         
         TransferModeCard(
             title = stringResource(R.string.export_passwords),
-            description = "Generate QR code to transfer passwords to another device",
+            description = stringResource(R.string.generate_qr_to_transfer),
             icon = Icons.Default.QrCode2,
             iconTint = NeonGreen,
             onClick = onExport
@@ -174,7 +174,7 @@ fun SelectModeScreen(
         
         TransferModeCard(
             title = "Import Passwords",
-            description = "Scan QR code to import passwords from another device",
+            description = stringResource(R.string.scan_qr_to_import),
             icon = Icons.Default.QrCodeScanner,
             iconTint = CyberBlue,
             onClick = onImport

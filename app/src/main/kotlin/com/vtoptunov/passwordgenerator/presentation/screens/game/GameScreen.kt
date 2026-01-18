@@ -226,7 +226,7 @@ fun DifficultySelector(
                     )
                     Spacer(modifier = Modifier.height(LocalDimensions.current.spacingSmall))
                     Text(
-                        text = "How to Play",
+                        text = stringResource(R.string.how_to_play),
                         style = MaterialTheme.typography.titleMedium,
                         color = TextPrimary,
                         fontWeight = FontWeight.Bold
